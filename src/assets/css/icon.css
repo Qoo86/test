@@ -1,0 +1,84 @@
+/* 这个css文件专门定义和vant适配的自定义图标 */
+/* 用法如下 */
+
+/* 引入第三方或自定义的字体图标样式 */
+@font-face {
+  font-family: "my-icon";
+  src: url("//at.alicdn.com/t/font_2265958_zjr8oeq26um.ttf") format("truetype");
+}
+
+.my-icon {
+  font-family: "my-icon";
+  /* 图标是斜的 处理方法 */
+  position: relative;
+  font: 0.37333rem/1 "my-icon";
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.my-icon-meau::before {
+  content: "\e600";
+}
+.my-icon-phb::before {
+  color: #ec4141;
+  content: "\e68f";
+}
+.my-icon-fm::before {
+  color: #ec4141;
+  content: "\e601";
+}
+.my-icon-gedang::before {
+  color: #ec4141;
+  content: "\e636";
+}
+.my-icon-ritui::before {
+  color: #ec4141;
+  content: "\e6a8";
+}
+.my-icon-ban::before {
+  content: "\e62e";
+}
+.my-icon-about::before {
+  content: "\e603";
+}
+.my-icon-czz::before {
+  content: "\e60d";
+}
+.my-icon-qsn::before {
+  content: "\e62a";
+}
+.my-icon-nz::before {
+  content: "\e602";
+}
+.my-icon-order::before {
+  content: "\e608";
+}
+.my-icon-msg::before {
+  content: "\e609";
+}
+.my-icon-yhq::before {
+  content: "\e623";
+}
+.my-icon-search::before {
+  content: "\e604";
+}
+
+/* .my-icon-fans::before {
+  content: "\e605";
+}
+
+.my-icon-pinlun::before {
+  content: "\e606";
+}
+
+.my-icon-aite::before {
+  content: "\e648";
+}
+
+.my-icon-tonzhi::before {
+  content: "\e615";
+} */
+/* 
+<!-- 通过 class-prefix 指定类名为 my-icon -->
+<van-icon class-prefix="my-icon" name="extra" /> */
