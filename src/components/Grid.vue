@@ -8,8 +8,18 @@
         text="每日推荐"
       />
       <van-grid-item icon-prefix="my-icon" icon="gedang" text="歌单" />
-      <van-grid-item icon-prefix="my-icon" icon="fm" text="私人FM" />
-      <van-grid-item icon-prefix="my-icon" icon="phb" text="排行榜" />
+      <van-grid-item
+        to="/personalfm"
+        icon-prefix="my-icon"
+        icon="fm"
+        text="私人FM"
+      />
+      <van-grid-item
+        to="/toplist"
+        icon-prefix="my-icon"
+        icon="phb"
+        text="排行榜"
+      />
     </van-grid>
   </div>
 </template>

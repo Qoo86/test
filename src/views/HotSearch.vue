@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { _getHotDetail } from "../network/search";
+
 export default {
   data() {
     return {
@@ -26,25 +28,17 @@ export default {
     };
   },
   methods: {
-    //   搜索
+    // 搜索
     toSearch(val) {
       this.$router.push({
         path: "/search/searchConent",
         query: { val },
       });
     },
-
     // 获取热搜榜
     async getHotdetail() {
-      let { data } = await this.$http({
-        url: `search/hot/detail`,
-        withCredentials: true,
-      });
-      //   console.log(data);
-      if (data.code != 200) return;
-      for (let i = 0; i < data.data.length; i++) {
-        this.hotDetail.push(data.data[i]);
-      }
+      let { data } = await _getHotDetail();
+      if (data.code === 200) this.hotDetail = data.data;
     },
   },
   mounted() {

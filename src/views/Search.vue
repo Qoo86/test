@@ -29,8 +29,8 @@
         </div>
         <div
           class="searchMsg"
-          v-for="item in searchSuggest"
-          :key="item.index"
+          v-for="(item, index) in searchSuggest"
+          :key="index"
           @click="toSuggestSearch(item.keyword)"
         >
           <span class="my-icon msg_sicon">&#xe604;</span> {{ item.keyword }}
@@ -44,7 +44,7 @@
 
 <script>
 import TabBar from "../components/TabBar.vue";
-
+import { _getDefaultHotKey, _getSuggestSearch } from "../network/search";
 export default {
   data() {
     return {
@@ -69,7 +69,6 @@ export default {
         query: { val },
       });
     },
-
     // 表单直接搜索
     toSearchInput(searchValue) {
       if (searchValue == "") {
@@ -79,21 +78,17 @@ export default {
       }
       this.isShowMsgBox = false;
     },
-
     // 推荐搜索选项卡搜索
     toSuggestSearch(v) {
       this.toSearchInput(v);
     },
-
     // 返回按钮
     goBack() {
       this.$router.go(-1);
       this.searchValue = "";
     },
-
-    // 搜索框内容展示相关
+    // 控制搜索框的显示和隐藏
     SearchMsgBoxAndContentShow() {
-      // 控制搜索框的显示和隐藏
       if (this.searchValue != "") {
         this.isShowMsgBox = true;
       } else {
@@ -102,29 +97,16 @@ export default {
       // 获取推荐搜索
       this.getSuggestSearch(this.searchValue);
     },
-
     // 获取热搜默认关键词
     async getDefultSearchWorld() {
-      let { data } = await this.$http({
-        url: `search/default`,
-        withCredentials: true,
-      });
-      if (data.code != 200) return;
-      this.defultWorldObj = data.data;
-      // console.log(this.defultWorldObj);
+      let { data } = await _getDefaultHotKey();
+      if (data.code === 200) this.defultWorldObj = data.data;
     },
-
     // 获取推荐搜索内容
     async getSuggestSearch(keywords) {
       if (keywords == "") return;
-      let { data } = await this.$http({
-        url: `search/suggest?keywords=${keywords}&type=mobile`,
-        withCredentials: true,
-      });
-      if (data.code != 200) return;
-      // console.log(data.result);
-      this.searchSuggest = data.result.allMatch;
-      // console.log(this.searchSuggest);
+      let { data } = await _getSuggestSearch(keywords);
+      if (data.code === 200) this.searchSuggest = data.result.allMatch;
     },
   },
 

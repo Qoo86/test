@@ -13,16 +13,16 @@
       <template #title>
         <div class="navBarUserInfo" :style="{ opacity: opacity }">
           <div class="nb_userPic">
-            <img src="../assets/images/logo.jpg" />
+            <img :src="accountData.avatarUrl" />
           </div>
-          <div class="nb_userName">然后我们还能相遇</div>
+          <div class="nb_userName">{{ accountData.nickname }}</div>
         </div>
       </template>
     </van-nav-bar>
 
     <div class="UserInfobody">
       <!-- 用户信息区 -->
-      <div class="userInfo">
+      <div class="userInfo" @click="toUserInfoDetailPage(accountData.userId)">
         <div class="userPic">
           <img :src="accountData.avatarUrl" />
         </div>
@@ -87,7 +87,14 @@
       </div>
     </div>
     <!-- 歌单功能区 -->
-    <van-tabs v-model="active" scrollspy sticky offset-top="46px">
+    <van-tabs
+      v-model="active"
+      scrollspy
+      sticky
+      offset-top="46px"
+      color="#5282E7"
+      :background="tabBackground"
+    >
       <van-tab title="创建歌单">
         <div class="buildSongListBox">
           <div class="title">
@@ -188,17 +195,22 @@
     <tab-bar></tab-bar>
     <!-- 弹出层组件 -->
     <popup ref="popup"></popup>
+
+    <loading />
   </div>
 </template>
 
 <script>
 import TabBar from "../components/TabBar.vue";
 import Popup from "../components/Popup.vue";
+import { _getUserInfo, _getUserSubCount, _getUserLv } from "../network/user.js";
+import { _getUserPlayListByid } from "../network/playlist.js";
 export default {
   data() {
     return {
       active: 0,
       opacity: "0",
+      tabBackground: "transparent",
       backgroundColor: "transparent",
       createdPlaylistCount: "",
       subPlaylistCount: "",
@@ -239,10 +251,7 @@ export default {
   methods: {
     // 跳转歌单详情页
     toPlayListDetail(id) {
-      this.$router.push({
-        path: "/playlistdetail",
-        query: { id },
-      });
+      this.$router.push({ path: "/playlistdetail", query: { id } });
     },
     // 控制弹出层的显示和隐藏
     showPopup() {
@@ -259,50 +268,44 @@ export default {
         this.backgroundColor = "transparent";
         this.opacity = "0";
       }
+      if (scrollTop > 300) {
+        this.tabBackground = "#ffffff";
+      } else {
+        this.tabBackground = "transparent";
+      }
     },
     // 获取 用户信息 歌单收藏数量 等级等数据
     async getSomethingData() {
-      let accountRes = await this.$http({
-        url: `/user/account`,
-        withCredentials: true,
-      });
-      let subcountRes = await this.$http({
-        url: `/user/subcount`,
-        withCredentials: true,
-      });
-      let levelRes = await this.$http({
-        url: `/user/level`,
-        withCredentials: true,
-      });
-      if (
-        subcountRes.data.code !== 200 &&
-        levelRes.data.code !== 200 &&
-        accountRes.data.code !== 200
-      )
-        return;
-      // 赋值
-      this.accountData = accountRes.data.profile;
-      this.createdPlaylistCount = subcountRes.data.createdPlaylistCount;
-      this.subPlaylistCount = subcountRes.data.subPlaylistCount;
-      this.userLevel = levelRes.data.data.level;
-      // 获取到用户信息之后获取歌单信息
-      this.getUserPlayList(this.accountData.userId);
+      this.$store.commit("showLoading");
+
+      let { data: accountRes } = await _getUserInfo();
+      let { data: subcountRes } = await _getUserSubCount();
+      let { data: levelRes } = await _getUserLv();
+      if (subcountRes.code === 200) {
+        this.createdPlaylistCount = subcountRes.createdPlaylistCount;
+        this.subPlaylistCount = subcountRes.subPlaylistCount;
+      }
+      if (levelRes.code === 200) this.userLevel = levelRes.data.level;
+      if (accountRes.code === 200) {
+        this.accountData = accountRes.profile;
+        // 获取到用户信息之后获取歌单信息
+        this.getUserPlayList(this.accountData.userId);
+      }
+
+      this.$store.commit("hiddenLoading");
     },
     // 获取用户歌单
     async getUserPlayList(id) {
-      let { data } = await this.$http({
-        url: `/user/playlist?uid=${id}`,
-        withCredentials: true,
-      });
-      if (data.code !== 200) return;
-      // console.log(data);
-      this.userLikePlayList = data.playlist[0];
-
-      for (let i = 1; i < data.playlist.length; i++) {
-        if (data.playlist[i].subscribed) {
-          this.userSubPlayList.push(data.playlist[i]);
-        } else {
-          this.userCreatePlayList.push(data.playlist[i]);
+      let { data } = await _getUserPlayListByid(id);
+      if (data.code === 200) {
+        for (let i = 0; i < data.playlist.length; i++) {
+          if (data.playlist[i].specialType === 5) {
+            this.userLikePlayList = data.playlist[i];
+          } else if (data.playlist[i].userId === id) {
+            this.userCreatePlayList.push(data.playlist[i]);
+          } else {
+            this.userSubPlayList.push(data.playlist[i]);
+          }
         }
       }
     },
@@ -314,6 +317,12 @@ export default {
         this.autoLunboText.shift();
         this.animate = false;
       }, 500);
+    },
+    toUserInfoDetailPage(id) {
+      this.$router.push({
+        path: "userinfo",
+        query: { id },
+      });
     },
   },
   components: {
@@ -408,7 +417,6 @@ export default {
       margin-bottom: 14px;
       display: grid;
       grid-template-columns: repeat(4, 25%);
-      grid-template-rows: repeat(4, 25%);
       background-color: #fff;
       border-radius: 16px;
       place-items: center center;
@@ -535,6 +543,7 @@ export default {
         }
       }
       .b_SL_txt {
+        width: 260px;
         margin-left: 14px;
         .t_title {
           font-size: 13.5px;

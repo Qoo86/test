@@ -59,10 +59,34 @@ const routes = [
     meta: { isUserLogin: true },
     component: () => import("@/views/User.vue"),
   },
+  {
+    path: "/artist",
+    component: () => import("@/views/DetailViews/ArtistInfoDetail.vue"),
+  },
   // 歌单详情
   {
-    path: "/playlistdetail",
+    path: "/playlistDetail",
     component: () => import("@/views/DetailViews/PlayListDetail.vue"),
+  },
+  // 专辑详情
+  {
+    path: "/albumDetail",
+    component: () => import("@/views/DetailViews/AlbumDetail.vue"),
+  },
+  // 私人fm
+  {
+    path: "/personalfm",
+    component: () => import("@/views/PersonalFm.vue"),
+  },
+  // 排行榜列表详情
+  {
+    path: "/toplist",
+    component: () => import("@/views/DetailViews/TopListDetail.vue"),
+  },
+  // 用户详情页面
+  {
+    path: "/userinfo",
+    component: () => import("@/views/DetailViews/UserInfoDetail.vue"),
   },
 ];
 

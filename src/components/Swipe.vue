@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { _getSwipe } from "../network/index.js";
 export default {
   data() {
     return {
@@ -15,13 +16,11 @@ export default {
   },
   methods: {
     async getSwipe() {
-      let result = await this.$http({
-        url: "/banner?type=2",
-        withCredentials: true,
-      });
-      let banners = result.data.banners;
-      for (let i = 0; i < banners.length; i++) {
-        this.images.push(banners[i].pic);
+      let { data: res } = await _getSwipe();
+      if (res.code === 200) {
+        for (let i = 0; i < res.banners.length; i++) {
+          this.images.push(res.banners[i].pic);
+        }
       }
     },
   },

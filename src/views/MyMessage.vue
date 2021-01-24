@@ -52,8 +52,8 @@
     <div class="shixingBox">
       <div
         class="sx_item"
-        v-for="item in fromUserPrivateMsg"
-        :key="item.index"
+        v-for="(item, index) in fromUserPrivateMsg"
+        :key="index"
         @click="getDetailMsg(item.fromUser.userId, item.fromUser.nickname)"
       >
         <div class="sx_pic">
@@ -70,7 +70,7 @@
             <div class="name">
               {{ item.fromUser.nickname }}
             </div>
-            <div class="time">{{ item.lastMsgTime | formatDate2 }}</div>
+            <div class="time">{{ item.lastMsgTime | formatDate(1) }}</div>
           </div>
           <div class="sx_text">
             <div class="sx_text_content van-ellipsis">
@@ -99,6 +99,7 @@
 
 <script>
 import HeaderBar from "../components/HeaderBar.vue";
+import { _getPrivateMsg } from "../network/user";
 export default {
   data() {
     return {
@@ -112,24 +113,17 @@ export default {
     onRouterBack() {
       this.$router.go(-1);
     },
-    // 传id给其他路由
+    // 传输id给信息详情路由
     getDetailMsg(id, name) {
       this.$router.push({
         path: "/userMsgDetail",
         query: { id, name },
       });
     },
-
     // 获得私信内容列表
     async getPrivateMsg() {
-      let { data } = await this.$http({
-        url: `/msg/private`,
-        withCredentials: true,
-      });
-      if (data.code !== 200) return;
-      //   console.log(data);
-      this.fromUserPrivateMsg = data.msgs;
-      // console.log(this.fromUserPrivateMsg);
+      let { data } = await _getPrivateMsg();
+      if (data.code === 200) this.fromUserPrivateMsg = data.msgs;
     },
   },
   mounted() {

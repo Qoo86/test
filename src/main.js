@@ -1,60 +1,39 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-
-import axios from "axios";
-
+// 导入初始化样式表
 import "../src/assets/css/reset.css";
 import "../src/assets/css/icon.css";
-
+// 导入响应式组件
 import "amfe-flexible";
-
+// 导入VantUI框架
 import Vant from "vant";
 import "vant/lib/index.css";
 import "vant/lib/index.less";
 
-import { Lazyload } from "vant";
-import { Toast } from "vant";
-
 Vue.use(Vant);
-Vue.use(Toast);
+
+// 导入vant的 懒加载 弹出框 轻提示 组件
+import { Lazyload, Dialog, Toast, Notify } from "vant";
+
 Vue.use(Lazyload);
-
-axios.defaults.baseURL = "http://localhost:3000/";
-// 防止走缓存，给每次请求添加时间戳
-axios.interceptors.request.use((config) => {
-  if (config.method == "post") {
-    config.data = {
-      ...config.data,
-      _t: Date.parse(new Date()) / 1000,
-    };
-  } else if (config.method == "get") {
-    config.params = {
-      _t: Date.parse(new Date()) / 1000,
-      ...config.params,
-    };
-  }
-  return config;
-});
-
-Vue.prototype.$http = axios;
 Vue.prototype.$msg = Toast;
+Vue.prototype.$dialog = Dialog;
+Vue.prototype.$notify = Notify;
 
-import formatDate from "./assets/formJS/formDate.js";
-import formatDate2 from "./assets/formJS/formDate2.js";
-import formNum from "./assets/formJS/formNum.js";
-import formDuration from "./assets/formJS/formDuration.js";
+//引入全局过滤器
+import filters from "./assets/js/format.js";
+Object.keys(filters).forEach((k) => Vue.filter(k, filters[k]));
+
+// 导入Vuex
 import store from "./store";
 
-// 注册全局过滤器 用于格式化时间戳
-// 将日期过滤为yyyy-mmmm-dddd
-Vue.filter("formatDate", formatDate);
-// 将日期过滤为mm月dd日
-Vue.filter("formatDate2", formatDate2);
-Vue.filter("formNum", formNum);
-Vue.filter("formDuration", formDuration);
-
 Vue.config.productionTip = false;
+
+// 注册全局组件
+import Loading from "./components/Loading.vue";
+
+Vue.component("loading", Loading);
 
 router.beforeEach((to, from, next) => {
   const token = window.localStorage.getItem("token");
@@ -63,10 +42,10 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       Toast.fail("您尚未登录 请先登录");
-      // next({
-      //   path: "/login",
-      //   param: { redirect: to.fullPath },
-      // });
+      next({
+        path: "/index",
+        param: { redirect: to.fullPath },
+      });
     }
   } else {
     next();

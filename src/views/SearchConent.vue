@@ -1,15 +1,23 @@
 <template>
   <div>
-    <van-tabs animated swipeable @click="test">
-      <van-tab title="综 合" name="1018">
-        <composited :keyword="keyword"></composited>
+    <van-tabs animated swipeable>
+      <van-tab title="综 合">
+        <composited :keyword="keyword" />
       </van-tab>
-      <van-tab
-        v-for="item in titleObj"
-        :title="item.name"
-        :key="item.id"
-        :name="item.type"
-      >
+      <van-tab title="单 曲">
+        <songs-search :keyword="keyword" />
+      </van-tab>
+      <van-tab title="歌 单">
+        <playlist-search :keyword="keyword" />
+      </van-tab>
+      <van-tab title="专 辑">
+        <album-search :keyword="keyword" />
+      </van-tab>
+      <van-tab title="歌 手">
+        <artist-search :keyword="keyword" />
+      </van-tab>
+      <van-tab title="用 户">
+        <user-search :keyword="keyword" />
       </van-tab>
     </van-tabs>
   </div>
@@ -17,28 +25,27 @@
 
 <script>
 import Composited from "../components/SearcConentComp/Composited.vue";
+import SongsSearch from "../components/SearcConentComp/SongsSearch.vue";
+import AlbumSearch from "../components/SearcConentComp/AlbumSearch.vue";
+import PlaylistSearch from "../components/SearcConentComp/PlaylistSearch.vue";
+import ArtistSearch from "../components/SearcConentComp/ArtistSearch.vue";
+import UserSearch from "../components/SearcConentComp/UserSearch.vue";
+import { _getSearchdata } from "../network/search";
+import User from "./User.vue";
 export default {
   data() {
     return {
       keyword: this.$route.query.val,
-      titleObj: [
-        { id: "0", name: "单 曲", type: "1", content: "" },
-        { id: "1", name: "专 辑", type: "10", content: "" },
-        { id: "2", name: "歌 手", type: "100", content: "" },
-        { id: "3", name: "歌 单", type: "1000", content: "" },
-        { id: "4", name: "用 户", type: "1002", content: "" },
-        { id: "5", name: "视 频", type: "1014", content: "" },
-      ],
-      comprehensiveData: {},
     };
   },
-  methods: {
-    test(name, title) {
-      console.log(name, title);
-    },
-  },
+  methods: {},
   components: {
     Composited,
+    SongsSearch,
+    AlbumSearch,
+    PlaylistSearch,
+    ArtistSearch,
+    UserSearch,
   },
   mounted() {
     this.$emit("backKeyw", this.keyword);

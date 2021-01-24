@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { _logout, _getLoginStatus, _getUserInfo } from "../network/user.js";
 export default {
   data() {
     return {
@@ -75,47 +76,30 @@ export default {
   methods: {
     // 获取登录状态
     async getLoginStatus() {
-      let result = await this.$http({
-        url: `login/status`,
-        withCredentials: true,
-      }).catch(function (err) {
-        return err.response;
-      });
-      if (result.data.code == 200) {
+      let { data: status } = await _getLoginStatus();
+      if (status.data.profile !== null) {
         this.userLoginStatus = true;
         // 能够获取到登陆状态之后去获取用户信息
-        this.getUserInfo();
-        this.loginStatusGetText = "已登录";
-      } else if (result.data.code == 301) {
+        let { data: info } = await _getUserInfo();
+        if (info.code === 200) {
+          this.username = info.profile.nickname;
+          this.userimg = info.profile.avatarUrl;
+          this.loginStatusGetText = "已登录";
+        }
+      } else {
         this.userLoginStatus = false;
-        this.loginStatusGetText = result.data.msg;
-        this.$store.commit("saveuserProfile", null);
+        this.loginStatusGetText = "未登录";
       }
     },
-
-    // 获取用户信息
-    async getUserInfo() {
-      let { data } = await this.$http({
-        url: `user/account`,
-        withCredentials: true,
-      });
-      let userinfo = data.profile;
-      this.username = userinfo.nickname;
-      this.userimg = userinfo.avatarUrl;
-    },
-
     // 退出登录
     async loginout() {
-      let { data } = await this.$http({
-        url: `logout`,
-        withCredentials: true,
-      });
+      let { data } = await _logout();
       if (data.code == 200) {
         window.localStorage.removeItem("token");
-        window.localStorage.removeItem("userid");
-        // this.$msg.success("退出登录成功");
+        window.localStorage.removeItem("userinfo");
         window.location.reload();
-        this.getLoginStatus();
+      } else {
+        this.$msg.fail("退出登陆失败");
       }
     },
   },

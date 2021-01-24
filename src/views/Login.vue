@@ -36,7 +36,7 @@
         </div>
         <!-- 表单 -->
         <div class="text_input">
-          <van-form @submit="Login">
+          <van-form @submit="login">
             <van-field
               v-model="phone"
               name="phone"
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { _login } from "../network/user.js";
 export default {
   data() {
     return {
@@ -74,30 +75,23 @@ export default {
       phone: "",
       password: "",
       pattern: /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
-      timestamp: new Date().getTime(),
     };
   },
   methods: {
     showLoginPopup() {
       this.showPopup = true;
     },
-    async Login() {
-      var that = this;
-      let loginReult = await this.$http({
-        url: `/login/cellphone?phone=${that.phone}&password=${that.password}`,
-        withCredentials: true,
-      }).catch(function (error) {
-        return error.response;
-      });
-      // console.log("登录信息：", loginReult);
-      if (loginReult.data.code == 200) {
-        console.log(loginReult.data.profile);
-        window.localStorage.setItem("token", loginReult.data.token);
-        window.localStorage.setItem("userid", loginReult.data.profile.userId);
+    // 登录
+    async login() {
+      let { data: res } = await _login(this.phone, this.password);
+
+      if (res.code == 200) {
+        window.localStorage.setItem("token", res.token);
+        window.localStorage.setItem("userinfo", JSON.stringify(res.profile));
         this.$msg.success("登录成功");
         this.$router.push("/index");
       } else {
-        this.$msg.fail(loginReult.data.msg);
+        this.$msg.fail(res.msg);
       }
     },
   },

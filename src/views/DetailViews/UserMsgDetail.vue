@@ -63,17 +63,6 @@ export default {
     onRouterBack() {
       this.$router.go(-1);
     },
-    // 根据ID获取到聊天记录
-    // async getMsgDetailById(id) {
-    //   let { data } = await this.$http({
-    //     url: `/msg/private/history?uid=${id}`,
-    //     withCredentials: true,
-    //   });
-    //   console.log(data);
-    //   if (data.code !== 200) return;
-    //   this.hint = data.hint;
-    //   this.msgs = data.msgs;
-    // },
   },
   mounted() {
     // this.getMsgDetailById(this.keyId);

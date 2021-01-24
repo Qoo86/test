@@ -10,7 +10,7 @@
           <div
             class="rankingItem"
             v-for="(item, index) in artistsByChina"
-            :key="item.index"
+            :key="index"
           >
             <div class="rankingNum">{{ index + 1 }}</div>
             <div class="singerPic">
@@ -36,7 +36,7 @@
           <div
             class="rankingItem"
             v-for="(item, index) in artistsByOumei"
-            :key="item.index"
+            :key="index"
           >
             <div class="rankingNum">{{ index + 1 }}</div>
             <div class="singerPic">
@@ -62,7 +62,7 @@
           <div
             class="rankingItem"
             v-for="(item, index) in artistsByHanguo"
-            :key="item.index"
+            :key="index"
           >
             <div class="rankingNum">{{ index + 1 }}</div>
             <div class="singerPic">
@@ -88,7 +88,7 @@
           <div
             class="rankingItem"
             v-for="(item, index) in artistsByJpan"
-            :key="item.index"
+            :key="index"
           >
             <div class="rankingNum">{{ index + 1 }}</div>
             <div class="singerPic">
@@ -116,6 +116,8 @@
 </template>
 
 <script>
+import { _getRecomPlayList, _getSingerRanking } from "../network/index.js";
+
 export default {
   data() {
     return {
@@ -129,83 +131,71 @@ export default {
   methods: {
     // 获得首页的排行榜数据（中国）
     async getRankingDataChina() {
-      let { data } = await this.$http({
-        url: `/toplist/artist?type=1`,
-        withCredentials: true,
-      });
-      if (data.code !== 200) return;
-      this.artistsByChina = [
-        data.list.artists[0],
-        data.list.artists[1],
-        data.list.artists[2],
-        data.list.artists[3],
-        data.list.artists[4],
-        data.list.artists[5],
-        data.list.artists[6],
-        data.list.artists[7],
-        data.list.artists[8],
-        data.list.artists[9],
-      ];
+      let { data } = await _getSingerRanking(1);
+      if (data.code === 200)
+        this.artistsByChina = [
+          data.list.artists[0],
+          data.list.artists[1],
+          data.list.artists[2],
+          data.list.artists[3],
+          data.list.artists[4],
+          data.list.artists[5],
+          data.list.artists[6],
+          data.list.artists[7],
+          data.list.artists[8],
+          data.list.artists[9],
+        ];
     },
     // 获得首页的排行榜数据（欧美）
     async getRankingDataOM() {
-      let { data } = await this.$http({
-        url: `/toplist/artist?type=2`,
-        withCredentials: true,
-      });
-      if (data.code !== 200) return;
-      this.artistsByOumei = [
-        data.list.artists[0],
-        data.list.artists[1],
-        data.list.artists[2],
-        data.list.artists[3],
-        data.list.artists[4],
-        data.list.artists[5],
-        data.list.artists[6],
-        data.list.artists[7],
-        data.list.artists[8],
-        data.list.artists[9],
-      ];
+      let { data } = await _getSingerRanking(2);
+      if (data.code === 200)
+        this.artistsByOumei = [
+          data.list.artists[0],
+          data.list.artists[1],
+          data.list.artists[2],
+          data.list.artists[3],
+          data.list.artists[4],
+          data.list.artists[5],
+          data.list.artists[6],
+          data.list.artists[7],
+          data.list.artists[8],
+          data.list.artists[9],
+        ];
     },
     // 获得首页的排行榜数据（韩国）
     async getRankingDataHG() {
-      let { data } = await this.$http({
-        url: `/toplist/artist?type=3`,
-        withCredentials: true,
-      });
-      if (data.code !== 200) return;
-      this.artistsByHanguo = [
-        data.list.artists[0],
-        data.list.artists[1],
-        data.list.artists[2],
-        data.list.artists[3],
-        data.list.artists[4],
-        data.list.artists[5],
-        data.list.artists[6],
-        data.list.artists[7],
-        data.list.artists[8],
-        data.list.artists[9],
-      ];
+      let { data } = await _getSingerRanking(3);
+      if (data.code === 200)
+        this.artistsByHanguo = [
+          data.list.artists[0],
+          data.list.artists[1],
+          data.list.artists[2],
+          data.list.artists[3],
+          data.list.artists[4],
+          data.list.artists[5],
+          data.list.artists[6],
+          data.list.artists[7],
+          data.list.artists[8],
+          data.list.artists[9],
+        ];
     },
     // 获得首页的排行榜数据（日本）
     async getRankingDataJP() {
-      let { data } = await this.$http({
-        url: `/toplist/artist?type=4`,
-        withCredentials: true,
-      });
-      if (data.code !== 200) return;
-      this.artistsByJpan = [
-        data.list.artists[0],
-        data.list.artists[1],
-        data.list.artists[2],
-        data.list.artists[3],
-        data.list.artists[4],
-        data.list.artists[5],
-        data.list.artists[6],
-        data.list.artists[7],
-        data.list.artists[8],
-        data.list.artists[9],
-      ];
+      let { data } = await _getSingerRanking(4);
+      if (data.code === 200)
+        this.artistsByJpan = [
+          data.list.artists[0],
+          data.list.artists[1],
+          data.list.artists[2],
+          data.list.artists[3],
+          data.list.artists[4],
+          data.list.artists[5],
+          data.list.artists[6],
+          data.list.artists[7],
+          data.list.artists[8],
+          data.list.artists[9],
+        ];
     },
   },
   mounted() {

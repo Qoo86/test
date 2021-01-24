@@ -16,7 +16,7 @@
         </div>
         <div class="songListName van-multi-ellipsis--l2">{{ item.name }}</div>
         <div class="songListNameplayCount">
-          ▶ {{ item.playCount | formNum }}
+          ▶ {{ item.playCount | formatNumber }}
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { _getRecomPlayList } from "../network/index.js";
 export default {
   data() {
     return {
@@ -39,24 +40,18 @@ export default {
       });
     },
     // 获取推荐歌单列表
-    async getRecSonList() {
-      let { data } = await this.$http({
-        type: "get",
-        url: `personalized?limit=8`,
-        withCredentials: true,
-      });
-      // console.log("推荐歌单", data.result);
-      if (data.code == 200) {
+    async getRecomPlayList() {
+      let { data } = await _getRecomPlayList(8);
+      if (data.code === 200) {
         for (let i = 0; i < data.result.length; i++) {
           this.recSonList[data.result[i].id] = data.result[i];
         }
-        // console.log("推荐歌单", this.recSonList);
         this.$forceUpdate(); // 解决F5刷新后v-for不渲染的问题，bug原因不明
       }
     },
   },
   mounted() {
-    this.getRecSonList();
+    this.getRecomPlayList();
   },
 };
 </script>

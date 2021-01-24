@@ -11,7 +11,7 @@
         <van-icon name="arrow-left" size="1.4em" />
       </template>
       <template #title>
-        <span> 歌单 - {{ headermsgs.name }}</span>
+        <span> 歌单 - {{ playlistmsg.name }}</span>
       </template>
       <template #right>
         <div class="menu">
@@ -25,12 +25,12 @@
       <!-- 上半区域 信息 -->
       <div class="box_top">
         <div class="headerbox_Pic">
-          <van-image class="h_b_pic" :src="headermsgs.coverImgUrl" />
-          <div class="playcount">▶ {{ headermsgs.playCount | formNum }}</div>
+          <van-image class="h_b_pic" :src="playlistmsg.coverImgUrl" />
+          <div class="playcount">▶ {{ playCount | formatNumber }}</div>
         </div>
         <div class="headerbox_txt">
           <div class="h_t_playlistName van-multi-ellipsis--l2">
-            {{ headermsgs.name }}
+            {{ playlistmsg.name }}
           </div>
           <div class="h_t_creatorInfo">
             <div class="ctr_avatar">
@@ -41,10 +41,10 @@
           <div
             class="introduce"
             @click="overlayshow = true"
-            v-if="headermsgs.description !== null"
+            v-if="playlistmsg.description !== null"
           >
             <div class="introduce_txt van-ellipsis">
-              {{ headermsgs.description }}
+              {{ playlistmsg.description }}
             </div>
             <div class="my-icon">&#xe610;</div>
           </div>
@@ -56,48 +56,50 @@
         <div v-if="iscreated">
           <div class="item_div collection">
             <div class="my-icon" style="color: #ddd">&#xe617;</div>
-            <div
-              class="num"
-              v-if="headermsgs.collection !== 0"
-              style="color: #ddd"
-            >
-              {{ headermsgs.collection | formNum }}
+            <div class="num" v-if="collectionCount !== 0" style="color: #ddd">
+              {{ collectionCount | formatNumber }}
             </div>
             <div class="num" style="color: #ddd" v-else>收藏</div>
           </div>
         </div>
         <div v-if="!iscreated">
           <!--  subscribed == 是否收藏-->
-          <div class="item_div collection" v-if="subscribed">
+          <!-- 是 -->
+          <div
+            class="item_div collection"
+            v-if="subscribed"
+            @click="subscribedToFalse"
+          >
             <div class="my-icon" style="color: #2b6de6">&#xe617;</div>
             <div
               class="num"
-              v-if="headermsgs.collection !== 0"
+              v-if="collectionCount !== 0"
               style="color: #2b6de6"
             >
-              {{ headermsgs.collection | formNum }}
+              {{ collectionCount | formatNumber }}
             </div>
             <div class="num" v-else>收藏</div>
           </div>
-          <div class="item_div collection" v-else>
+          <!-- 否 -->
+          <div class="item_div collection" v-else @click="subscribedToTrue">
             <div class="my-icon">&#xe617;</div>
-            <div class="num" v-if="headermsgs.collection !== 0">
-              {{ headermsgs.collection | formNum }}
+            <div class="num" v-if="collectionCount !== 0">
+              {{ collectionCount | formatNumber }}
             </div>
             <div class="num" v-else>收藏</div>
           </div>
         </div>
-        <div class="item_div comment">
+        <div class="item_div comment" @click="toCommentDetail">
           <div class="my-icon">&#xe606;</div>
-          <div class="num" v-if="headermsgs.comment !== 0">
-            {{ headermsgs.comment | formNum }}
+          <div class="num" v-if="commentCount !== 0">
+            {{ commentCount | formatNumber }}
           </div>
           <div class="num" v-else>评论</div>
         </div>
-        <div class="item_div share">
+        <div class="item_div share" @click="$store.commit('showShareSheet')">
           <div class="my-icon">&#xe6dc;</div>
-          <div class="num" v-if="headermsgs.share !== 0">
-            {{ headermsgs.share | formNum }}
+          <div class="num" v-if="shareCount !== 0">
+            {{ shareCount | formatNumber }}
           </div>
           <div class="num" v-else>分享</div>
         </div>
@@ -128,7 +130,10 @@
               >
             </div>
             <div class="t_songby van-ellipsis">
-              {{ song.ar[0].name }}
+              <span v-for="(ar, index) in song.ar" :key="index">
+                <span v-if="index === song.ar.length - 1"> {{ ar.name }} </span>
+                <span v-else>{{ ar.name }} / </span>
+              </span>
               <span v-if="song.al.name"> - {{ song.al.name }}</span>
             </div>
           </div>
@@ -137,25 +142,29 @@
             <div class="more my-icon">&#xe6f8;</div>
           </div>
           <div class="item_icon" v-else>
-            <div class="mv my-icon">&#xe6cf;</div>
+            <div class="mv my-icon">&#xe621;</div>
             <div class="more my-icon">&#xe6f8;</div>
           </div>
         </div>
       </div>
     </div>
     <!-- 收藏用户展示区域 -->
-    <div class="collectionuserlist" v-if="headermsgs.subscribedCount !== 0">
+    <div
+      class="collectionuserlist"
+      v-if="collectionCount !== 0"
+      @click="$store.commit('showSubPopup')"
+    >
       <div class="useravatr">
         <van-image
-          v-for="pic in subscribers"
-          :key="pic.index"
+          v-for="(pic, index) in subscribers"
+          :key="index"
           round
           :src="pic.avatarUrl"
           class="pic"
         />
       </div>
       <div class="collectionnum">
-        {{ headermsgs.subscribedCount | formNum }}人收藏
+        {{ collectionCount | formatNumber }}人收藏
         <van-icon name="arrow" size="1.1em" color="#939393" class="icon" />
       </div>
     </div>
@@ -164,51 +173,118 @@
       <div class="wrapper">
         <div class="block">
           <div class="pl_pic">
-            <img :src="headermsgs.coverImgUrl" />
+            <img :src="playlistmsg.coverImgUrl" />
           </div>
-          <div class="pl_name">{{ headermsgs.name }}</div>
+          <div class="pl_name">{{ playlistmsg.name }}</div>
           <div class="tag">
             <div class="title">标签：</div>
             <div
               class="tag_item"
-              v-for="items in headermsgs.tags"
+              v-for="items in playlistmsg.tags"
               :key="items.id"
             >
               {{ items }}
             </div>
           </div>
           <div class="description">
-            {{ headermsgs.description }}
+            {{ playlistmsg.description }}
           </div>
         </div>
       </div>
     </van-overlay>
+    <!-- 加载组件 -->
+    <loading />
+    <!-- 评论组件 -->
+    <van-popup
+      v-model="$store.state.isPopup"
+      class="commentComp"
+      position="bottom"
+    >
+      <comment-detial
+        :parentId="songlistid"
+        :toCommentinfos="toCommentinfos"
+        :type="2"
+      />
+    </van-popup>
+    <!-- 分享面板组件 -->
+    <van-share-sheet
+      v-model="$store.state.isShareSheet"
+      title="立即分享给好友"
+      :options="options"
+      @cancel="$store.commit('hiddenShareSheet')"
+      @click-overlay="$store.commit('hiddenShareSheet')"
+    />
+    <!-- 收藏者列表组件 -->
+    <van-popup
+      position="top"
+      :style="{ height: '100%' }"
+      v-model="$store.state.isSubPopup"
+    >
+      <playlist-subscribers-detail-page :playlistid="songlistid" />
+    </van-popup>
   </div>
 </template>
 
 <script>
+import {
+  _getplaylistDetailDynamic,
+  _getPlayListDetialById,
+  _getPlaylistSubscribers,
+  _subPlayList,
+} from "../../network/playlist.js";
+import { _getPlayListDetialBySongsId } from "../../network/music";
+import CommentDetial from "../../components/Detial/CommentDetial";
+import PlaylistSubscribersDetailPage from "../../components/Detial/PlaylistSubscribersDetailPage.vue";
 export default {
   data() {
     return {
-      // 控制遮罩层的显示哥隐藏
+      // 控制遮罩层的显示隐藏
       overlayshow: false,
       // 从上级路由传递过来的id 用于查询歌单详情
       songlistid: this.$route.query.id,
       // 歌单创建人信息
       creator: {},
-      // 页面头部的各种信息
-      headermsgs: {},
+      // 页面头部的歌单信息
+      playlistmsg: {},
       // 收藏人列表
       subscribers: [],
-      // 收藏状态
-      subscribed: "",
       // 是否是自己创建
-      iscreated: true,
+      iscreated: false,
       // 歌曲id列表
       trackIds: [],
       // 歌曲列表
       tracks: [],
+      // 收藏数量
+      collectionCount: 0,
+      // 评论数量
+      commentCount: 0,
+      // 分享数量
+      shareCount: 0,
+      // 播放量
+      playCount: 0,
+      // 收藏状态
+      subscribed: false,
+      //
+      toCommentinfos: {},
+      // 分享面板配置
+      options: [
+        [
+          { name: "微信", icon: "wechat" },
+          { name: "微博", icon: "weibo" },
+          { name: "QQ", icon: "qq" },
+        ],
+        [
+          { name: "复制链接", icon: "link" },
+          { name: "分享海报", icon: "poster" },
+          { name: "二维码", icon: "qrcode" },
+          { name: "小程序码", icon: "weapp-qrcode" },
+        ],
+      ],
     };
+  },
+  components: {
+    CommentDetial,
+    PlaylistSubscribersDetailPage,
   },
   methods: {
     // 返回上级路由
@@ -217,72 +293,137 @@ export default {
     },
     // 获取歌单详情
     async getPlayListdetail(id) {
-      let { data } = await this.$http({
-        url: `/playlist/detail?id=${id}`,
-        withCredentials: true,
-      });
-      // console.log(data.playlist);
-      if (data.code !== 200) return;
-      // 保存歌单创建者信息
-      this.creator = {
-        id: data.playlist.creator.userId,
-        username: data.playlist.creator.nickname,
-        avatarpic: data.playlist.creator.avatarUrl,
-      };
-      // 保存头部的各种信息
-      this.headermsgs = {
-        coverImgUrl: data.playlist.coverImgUrl,
-        name: data.playlist.name,
-        description: data.playlist.description,
-        tags: data.playlist.tags,
-        collection: data.playlist.subscribedCount,
-        comment: data.playlist.commentCount,
-        share: data.playlist.shareCount,
-        playCount: data.playlist.playCount,
-        subscribedCount: data.playlist.subscribedCount,
-      };
-      // 保存收藏者列表
-      for (let i = 0; i < data.playlist.subscribers.length; i++) {
-        this.subscribers.push(data.playlist.subscribers[i]);
-      }
-      // 添加判断 使显示的头像在[0,5]之间
-      if (this.subscribers.length > 5) {
-        for (let i = 0; i < this.subscribers.length - 3; i++) {
-          this.subscribers.pop();
+      this.$store.commit("showLoading");
+      let { data: plDetial } = await _getPlayListDetialById(id);
+      if (plDetial.code === 200) {
+        // 保存歌单创建者信息
+        this.creator = {
+          // 歌单创建者id
+          id: plDetial.playlist.creator.userId,
+          // 歌单创建者昵称
+          username: plDetial.playlist.creator.nickname,
+          // 歌单创建者头像
+          avatarpic: plDetial.playlist.creator.avatarUrl,
+        };
+        // 保存歌单信息
+        this.playlistmsg = {
+          // 歌单封面
+          coverImgUrl: plDetial.playlist.coverImgUrl,
+          // 歌单名字
+          name: plDetial.playlist.name,
+          // 歌单简介
+          description: plDetial.playlist.description,
+          // 歌单标签
+          tags: plDetial.playlist.tags,
+        };
+        // 保存发送给评论区的部分信息
+        this.toCommentinfos = {
+          // 歌单名字
+          name: plDetial.playlist.name,
+          // 歌单封面
+          coverImgUrl: plDetial.playlist.coverImgUrl,
+          // 歌单创建者昵称
+          username: plDetial.playlist.creator.nickname,
+        };
+        // 保存歌曲列表的全部歌曲id
+        // 由于某些歌单数量过多，参数太大容易报错，所以控制在700内
+        if (plDetial.playlist.trackIds.length > 700) {
+          for (let i = 0; i < 700; i++) {
+            this.trackIds.push(plDetial.playlist.trackIds[i].id);
+          }
+        } else {
+          for (let i = 0; i < plDetial.playlist.trackIds.length; i++) {
+            this.trackIds.push(plDetial.playlist.trackIds[i].id);
+          }
         }
       }
-      // 保存收藏状态
-      this.subscribed = data.playlist.subscribed;
-      // 保存歌曲列表的全部歌曲id
-      for (let i = 0; i < data.playlist.trackIds.length; i++) {
-        this.trackIds.push(data.playlist.trackIds[i].id);
-      }
+      // 获取收藏者列表
+      let { data: subs } = await _getPlaylistSubscribers(id, 6);
+      if (subs.code === 200) this.subscribers = subs.subscribers;
       /* 
         由于/playlist/detail接口返回的歌曲信息不完整
         但歌曲id是完整的 因此用歌曲id再次请求获取歌曲详情 
       */
-      let res = await this.$http({
-        url: `/song/detail?ids=${this.trackIds}`,
-        withCredentials: true,
-      });
-      if (res.data.code !== 200) return;
-      // 保存歌曲列表信息
-      this.tracks = res.data.songs;
-      // 判断是否是用户自己创建的歌单
-      this.isCreatedPangduan();
+      let { data: sDetail } = await _getPlayListDetialBySongsId(
+        this.trackIds.toString()
+      );
+      if (sDetail.code === 200) {
+        // 保存歌曲列表信息
+        this.tracks = sDetail.songs;
+      }
+      // 判断歌单是否由自己创建
+      this.isCreated();
+      this.$store.commit("hiddenLoading");
     },
-    // 判断是否是用户自己创建的歌单
-    isCreatedPangduan() {
-      let loginid = window.localStorage.getItem("userid");
-      if (loginid == this.creator.id) {
-        this.iscreated = true;
+    // 获取歌单详情动态部分,如评论数,是否收藏,播放数
+    async getPlayListDetailDynamic(id) {
+      let { data } = await _getplaylistDetailDynamic(id);
+      if (data.code === 200) {
+        // 播放量
+        this.playCount = data.playCount;
+        // 分享量
+        this.shareCount = data.shareCount;
+        // 收藏量
+        this.collectionCount = data.bookedCount;
+        // 评论量
+        this.commentCount = data.commentCount;
+        // 收藏状态
+        this.subscribed = data.subscribed;
+      }
+    },
+    // 判断歌单是否由自己创建
+    isCreated() {
+      if (localStorage.getItem("userinfo") !== null) {
+        let nowid = this.creator.id;
+        let loginid = JSON.parse(localStorage.getItem("userinfo")).userId;
+        if (nowid === loginid) this.iscreated = true;
+        else this.iscreated = false;
       } else {
         this.iscreated = false;
       }
     },
+    // 收藏
+    async subscribedToTrue() {
+      this.$store.commit("showLoading");
+      let { data } = await _subPlayList(1, this.songlistid);
+      if (data.code === 200) {
+        this.getPlayListDetailDynamic(this.songlistid);
+      } else {
+        this.$msg.fail(data.msg);
+      }
+      this.$store.commit("hiddenLoading");
+    },
+    // 取消收藏
+    subscribedToFalse() {
+      let id = this.songlistid;
+      this.$dialog.confirm({
+        message: "确定不再收藏此歌单吗",
+        cancelButtonColor: "black",
+        confirmButtonText: "不再收藏",
+        confirmButtonColor: "#2B6DE6",
+        beforeClose: async (action, done) => {
+          if (action === "confirm") {
+            let { data } = await _subPlayList(2, id);
+            if (data.code === 200) {
+              this.getPlayListDetailDynamic(this.songlistid);
+            } else {
+              this.$msg.fail(data.msg);
+            }
+            done();
+          } else {
+            done();
+          }
+        },
+      });
+    },
+    // 评论详情
+    toCommentDetail() {
+      this.$store.commit("showPopup");
+    },
   },
   mounted() {
     this.getPlayListdetail(this.songlistid);
+    this.getPlayListDetailDynamic(this.songlistid);
   },
 };
 </script>
@@ -333,14 +474,13 @@ export default {
           position: absolute;
           top: 4px;
           right: 16px;
-          width: 50px;
           height: 16px;
           background-color: rgba(0, 0, 0, 0.4);
           color: #fff;
           font-size: 10px;
           line-height: 16px;
           border-radius: 20px;
-          padding: 0 4px;
+          padding: 0 10px;
         }
       }
       .headerbox_txt {
@@ -398,10 +538,10 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        &:nth-child(n-1) {
+        &:nth-child(-n + 2) {
           border-right: 2px solid #ccc;
         }
-        height: 60%;
+        height: 24px;
         width: 100%;
         .my-icon {
           font-size: 18px;
@@ -448,30 +588,27 @@ export default {
         display: flex;
         height: 50px;
         align-items: center;
-        position: relative;
         .item_index {
           text-align: center;
           width: 50px;
-          font-size: 16px;
+          font-size: 14px;
           color: #939393;
         }
         .item_txt {
-          width: 265px;
+          width: 270px;
           .t_songname {
-            font-size: 16px;
+            font-size: 14px;
             .othername {
               color: #939393;
             }
           }
           .t_songby {
             font-size: 12px;
-            margin-top: 2px;
+            margin-top: 3px;
             color: #939393;
           }
         }
         .item_icon {
-          position: absolute;
-          right: 4%;
           display: flex;
           justify-content: space-between;
           font-size: 14px;
@@ -565,8 +702,15 @@ export default {
         font-size: 12.8px;
         line-height: 18px;
         color: #fff;
+        height: 260px;
+        overflow: scroll;
       }
     }
+  }
+  // 评论弹出层
+  .commentComp {
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
