@@ -3,11 +3,11 @@ const formatNumber = function(num) {
   if (num === 0) return 0;
   if (!num) return;
   if (Math.abs(num) > 100000000) {
-    return (num / 100000000).toFixed(2) + "亿";
+    return Math.floor(num / 100000000) + "亿";
   } else if (Math.abs(num) > 10000) {
-    return (num / 10000).toFixed(0) + "万";
+    return Math.floor(num / 10000) + "万";
   } else {
-    return num.toFixed(0);
+    return Math.floor(num);
   }
 };
 // 格式化视频/音乐等长度

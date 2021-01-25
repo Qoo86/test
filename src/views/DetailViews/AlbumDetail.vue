@@ -49,7 +49,7 @@
       <div class="box_bottom">
         <div
           class="item_div collection"
-          :style="isSub ? 'color:blue' : ''"
+          :class="{ item_div: true, collection: true, blue: isSub }"
           @click="subAlbum(id, isSub ? 0 : 1)"
         >
           <div class="my-icon">&#xe617;</div>
@@ -74,7 +74,7 @@
         <div class="sl_title">
           <div class="t_text">
             <span class="my-icon">&#xe690;</span>播放全部<span
-              style="font-size: 12px; color: #939393; margin-left: 4px"
+              class="fz12 ml4 c939393"
               >( {{ songs.length }}首 )</span
             >
           </div>
@@ -107,7 +107,7 @@
               <div class="more my-icon">&#xe6f8;</div>
             </div>
             <div class="item_icon" v-else>
-              <div class="more my-icon" style="margin-left: 26px">&#xe6f8;</div>
+              <div class="more my-icon ml26">&#xe6f8;</div>
             </div>
           </div>
         </div>

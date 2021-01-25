@@ -128,7 +128,7 @@
       <van-tab title="歌曲">
         <div class="songList">
           <div class="title">
-            <div class="my-icon" style="color: #0078d7">&#xe690;</div>
+            <div class="my-icon blue">&#xe690;</div>
             <div class="t_txt">热门50首</div>
             <div class="my-icon">&#xe617;</div>
             <div class="my-icon">&#xe600;</div>
@@ -158,12 +158,12 @@
               <div class="more my-icon">&#xe6f8;</div>
             </div>
             <div class="item_icon" v-else>
-              <div class="more my-icon" style="margin-left: 26px">&#xe6f8;</div>
+              <div class="more my-icon ml26">&#xe6f8;</div>
             </div>
           </div>
           <div class="more">
             <div>全部歌曲</div>
-            <van-icon name="arrow" style="padding-left: 6px" />
+            <van-icon name="arrow" class="pl6" />
           </div>
         </div>
       </van-tab>

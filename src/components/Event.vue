@@ -666,7 +666,7 @@ export default {
   methods: {
     async getEvents(id) {
       let { data: res } = await _getEvent(id, this.lasttime);
-      console.log(res);
+      // console.log(res);
       if (res.code === 200) {
         this.lasttime = res.lasttime;
         for (let i = 0; i < res.events.length; i++) {

@@ -38,13 +38,13 @@
           <div class="h_title">评论区</div>
           <div class="h_memu">
             <div
-              :class="{ _color000: style, m_item: 'm_item' }"
+              :class="{ _color000: style, m_item: true }"
               @click="sortByHot(2), (style = true)"
             >
               最热
             </div>
             <div
-              :class="{ _color000: !style, m_item: 'm_item' }"
+              :class="{ _color000: !style, m_item: true }"
               @click="sortByNew(3), (style = false)"
             >
               最新

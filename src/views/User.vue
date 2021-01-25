@@ -68,8 +68,8 @@
         </div>
       </div>
       <!-- 我喜欢的音乐 -->
-      <div class="likeMusicBox" @click="toPlayListDetail(userLikePlayList.id)">
-        <div class="lmb_pic">
+      <div class="likeMusicBox">
+        <div class="lmb_pic" @click="toPlayListDetail(userLikePlayList.id)">
           <!-- <div class="loveIcon">
             <van-icon name="like" color="#ffffff" />
           </div> -->
@@ -182,7 +182,7 @@
                 color="linear-gradient(to right, #ff6034, #ee0a24)"
                 onclick="javascript: alert('没想到吧这是假的，无事发生');"
               >
-                <span style="padding: 0 6px">试试看</span></van-button
+                <span class="plr6">试试看</span></van-button
               >
             </div>
           </div>
@@ -190,7 +190,7 @@
       </van-tab>
     </van-tabs>
     <!-- 占位符 -->
-    <div style="height: 100px"></div>
+    <div class="h100"></div>
     <!-- 底部导航栏 -->
     <tab-bar></tab-bar>
     <!-- 弹出层组件 -->

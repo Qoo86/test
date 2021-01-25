@@ -55,11 +55,11 @@
         <!--  iscreated == 是否是自己创建 -->
         <div v-if="iscreated">
           <div class="item_div collection">
-            <div class="my-icon" style="color: #ddd">&#xe617;</div>
-            <div class="num" v-if="collectionCount !== 0" style="color: #ddd">
+            <div class="my-icon cddd">&#xe617;</div>
+            <div class="num cddd" v-if="collectionCount !== 0">
               {{ collectionCount | formatNumber }}
             </div>
-            <div class="num" style="color: #ddd" v-else>收藏</div>
+            <div class="num cddd" v-else>收藏</div>
           </div>
         </div>
         <div v-if="!iscreated">
@@ -70,12 +70,8 @@
             v-if="subscribed"
             @click="subscribedToFalse"
           >
-            <div class="my-icon" style="color: #2b6de6">&#xe617;</div>
-            <div
-              class="num"
-              v-if="collectionCount !== 0"
-              style="color: #2b6de6"
-            >
+            <div class="my-icon blue">&#xe617;</div>
+            <div class="num blue" v-if="collectionCount !== 0">
               {{ collectionCount | formatNumber }}
             </div>
             <div class="num" v-else>收藏</div>
@@ -110,7 +106,7 @@
       <div class="sl_title">
         <div class="t_text">
           <span class="my-icon">&#xe690;</span>播放全部<span
-            style="font-size: 12px; color: #939393; margin-left: 4px"
+            class="fz12 ml4 c939393"
             >( {{ trackIds.length }}首 )</span
           >
         </div>
@@ -138,8 +134,7 @@
             </div>
           </div>
           <div class="item_icon" v-if="song.mv === 0">
-            <div style="width: 14px; height: 14px"></div>
-            <div class="more my-icon">&#xe6f8;</div>
+            <div class="more my-icon ml26">&#xe6f8;</div>
           </div>
           <div class="item_icon" v-else>
             <div class="mv my-icon">&#xe621;</div>
@@ -215,11 +210,7 @@
       @click-overlay="$store.commit('hiddenShareSheet')"
     />
     <!-- 收藏者列表组件 -->
-    <van-popup
-      position="top"
-      :style="{ height: '100%' }"
-      v-model="$store.state.isSubPopup"
-    >
+    <van-popup position="top" class="h100p" v-model="$store.state.isSubPopup">
       <playlist-subscribers-detail-page :playlistid="songlistid" />
     </van-popup>
   </div>

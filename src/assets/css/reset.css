@@ -15,3 +15,71 @@
 ._color000 {
   color: #000;
 }
+/* 外边距 */
+.m16 {
+  margin: 16px;
+}
+.ml4 {
+  margin-left: 4px;
+}
+.ml26 {
+  margin-left: 26px;
+}
+.ml30 {
+  margin-left: 30px;
+}
+.mt10 {
+  margin-top: 10px;
+}
+/* 内边距 */
+.plr6 {
+  padding: 0 6px;
+}
+.pl6 {
+  padding-left: 6px;
+}
+.pl10 {
+  padding-left: 10px;
+}
+/* 字体大小 */
+.fz8 {
+  font-size: 8px;
+}
+.fz12 {
+  font-size: 12px;
+}
+.fz28 {
+  font-size: 28px;
+}
+/* 高度 */
+.h100 {
+  height: 100px;
+}
+.h100p {
+  height: 100%;
+}
+/* 颜色 */
+.blue {
+  color: #5282e8;
+}
+.red {
+  color: red;
+}
+.pink {
+  color: pink;
+}
+
+.colorCCC {
+  color: #ccc;
+}
+
+.c939393 {
+  color: #939393;
+}
+.cddd {
+  color: #ddd;
+}
+
+.z999 {
+  z-index: 999;
+}

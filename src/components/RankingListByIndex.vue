@@ -4,7 +4,7 @@
       <div class="title">歌手榜</div>
       <div class="more">更多</div>
     </div>
-    <van-tabs v-model="active" style="margin-top: 10px">
+    <van-tabs v-model="active" class="mt10">
       <van-tab title="中国" animated>
         <div class="rankingContent">
           <div
@@ -19,7 +19,7 @@
             <div class="singerInfo">
               <div class="singerName">
                 {{ item.name }}
-                <span style="color: #ccc" v-if="item.trans !== ''">
+                <span class="colorCCC" v-if="item.trans !== ''">
                   ({{ item.trans }})</span
                 >
               </div>
@@ -45,7 +45,7 @@
             <div class="singerInfo">
               <div class="singerName">
                 {{ item.name }}
-                <span style="color: #ccc" v-if="item.trans !== ''">
+                <span class="colorCCC" v-if="item.trans !== ''">
                   ({{ item.trans }})</span
                 >
               </div>
@@ -71,7 +71,7 @@
             <div class="singerInfo">
               <div class="singerName">
                 {{ item.name }}
-                <span style="color: #ccc" v-if="item.trans !== ''">
+                <span class="colorCCC" v-if="item.trans !== ''">
                   ({{ item.trans }})</span
                 >
               </div>
@@ -97,7 +97,7 @@
             <div class="singerInfo">
               <div class="singerName">
                 {{ item.name }}
-                <span style="color: #ccc" v-if="item.trans !== ''">
+                <span class="colorCCC" v-if="item.trans !== ''">
                   ({{ item.trans }})</span
                 >
               </div>

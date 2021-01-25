@@ -34,7 +34,7 @@
           <div class="my-icon more">&#xe6f8;</div>
         </div>
         <div class="songicon" v-else>
-          <div class="my-icon more" style="margin-left: 30px">&#xe6f8;</div>
+          <div class="my-icon more ml30">&#xe6f8;</div>
         </div>
       </div>
     </van-list>

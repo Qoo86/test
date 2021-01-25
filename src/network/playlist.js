@@ -52,3 +52,46 @@ export function _getPlaylistSubscribers(id, limit, offset) {
     },
   }).catch((err) => err.response);
 }
+
+// 获取歌单分类
+export function _getPlayListCatlist() {
+  return request({
+    url: "/playlist/catlist",
+  }).catch((err) => err.response);
+}
+// 获取热门歌单分类
+export function _getPlayListHotCatlist() {
+  return request({
+    url: "/playlist/hot",
+  }).catch((err) => err.response);
+}
+// 获取歌单 ( 网友精选碟 )
+export function _getTopPlayList(order, cat, limit, offset) {
+  return request({
+    url: "/top/playlist",
+    params: {
+      order,
+      cat,
+      limit,
+      offset,
+    },
+  }).catch((err) => err.response);
+}
+// 获取精品歌单标签列表
+export function _getPlaylistHighqualityTags() {
+  return request({
+    url: "/playlist/highquality/tags",
+  }).catch((err) => err.response);
+}
+
+// 获取精品歌单
+export function _getTopPlaylistHighquality(cat, before) {
+  return request({
+    url: "/top/playlist/highquality",
+    params: {
+      cat,
+      limit: 60,
+      before,
+    },
+  }).catch((err) => err.response);
+}

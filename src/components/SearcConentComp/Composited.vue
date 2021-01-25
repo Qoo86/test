@@ -13,10 +13,7 @@
           <van-cell-group>
             <van-cell :title="item.name" center class="van-multi-ellipsis--l2">
               <template #label>
-                <span
-                  class="custom-title van-ellipsis"
-                  style="display: inline-block; width: 240px"
-                >
+                <span class="custom-title van-ellipsis">
                   <span v-for="(ar, index) in item.ar" :key="index">
                     <span v-if="index === item.ar.length - 1">
                       {{ ar.name }}
@@ -49,6 +46,7 @@
           class="a_listitem"
           v-for="(item, index) in album.albums"
           :key="index"
+          @click="toAlbumDetail(item.id)"
         >
           <div class="a_listImg">
             <van-image width="50" height="50" :src="item.picUrl" />
@@ -114,6 +112,7 @@
           class="s_listitem"
           v-for="(item, index) in artist.artists"
           :key="index"
+          @click="toArtistDetail(item.id)"
         >
           <div class="s_listitemImg">
             <van-image
@@ -162,15 +161,8 @@
           <div class="userInfo">
             <div class="username van-ellipsis">
               {{ item.nickname }}
-              <span
-                v-if="item.gender == 1"
-                class="my-icon"
-                style="color: #5282e8; font-size: 16px"
-                >&#xe60a;</span
-              >
-              <span v-else class="my-icon" style="color: pink; font-size: 16px"
-                >&#xe683;</span
-              >
+              <span v-if="item.gender == 1" class="my-icon blue">&#xe60a;</span>
+              <span v-else class="my-icon pink">&#xe683;</span>
             </div>
             <div class="userjianjie van-ellipsis">{{ item.signature }}</div>
           </div>
@@ -257,6 +249,12 @@ export default {
     toPlayListDetail(id) {
       this.$router.push({ path: "/playlistdetail", query: { id } });
     },
+    toAlbumDetail(id) {
+      this.$router.push({ path: "/albumDetail", query: { id } });
+    },
+    toArtistDetail(id) {
+      this.$router.push({ path: "/artist", query: { id } });
+    },
     // 跳转用户详情页
     toUserInfoDetailPage(id) {
       this.$router.push({ path: "/userinfo", query: { id } });
@@ -275,7 +273,10 @@ export default {
 .van-cell__label {
   font-size: 11px;
 }
-
+.custom-title {
+  display: inline-block;
+  width: 240px;
+}
 .content {
   height: 512px;
   overflow: scroll;
@@ -381,6 +382,9 @@ export default {
           margin-left: 8px;
           .username {
             font-size: 14px;
+            .my-icon {
+              font-size: 16px;
+            }
           }
           .userjianjie {
             margin-top: 4px;

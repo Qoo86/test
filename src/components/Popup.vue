@@ -1,13 +1,5 @@
 <template>
-  <van-popup
-    v-model="show"
-    position="left"
-    :style="{
-      height: '100%',
-      width: '80%',
-      background: '#F5F5F6',
-    }"
-  >
+  <van-popup v-model="show" position="left" class="popup">
     <div class="user">
       <div class="user_avatar">
         <img v-if="userLoginStatus" :src="userimg" />
@@ -110,6 +102,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.popup {
+  height: 100%;
+  width: 80%;
+  background: #f5f5f6;
+}
 .user {
   margin: 12px 0 0 16px;
   display: flex;

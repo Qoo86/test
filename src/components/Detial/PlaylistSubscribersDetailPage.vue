@@ -29,16 +29,10 @@
           <div class="userInfo">
             <div class="username">
               <span class="name">{{ items.nickname }}</span>
-              <span
-                class="sex my-icon"
-                style="color: blue"
-                v-if="items.gender === 1"
+              <span class="sex my-icon blue" v-if="items.gender === 1"
                 >&#xe66b;</span
               >
-              <span
-                class="sex my-icon"
-                style="color: pink"
-                v-if="items.gender === 2"
+              <span class="sex my-icon pink" v-if="items.gender === 2"
                 >&#xe647;</span
               >
             </div>

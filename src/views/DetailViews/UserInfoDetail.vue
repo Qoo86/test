@@ -104,7 +104,7 @@
               </div>
             </div>
             <div class="mi_item" @click="toPlayListDetail(userLikesPlist.id)">
-              <div class="my-icon" style="font-size: 28px">&#xe630;</div>
+              <div class="my-icon fz28">&#xe630;</div>
               <div class="info">
                 <div class="i_title">{{ userLikesPlist.name }}</div>
                 <div class="dep">
@@ -172,7 +172,7 @@
         <van-tab>
           <template #title>
             动态
-            <span class style="font-size: 8px">{{ profile.eventCount }}</span>
+            <span class="fz8">{{ profile.eventCount }}</span>
           </template>
           <div class="event">
             <div class="empty" v-if="profile.eventCount === 0">

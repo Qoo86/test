@@ -47,13 +47,7 @@
           </div>
         </div>
         <div class="isMv my-icon" v-if="item.mv !== 0">&#xe621;</div>
-        <div
-          class="menu my-icon"
-          v-if="item.mv === 0"
-          style="margin-left: 30px"
-        >
-          &#xe6f8;
-        </div>
+        <div class="menu my-icon ml30" v-if="item.mv === 0">&#xe6f8;</div>
         <div class="menu my-icon" v-else>&#xe6f8;</div>
       </div>
     </div>

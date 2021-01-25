@@ -12,7 +12,7 @@
       <template #action>
         <div>
           <span @click="toSearchInput(searchValue)">搜索</span>
-          <span @click="goBack" style="padding-left: 10px">返回</span>
+          <span @click="goBack" class="pl10">返回</span>
         </div>
       </template>
     </van-search>
@@ -20,7 +20,7 @@
     <router-view :key="$route.fullPath" @backKeyw="getBackKeyw" />
 
     <transition name="van-slide-left">
-      <div v-show="isShowMsgBox" class="searchMsgBox" style="z-index: 999">
+      <div v-show="isShowMsgBox" class="searchMsgBox z999">
         <div
           class="toSearch searchMsg van-ellipsis"
           @click="toSuggestSearch(searchValue)"

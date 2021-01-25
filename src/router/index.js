@@ -88,6 +88,11 @@ const routes = [
     path: "/userinfo",
     component: () => import("@/views/DetailViews/UserInfoDetail.vue"),
   },
+  // 歌单广场
+  {
+    path: "/playlistgroup",
+    component: () => import("@/views/PlayListGroup.vue"),
+  },
 ];
 
 const router = new VueRouter({
