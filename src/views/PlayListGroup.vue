@@ -18,7 +18,7 @@
     <div class="playlistBody">
       <!-- 标题部份 -->
       <div class="title">
-        <div class="txt">全部精品</div>
+        <div class="txt">{{ cat }}</div>
         <div class="screen" @click="show = !show">
           <span class="my-icon">&#xe625;</span>
           <span>筛选</span>
@@ -29,10 +29,15 @@
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
-        @load="getPlaylistHighquality(cat)"
+        @load="getPlayList(cat)"
       >
         <div class="playlists">
-          <div class="playlistItem" v-for="pl in playlists" :key="pl.id">
+          <div
+            class="playlistItem"
+            v-for="(pl, index) in playlists"
+            :key="index"
+            @click="toplaylistdetail(pl.id)"
+          >
             <div class="coverImg">
               <van-image class="img" :src="pl.coverImgUrl" fit="cover" />
               <div class="playcount">
@@ -57,10 +62,24 @@
     >
       <div class="title">所有精品歌单</div>
       <div class="all">
-        <div class="allBtn class1">全部精品</div>
+        <div
+          :class="['allBtn', '全部' === cat ? 'class2' : 'class1']"
+          @click="changeCat('全部')"
+        >
+          全部精品
+        </div>
       </div>
       <div class="Tags">
-        <div v-for="tag in Tags" :key="tag.id" class="tag class1 van-ellipsis">
+        <div
+          v-for="tag in Tags"
+          :key="tag.id"
+          :class="[
+            'tag',
+            tag.name === cat ? 'class2' : 'class1',
+            'van-ellipsis',
+          ]"
+          @click="changeCat(tag.name)"
+        >
           {{ tag.name }}
         </div>
       </div>
@@ -70,8 +89,10 @@
 
 <script>
 import {
-  _getPlaylistHighqualityTags,
-  _getTopPlaylistHighquality,
+  _getPlayListCatlist,
+  _getTopPlayList,
+  // _getPlaylistHighqualityTags,
+  // _getTopPlaylistHighquality,
 } from "../network/playlist";
 export default {
   data() {
@@ -83,7 +104,9 @@ export default {
       // 歌单标题标签
       cat: "全部",
       // 分页用数据，保存上一次请求的数据中的最后一个歌单的pushtime
-      before: "",
+      // before: "",
+      offset: 0,
+      page: 1,
       loading: false,
       finished: false,
       // 歌单列表
@@ -92,26 +115,60 @@ export default {
   },
   methods: {
     init() {
-      this.getPlaylistHighqualityTags();
+      this.getPlaylistCatlists();
     },
     // 获取精品歌单的全部标签
-    async getPlaylistHighqualityTags() {
-      let { data } = await _getPlaylistHighqualityTags();
-      if (data.code === 200) {
-        this.Tags = data.tags;
-      }
-    },
+    // async getPlaylistHighqualityTags() {
+    //   let { data } = await _getPlaylistHighqualityTags();
+    //   if (data.code === 200) {
+    //     this.Tags = data.tags;
+    //   }
+    // },
     // 获取精品歌单liebiao
-    async getPlaylistHighquality(cat) {
-      let { data } = await _getTopPlaylistHighquality(cat, this.before);
+    // async getPlaylistHighquality(cat) {
+    //   let { data } = await _getTopPlaylistHighquality(cat, this.before);
+    //   if (data.code === 200) {
+    //     this.before = data.lasttime;
+    //     for (let i = 0; i < data.playlists.length; i++) {
+    //       this.playlists.push(data.playlists[i]);
+    //     }
+    //     this.loading = false;
+    //     if (data.playlists.length < 60) this.finished = true;
+    //   }
+    // },
+    // 获取所有歌单分类
+    async getPlaylistCatlists() {
+      let { data } = await _getPlayListCatlist();
+      this.Tags = data.sub;
+    },
+    // 获取网友精选碟歌单
+    async getPlayList(cat) {
+      let offset = (this.page - 1) * 50;
+      let { data } = await _getTopPlayList(cat, offset);
       if (data.code === 200) {
-        this.before = data.lasttime;
+        this.page++;
         for (let i = 0; i < data.playlists.length; i++) {
           this.playlists.push(data.playlists[i]);
         }
         this.loading = false;
-        if (data.playlists.length < 60) this.finished = true;
+        if (data.playlists.length < 50) this.finished = true;
       }
+    },
+    // 更改筛选条件
+    changeCat(n) {
+      this.cat = n;
+      this.finished = false;
+      this.before = "";
+      this.playlists = [];
+      this.show = false;
+      this.page = 1;
+      // 由于使用了van-list 所以切换后需要移动一下滚动条
+      // 才能请求新的数据
+      document.documentElement.scrollTop += 1;
+    },
+    // 跳转歌单详情页
+    toplaylistdetail(id) {
+      this.$router.push({ path: "/playlistdetail", query: { id } });
     },
   },
   mounted() {

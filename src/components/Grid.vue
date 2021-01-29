@@ -7,7 +7,12 @@
         icon="ritui"
         text="每日推荐"
       />
-      <van-grid-item icon-prefix="my-icon" icon="gedang" text="歌单" />
+      <van-grid-item
+        icon-prefix="my-icon"
+        to="/playlistgroup"
+        icon="gedang"
+        text="歌单"
+      />
       <van-grid-item
         to="/personalfm"
         icon-prefix="my-icon"

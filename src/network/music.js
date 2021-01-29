@@ -33,3 +33,19 @@ export function _getSongWordById(id) {
     },
   }).catch((err) => err.response);
 }
+
+// 调用此接口 , 传入音乐 id, 可把该音乐从私人 FM 中移除至垃圾桶
+export function _trash(id) {
+  return request({
+    url: "/fm_trash",
+    params: { id },
+  }).catch((err) => err.response);
+}
+
+// 喜欢音乐
+export function _like(id, like) {
+  return request({
+    url: "/like",
+    params: { id, like },
+  }).catch((err) => err.response);
+}

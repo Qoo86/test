@@ -66,13 +66,11 @@ export function _getPlayListHotCatlist() {
   }).catch((err) => err.response);
 }
 // 获取歌单 ( 网友精选碟 )
-export function _getTopPlayList(order, cat, limit, offset) {
+export function _getTopPlayList(cat, offset) {
   return request({
     url: "/top/playlist",
     params: {
-      order,
       cat,
-      limit,
       offset,
     },
   }).catch((err) => err.response);

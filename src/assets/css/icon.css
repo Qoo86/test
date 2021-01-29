@@ -4,7 +4,7 @@
 /* 引入第三方或自定义的字体图标样式 */
 @font-face {
   font-family: "my-icon";
-  src: url("//at.alicdn.com/t/font_2265958_fmzi9zmzps.ttf") format("truetype");
+  src: url("//at.alicdn.com/t/font_2265958_23uqqzzytwy.ttf") format("truetype");
 }
 
 .my-icon {
@@ -62,6 +62,9 @@
 }
 .my-icon-search::before {
   content: "\e604";
+}
+.my-icon-next::before {
+  content: "\e691";
 }
 
 /* .my-icon-fans::before {

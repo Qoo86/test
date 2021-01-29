@@ -1,7 +1,12 @@
 <template>
   <div id="albumDetail">
     <!-- 头部导航栏 -->
-    <van-nav-bar :border="false" fixed class="navbar" @click-left="routerBack">
+    <van-nav-bar
+      :border="false"
+      fixed
+      class="navbar"
+      @click-left="$router.go(-1)"
+    >
       <template #left>
         <van-icon name="arrow-left" size="1.4em" />
         <span class="title">专辑</span>
@@ -56,7 +61,7 @@
           <div class="num" v-if="subCount == 0">收藏</div>
           <div class="num" v-else>{{ subCount | formatNumber }}</div>
         </div>
-        <div class="item_div comment" @click="toCommentDetail">
+        <div class="item_div comment" @click="$store.commit('showPopup')">
           <div class="my-icon">&#xe606;</div>
           <div class="num" v-if="commentCount == 0">评论</div>
           <div class="num" v-else>{{ commentCount | formatNumber }}</div>
@@ -197,14 +202,6 @@ export default {
     init(id) {
       this.getAlbum(id);
       this.getAlbumDynamic(id);
-    },
-    //  返回
-    routerBack() {
-      this.$router.go(-1);
-    },
-    // 评论详情
-    toCommentDetail() {
-      this.$store.commit("showPopup");
     },
     // 获取专辑内容
     async getAlbum(id) {

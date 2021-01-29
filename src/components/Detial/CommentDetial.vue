@@ -24,8 +24,11 @@
           </div>
           <div class="pl_creator van-ellipsis" v-if="toCommentinfos.artists">
             by
-            <span v-for="ar in toCommentinfos.artists" :key="ar.id"
-              >{{ ar.name }}
+            <span v-for="(ar, index) in toCommentinfos.artists" :key="ar.id">
+              <span v-if="index === toCommentinfos.artists.length - 1">
+                {{ ar.name }}
+              </span>
+              <span v-else> {{ ar.name }} / </span>
             </span>
           </div>
           <div class="pl_creator" v-else>by {{ toCommentinfos.username }}</div>
