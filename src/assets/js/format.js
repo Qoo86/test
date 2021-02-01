@@ -53,14 +53,14 @@ const formatDate = function(value, type) {
   }
 };
 
-const formatCurrentTime = function(value) {
-  if (!value) return "00:00";
-  let interval = Math.floor(value);
-  let minute = Math.floor(interval / 60)
-    .toString()
-    .padStart(2, "0");
-  let second = (interval % 60).toString().padStart(2, "0");
-  return `${minute}:${second}`;
+const formatCurrentTime = function(t) {
+  if (!t) return "00:00";
+  let interval = Math.floor(t);
+  let minute = Math.floor(interval / 60);
+  let second = interval % 60;
+  let m = minute < 10 ? "0" + minute : minute;
+  let s = second < 10 ? "0" + second : second;
+  return `${m}:${s}`;
 };
 
 export default { formatNumber, formatDuration, formatDate, formatCurrentTime };

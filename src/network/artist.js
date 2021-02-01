@@ -61,9 +61,6 @@ export function _getMv(id, offset) {
 export function _getEvent(uid, lasttime) {
   return request({
     url: "/user/event",
-    params: {
-      uid,
-      lasttime,
-    },
+    params: { uid, lasttime },
   }).catch((err) => err.reponse);
 }

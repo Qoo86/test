@@ -11,10 +11,7 @@ export function _getDefaultHotKey() {
 export function _getSuggestSearch(keywords) {
   return request({
     url: `search/suggest`,
-    params: {
-      keywords: keywords,
-      type: "mobile",
-    },
+    params: { keywords, type: "mobile" },
   }).catch((err) => err.response);
 }
 
@@ -30,10 +27,6 @@ export function _getHotDetail() {
 export function _getSearchdata(keywords, type, offset) {
   return request({
     url: `search`,
-    params: {
-      keywords,
-      type,
-      offset,
-    },
+    params: { keywords, type, offset },
   });
 }

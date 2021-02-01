@@ -3,18 +3,14 @@ import { request } from "./req.js";
 export function _getAlbum(id) {
   return request({
     url: "/album",
-    params: {
-      id,
-    },
+    params: { id },
   });
 }
 
 export function _getAlbumDetailDynamic(id) {
   return request({
     url: "/album/detail/dynamic",
-    params: {
-      id,
-    },
+    params: { id },
   });
 }
 

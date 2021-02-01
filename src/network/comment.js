@@ -1,23 +1,4 @@
 import { request } from "./req";
-// 获取热门评论
-// export function _getCommentHot(id, type) {
-//   return request({
-//     url: "/comment/hot",
-//     params: {
-//       id: id,
-//       type: type,
-//     },
-//   }).catch((err) => err.response);
-// }
-// 获取歌单评论
-// export function _getCommentForPlaylist(id) {
-//   return request({
-//     url: "/comment/playlist",
-//     params: {
-//       id: id,
-//     },
-//   }).catch((err) => err.response);
-// }
 
 // 说明 : 调用此接口 , 传入资源类型和资源id,以及排序方式,可获取对应资源的评论
 // 可选参数 :
@@ -28,13 +9,7 @@ import { request } from "./req";
 export function _getCommentNew(id, type, pageNo, sortType, cursor) {
   return request({
     url: "/comment/new",
-    params: {
-      id,
-      type,
-      pageNo,
-      sortType,
-      cursor,
-    },
+    params: { id, type, pageNo, sortType, cursor },
   }).catch((err) => err.response);
 }
 
@@ -42,12 +17,7 @@ export function _getCommentNew(id, type, pageNo, sortType, cursor) {
 export function _likeComment(id, cid, t) {
   return request({
     url: "/comment/like",
-    params: {
-      id,
-      cid,
-      t,
-      type: 2,
-    },
+    params: { id, cid, t, type: 2 },
   }).catch((err) => err.response);
 }
 
@@ -55,11 +25,6 @@ export function _likeComment(id, cid, t) {
 export function _getparentComment(parentCommentId, id, type, time) {
   return request({
     url: "/comment/floor",
-    params: {
-      parentCommentId,
-      id,
-      type,
-      time,
-    },
+    params: { parentCommentId, id, type, time },
   }).catch((err) => err.response);
 }

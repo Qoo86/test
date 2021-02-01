@@ -141,8 +141,6 @@ export default {
       sheetShow: false,
       // 总评论数
       totalItems: 0,
-      // 总评论数
-      totalItems: 0,
       // 评论列表
       commentslist: [],
       // 控制评论列表的加载

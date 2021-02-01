@@ -8,12 +8,10 @@ export function _getSwipe() {
 }
 
 // 获取推荐歌单列表数据
-export function _getRecomPlayList(num) {
+export function _getRecomPlayList(limit) {
   return request({
     url: `personalized`,
-    params: {
-      limit: num,
-    },
+    params: { limit },
   }).catch((err) => err.response);
 }
 
@@ -21,9 +19,7 @@ export function _getRecomPlayList(num) {
 export function _getSingerRanking(type) {
   return request({
     url: `/toplist/artist`,
-    params: {
-      type: type,
-    },
+    params: { type },
   }).catch((err) => err.response);
 }
 

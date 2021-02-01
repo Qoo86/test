@@ -18,19 +18,15 @@ export function _getPlayListDetialBySongsId(ids) {
   return request({
     method: "post",
     url: `/song/detail`,
-    params: {
-      ids: ids,
-    },
+    params: { ids },
   }).catch((err) => err.response);
 }
 
 // 根据id获取歌词
-export function _getSongWordById(id) {
+export function _getLyric(id) {
   return request({
     url: "/lyric",
-    params: {
-      id: id,
-    },
+    params: { id },
   }).catch((err) => err.response);
 }
 

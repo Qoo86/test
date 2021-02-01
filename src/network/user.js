@@ -4,10 +4,7 @@ import { request } from "./req.js";
 export function _login(phone, password) {
   return request({
     url: "/login/cellphone",
-    params: {
-      phone: phone,
-      password: password,
-    },
+    params: { phone, password },
   }).catch((err) => err.response);
 }
 // 获取登录状态
@@ -51,12 +48,10 @@ export function _getPrivateMsg() {
 }
 
 // 根据私信id获取聊天记录
-export function _getPrivateMsgHistory(id) {
+export function _getPrivateMsgHistory(uid) {
   return request({
     url: `/msg/private/history`,
-    params: {
-      uid: id,
-    },
+    params: { uid },
   }).catch((err) => err.response);
 }
 

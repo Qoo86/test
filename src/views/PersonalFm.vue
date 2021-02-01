@@ -1,5 +1,5 @@
 <template>
-  <div id="fm">
+  <div id="personalFm">
     <!-- 头部导航栏 -->
     <van-nav-bar :border="false" class="navbar" @click-left="$router.go(-1)">
       <template #left>
@@ -9,101 +9,146 @@
         <span class="title">私人FM</span>
       </template>
     </van-nav-bar>
-    <div class="fm_body">
-      <div class="volumeBox">
+    <!-- FM区域 -->
+    <div class="fmBody">
+      <!-- 音量条 -->
+      <div class="volumeSlider">
         <van-icon name="volume-o" class="icon" />
         <van-slider v-model="volume" @input="onVolumeInput" />
       </div>
+      <!-- 歌曲信息展示区 -->
       <div class="songInfo">
-        <div class="blurPic">
-          <van-image
-            class="pic"
-            v-if="activeSongObj.album"
-            :src="activeSongObj.album.picUrl"
-            fit="cover"
-          />
-        </div>
-        <div class="songName van-ellipsis">{{ activeSongObj.name }}</div>
-        <div class="by van-ellipsis">
-          <span v-for="(ar, index) in activeSongObj.artists" :key="index">
-            <span v-if="index === activeSongObj.artists.length - 1">
-              {{ ar.name }}
+        <!-- 歌曲主要信息区域 -->
+        <div
+          class="songMain"
+          :style="{ opacity: smOpacity, zIndex: smzIndex }"
+          @click="swich"
+        >
+          <div class="blurPic">
+            <van-image
+              class="pic"
+              v-if="curSongObj.album"
+              :src="curSongObj.album.picUrl"
+              fit="cover"
+            />
+          </div>
+          <div class="songName van-ellipsis">{{ curSongObj.name }}</div>
+          <div class="by van-ellipsis">
+            <span v-for="(ar, index) in curSongObj.artists" :key="index">
+              <span v-if="index === curSongObj.artists.length - 1">
+                {{ ar.name }}
+              </span>
+              <span v-else> {{ ar.name }} / </span>
             </span>
-            <span v-else> {{ ar.name }} / </span>
-          </span>
+          </div>
+        </div>
+        <!-- 歌词区域 -->
+        <div
+          class="songLyric"
+          :style="{ opacity: slOpacity, zIndex: slzIndex }"
+          @click="swich"
+        >
+          <div class="lyricMain" v-if="isLyric">
+            <ul class="lyric" ref="ul">
+              <li v-for="(ly, index) in lyrics" :key="index">
+                <div
+                  :class="{
+                    active:
+                      currentTime >= lyrics[index].timer &&
+                      currentTime <
+                        (lyrics[index + 1]
+                          ? lyrics[index + 1].timer
+                          : lyrics[index].timer)
+                        ? true
+                        : false,
+                  }"
+                >
+                  <p>
+                    {{ ly.lyric }}
+                  </p>
+                  <p v-for="(tly, index) in tLyrics" :key="index" class="tly">
+                    <span v-if="tly.timer === ly.timer">{{ tly.lyric }}</span>
+                  </p>
+                </div>
+              </li>
+              <p class="byuser" v-if="lyricUser">
+                歌词贡献者：{{ lyricUser.nickname }}
+              </p>
+            </ul>
+          </div>
+          <div class="errDescribe" v-else>{{ errDescribe }}</div>
         </div>
       </div>
-      <div class="menu">
-        <!-- HTML自带组件 -->
-        <audio ref="audio" :src="activeUrlObj.url" autoplay />
-        <div class="slider">
-          <div class="now">{{ currentTime | formatCurrentTime }}</div>
-          <van-slider class="vanSlider" v-model="percentage" @input="onInput" />
+      <!-- 底部功能区域 -->
+      <div class="functionalArea">
+        <!-- h5原生播放器 -->
+        <audio ref="audio" autoplay :src="curSongUrl" />
+        <!-- 音乐进度条 -->
+        <div class="musicSlider">
+          <div class="current">{{ currentTime | formatCurrentTime }}</div>
+          <van-slider v-model="percentage" @input="onCurrentTimeInput" />
           <div class="duration">
-            {{ activeSongObj.duration | formatDuration }}
+            {{ curSongObj.duration | formatDuration }}
           </div>
         </div>
-        <div class="btn">
-          <div class="close" @click="trash(activeSongObj.id)">
+        <!-- 功能按钮 -->
+        <div class="BTN">
+          <div class="close" @click="_trash">
             <van-icon name="close" />
           </div>
-          <div class="likeIcon">
-            <van-icon name="like-o" />
+          <div class="likeIcon" @click="_like">
+            <van-icon name="like" color="#ec4141" v-if="isLike" />
+            <van-icon name="like-o" v-else />
           </div>
-          <div class="playIcon" v-if="isPause" @click="fmPlay">
+          <div class="playIcon" @click="_play" v-if="isPause">
             <van-icon name="play-circle-o" />
           </div>
-          <div class="pauseIcon" v-else @click="fmPause">
+          <div class="pauseIcon" @click="_pause" v-else>
             <van-icon name="pause-circle-o" />
           </div>
-          <div class="my-icon nextIcon" @click="fmNext">
+          <div class="my-icon nextIcon" @click="_next">
             <van-icon class-prefix="my-icon" name="next" />
           </div>
-          <div class="comIcon" @click="toCommentComp">
+          <div class="comIcon" @click="showCommentComp">
             <van-icon name="comment-o" />
           </div>
         </div>
       </div>
     </div>
-    <!-- 加载组件 -->
-    <loading />
-    <!-- 评论组件 -->
+    <!-- 评论区组件 -->
     <van-popup
       v-model="$store.state.isPopup"
       class="commentComp"
       position="bottom"
     >
       <comment-detial
-        :parentId="activeSongObj.id"
+        :parentId="curSongObj.id"
         :toCommentinfos="toCommentInfos"
         :type="0"
-        :key="activeSongObj.id"
+        :key="curSongObj.id"
       />
     </van-popup>
+    <!-- 加载组件 -->
+    <loading />
   </div>
 </template>
 
 <script>
 import CommentDetial from "../components/Detial/CommentDetial.vue";
 import { _getPersonalFm } from "../network/Fm";
-import {
-  _getSongUrlsById,
-  _like,
-  _getPlayListDetialBySongsId,
-  _trash,
-} from "../network/music";
+import { _getLyric, _getSongUrlsById, _like, _trash } from "../network/music";
 export default {
   data() {
     return {
       // 本次请求FM接口得到的数据
-      fm: [],
+      FM: [],
       // 当前正在播放的歌曲索引
-      activeNum: 0,
+      curIndex: 0,
       // 当前正在播放的歌曲对象
-      activeSongObj: {},
-      // 当前正在播放的歌曲url对象
-      activeUrlObj: {},
-      // 当前已播放的时长
+      curSongObj: {},
+      // 当前正在播放的歌曲的URL
+      curSongUrl: "",
+      // 当前已播放时长
       currentTime: 0,
       // 当前播放的时间占总时长的百分比
       percentage: 0,
@@ -111,6 +156,24 @@ export default {
       volume: 0,
       // 是否正在暂停
       isPause: true,
+      // 是否喜欢
+      isLike: false,
+      // 是否有歌词
+      isLyric: false,
+      // 获取不到歌词时的描述信息
+      errDescribe: "",
+      // 原版歌词
+      lyrics: [],
+      // 歌词贡献者
+      lyricUser: {},
+      // 翻译版歌词
+      tLyrics: [],
+      // 歌曲信息样式
+      smOpacity: 1,
+      smzIndex: 10,
+      // 歌词样式
+      slOpacity: 0,
+      slzIndex: 9,
       // 发送给评论组件的部分信息
       toCommentInfos: {},
     };
@@ -119,94 +182,154 @@ export default {
     CommentDetial,
   },
   methods: {
-    // 获取私人FM数据
-    async getFm() {
-      this.$store.commit("showLoading");
-
-      let { data: res } = await _getPersonalFm();
-      if (res.code === 200) this.fm = res.data;
-      // 获取到数据后将此次请求到的数据中的第一项赋值给activeSongObj
-      this.activeSongObj = this.fm[this.activeNum];
-      console.log(this.activeSongObj);
-      // 然后获取歌曲的url
-      this.getSongUrl(this.activeSongObj.id);
-
-      this.$store.commit("hiddenLoading");
-    },
-    // 根据歌曲id获取歌曲url
-    async getSongUrl(id) {
-      let { data: res } = await _getSongUrlsById(id);
-      if (res.code === 200) this.activeUrlObj = res.data[0];
-    },
-    // 暂停
-    fmPause() {
-      this.isPause = false;
-      this.$refs.audio.pause();
-    },
-    // 播放
-    fmPlay() {
-      this.isPause = true;
-      this.$refs.audio.play();
-    },
-    // 下一首
-    fmNext() {
-      // 点击下一首时，索引++
-      this.activeNum++;
-      if (this.fm[this.activeNum]) {
-        // 如果索引++后还能取到值，就将下一项赋值给activeSongObj，然后再次获取歌曲url
-        this.activeSongObj = this.fm[this.activeNum];
-        this.getSongUrl(this.activeSongObj.id);
-      } else {
-        // 如果获取不到值，说明已经是此次请求的最后一首 重置索引 获取新一轮的数据
-        this.activeNum = 0;
-        this.getFm();
+    // 请求FM接口
+    async getFmData() {
+      let { data: fm } = await _getPersonalFm();
+      if (fm.code === 200) {
+        this.FM = fm.data;
+        this.curSongObj = this.FM[0];
+        this.getSongUrl(this.curSongObj.id);
+        this.getSongLyric(this.curSongObj.id);
       }
     },
-    // 垃圾桶
-    async trash(id) {
-      let { data } = await _trash(id);
+    // 获取歌曲Url
+    async getSongUrl(id) {
+      let { data: res } = await _getSongUrlsById(id);
+      if (res.code === 200) this.curSongUrl = res.data[0].url;
+    },
+    // 获取歌词
+    async getSongLyric(id) {
+      let {
+        data: { code, lrc, lyricUser, tlyric },
+      } = await _getLyric(id);
+      if (code === 200) {
+        if (lrc) {
+          this.isLyric = true;
+          this.lyricUser = lyricUser;
+          let { lyricsArr } = this.formatLyrics(lrc.lyric);
+          this.lyrics = lyricsArr;
+          let { lyricsArr: tlyricsArr } = this.formatLyrics(tlyric.lyric);
+          this.tLyrics = tlyricsArr;
+        } else {
+          this.isLyric = false;
+          this.errDescribe = "纯音乐，请欣赏";
+        }
+      } else {
+        this.isLyric = false;
+        this.errDescribe = "获取歌词失败";
+      }
+    },
+    // 移除至垃圾桶
+    async _trash() {
+      let { data } = await _trash(this.curSongObj.id);
       if (data.code === 200) {
         this.$msg.success("移除至垃圾桶成功，我们会努力向您推荐您更喜欢的内容");
-        this.fmNext();
+        this._next();
       } else {
         this.$msg.fail(data.msg);
       }
     },
-    // 喜欢
-    async like(id, like) {
-      let { data } = await _like(id, like);
-      console.log(data);
+    // 喜欢/取消喜欢
+    async _like() {
+      this.isLike = !this.isLike;
+      let { data } = await _like(this.curSongObj.id, this.isLike);
+      if (data.code === 200) {
+        if (this.isLike) this.$msg.success("添加到喜欢列表成功");
+        else this.$msg.success("移除成功");
+      } else {
+        this.isLike = false;
+        this.$msg.fail(data.msg);
+      }
     },
-    /*  
-      手动调整滑块位置时把currentTime定位到该位置
-      input 	进度变化时实时触发
-      change 	进度变化且结束拖动后触发
-      Q：为什么使用input 而不使用 change
-      A：使用change有以下问题
-        1.当拖动进度条时，不会触发change时间，
-          由于percentage的值是通过监听currentTime计算而出的，所以会造成滑块来回闪动的情况
-        2.无法在不松开进度条的情况下 听到自己在什么位置
-      所以选择使用input
-    */
-    onInput(v) {
+    // 播放
+    _play() {
+      this.isPause = false;
+      this.$refs.audio.play();
+    },
+    // 暂停
+    _pause() {
+      this.isPause = true;
+      this.$refs.audio.pause();
+    },
+    // 下一首
+    _next() {
+      this.curIndex++;
+      if (this.FM[this.curIndex]) {
+        this.curSongObj = this.FM[this.curIndex];
+        this.getSongUrl(this.curSongObj.id);
+        this.getSongLyric(this.curSongObj.id);
+      } else {
+        this.curIndex = 0;
+        this.getFmData();
+      }
+    },
+    // 调整歌曲进度
+    onCurrentTimeInput(v) {
       this.$refs.audio.currentTime = (v / 100) * this.$refs.audio.duration;
     },
-    // 音量控制
+    // 调整音量
     onVolumeInput(v) {
       this.$refs.audio.volume = v / 100;
     },
-    // 展示评论详情组件
-    toCommentComp() {
+    // 处理歌词
+    formatLyrics(str) {
+      let strSource = str.split(/(\[.*\])/).slice(1);
+      let lyricsArr = [];
+      for (let i = 0; i < strSource.length; i = i + 2) {
+        if (strSource[i] == "" || strSource[i + 1] == "") continue;
+        let t = strSource[i].substring(
+          strSource[i].indexOf("[") + 1,
+          strSource[i].indexOf("]")
+        );
+        lyricsArr.push({
+          timer: (t.split(":")[0] * 60 + parseFloat(t.split(":")[1])).toFixed(
+            3
+          ),
+          lyric: strSource[i + 1],
+        });
+      }
+      return { lyricsArr };
+    },
+    // 歌词与歌曲信息的切换
+    swich() {
+      if (this.smOpacity) {
+        this.smOpacity = 0;
+        this.smzIndex = 9;
+        this.slOpacity = 1;
+        this.slzIndex = 10;
+      } else {
+        this.smOpacity = 1;
+        this.smzIndex = 10;
+        this.slOpacity = 0;
+        this.slzIndex = 9;
+      }
+    },
+    // 歌词滚动
+    lyricScroll() {
+      let dom = document.getElementsByClassName("active")[0];
+      let ul = this.$refs.ul;
+      if (dom) {
+        if (ul.clientHeight * 0.5 > dom.offsetTop) {
+          ul.scrollTop = 0;
+        } else if (dom.offsetTop > ul.scrollHeight - ul.clientHeight * 0.5) {
+          ul.scrollTop = ul.scrollHeight - ul.clientHeight;
+        } else {
+          ul.scrollTop = dom.offsetTop - ul.clientHeight * 0.5 + 22.8;
+        }
+      }
+    },
+    // 展示评论组件
+    showCommentComp() {
       this.toCommentInfos = {
-        name: this.activeSongObj.name,
-        coverImgUrl: this.activeSongObj.album.picUrl,
-        artists: this.activeSongObj.artists,
+        name: this.curSongObj.name,
+        coverImgUrl: this.curSongObj.album.picUrl,
+        artists: this.curSongObj.artists,
       };
       this.$store.commit("showPopup");
     },
   },
   mounted() {
-    this.getFm();
+    this.getFmData();
     // 当媒体的第一帧数据获取到时，获取音量
     this.$refs.audio.onloadeddata = (event) => {
       this.volume = event.target.volume * 100;
@@ -217,21 +340,22 @@ export default {
       this.isPause = e_t.paused;
       this.currentTime = e_t.currentTime;
       this.percentage = (e_t.currentTime / e_t.duration) * 100;
+      this.lyricScroll();
     };
     // 当播放到媒体的结束位置时 切换下一首
-    this.$refs.audio.onended = () => this.fmNext();
+    this.$refs.audio.onended = () => this._next();
   },
 };
 </script>
 
 <style lang="less" scoped>
-#fm {
+#personalFm {
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(
-    circle 919px at 1.7% 6.1%,
-    rgba(41, 58, 76, 1) 0%,
-    rgba(40, 171, 226, 1) 100.2%
+  background-image: linear-gradient(
+    180deg,
+    rgba(21, 13, 107, 1) 1.1%,
+    rgba(188, 16, 80, 1) 130.5%
   );
   .navbar {
     background-color: transparent;
@@ -241,10 +365,9 @@ export default {
       font-size: 16px;
     }
   }
-  .fm_body {
+  .fmBody {
     height: 605px;
-    position: relative;
-    .volumeBox {
+    .volumeSlider {
       height: 16px;
       display: flex;
       width: 320px;
@@ -257,79 +380,128 @@ export default {
       }
     }
     .songInfo {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 10px 0;
-      .blurPic {
-        width: 260px;
-        height: 260px;
-        border-radius: 10px;
-        overflow: hidden;
-        margin-top: 60px;
-        .pic {
-          width: inherit;
-          height: inherit;
+      height: 410px;
+      position: relative;
+      margin: 20px 0;
+      .songMain {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.5s ease-in;
+        .blurPic {
+          width: 260px;
+          height: 260px;
+          border-radius: 10px;
+          overflow: hidden;
+          .pic {
+            width: inherit;
+            height: inherit;
+          }
+        }
+        .songName {
+          text-align: center;
+          width: 300px;
+          margin-top: 10px;
+          font-size: 16px;
+          height: 36px;
+          line-height: 40px;
+          color: #fff;
+        }
+        .by {
+          text-align: center;
+          width: 300px;
+          margin-top: -4px;
+          height: 20px;
+          line-height: 20px;
+          font-size: 12px;
+          color: #dcdcdc;
         }
       }
-      .songName {
-        text-align: center;
-        width: 300px;
-        margin-top: 10px;
-        font-size: 16px;
-        height: 36px;
-        line-height: 40px;
-        color: #fff;
-      }
-      .by {
-        text-align: center;
-        width: 300px;
-        margin-top: -4px;
-        height: 20px;
-        line-height: 20px;
-        font-size: 12px;
-        color: #dcdcdc;
+      .songLyric {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 410px;
+        width: 100%;
+        transition: opacity 0.5s ease-in;
+        .lyricMain {
+          height: inherit;
+          width: inherit;
+          padding: 20px;
+          box-sizing: border-box;
+          .lyric {
+            height: inherit;
+            width: inherit;
+            overflow: scroll;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+            > li {
+              margin: 30px 0;
+              font-size: 13px;
+              .tly {
+                font-size: 11px;
+                margin-top: 4px;
+              }
+              .active {
+                color: #fff;
+              }
+            }
+          }
+          .byuser {
+            letter-spacing: 1px;
+            font-size: 12px;
+            margin: 50px 0 2px;
+          }
+        }
+        .errDescribe {
+          margin-top: 50%;
+          margin-left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          font-size: 14px;
+          color: rgba(255, 255, 255, 0.7);
+          letter-spacing: 2px;
+        }
       }
     }
-    .menu {
-      margin-top: 40px;
-      .slider {
+    .functionalArea {
+      .musicSlider {
         height: 60px;
         display: grid;
         grid-template-columns: 13% 74% 13%;
         align-items: center;
-        .now,
+        .current,
         .duration {
           color: #e1e1e1;
           text-align: center;
           font-size: 10px;
         }
       }
-    }
-    .btn {
-      height: 70px;
-      padding: 0 30px;
-      display: grid;
-      align-items: center;
-      color: #f0f0f0;
-      grid-template-columns: 18% 18% 28% 18% 18%;
-      > div {
-        height: 100%;
-        text-align: center;
-        line-height: 70px;
-      }
-      .close,
-      .likeIcon,
-      .comIcon {
-        font-size: 24px;
-      }
-      .nextIcon {
-        font-size: 18px;
-      }
-      .playIcon,
-      .pauseIcon {
-        font-size: 48px;
+      .BTN {
+        height: 70px;
+        padding: 0 30px;
+        display: grid;
+        align-items: center;
+        color: #f0f0f0;
+        grid-template-columns: 18% 18% 28% 18% 18%;
+        > div {
+          height: 100%;
+          text-align: center;
+          line-height: 70px;
+          font-size: 24px;
+        }
+        .playIcon,
+        .pauseIcon {
+          font-size: 48px;
+        }
       }
     }
   }
