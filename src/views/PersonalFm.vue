@@ -58,7 +58,7 @@
                       currentTime <
                         (lyrics[index + 1]
                           ? lyrics[index + 1].timer
-                          : lyrics[index].timer)
+                          : $refs.audio.duration)
                         ? true
                         : false,
                   }"
@@ -314,7 +314,7 @@ export default {
         } else if (dom.offsetTop > ul.scrollHeight - ul.clientHeight * 0.5) {
           ul.scrollTop = ul.scrollHeight - ul.clientHeight;
         } else {
-          ul.scrollTop = dom.offsetTop - ul.clientHeight * 0.5 + 22.8;
+          ul.scrollTop = dom.offsetTop - ul.clientHeight * 0.5 + 24;
         }
       }
     },
@@ -330,8 +330,8 @@ export default {
   },
   mounted() {
     this.getFmData();
-    // 当媒体的第一帧数据获取到时，获取音量
     this.$refs.audio.onloadeddata = (event) => {
+      // 当媒体的第一帧数据获取到时，获取音量
       this.volume = event.target.volume * 100;
     };
     // 当audio中的currentTime发生变化时调用
