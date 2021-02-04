@@ -50,6 +50,8 @@ const formatDate = function(value, type) {
     return `${y}年${MM}月${d}日`;
   } else if (type === 5) {
     return y;
+  } else if (type === 6) {
+    return `${y}-${MM}-${d} ${MM}月${d}日 ${h}:${m}`;
   }
 };
 

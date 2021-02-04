@@ -9,7 +9,6 @@
           size="0.5rem"
           color="#fff"
           @click="showPopup"
-          badge="坑"
         ></van-icon>
       </template>
       <template v-slot:title> Yukari Music </template>

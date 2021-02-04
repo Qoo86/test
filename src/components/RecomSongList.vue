@@ -112,8 +112,8 @@ export default {
         position: absolute;
         color: #fff;
         font-size: 10px;
-        top: 0;
-        right: 0;
+        top: 4px;
+        right: 4px;
         height: 14px;
         line-height: 14px;
         background-color: rgba(0, 0, 0, 0.5);

@@ -1,95 +1,99 @@
 <template>
   <div id="mymessage">
-    <header-bar>
-      <template v-slot:left>
-        <van-icon
-          name="arrow-left"
-          color="#fff"
-          @click="onRouterBack"
-        ></van-icon>
+    <!-- 头部导航栏 -->
+    <van-nav-bar
+      :border="false"
+      fixed
+      @click-left="$router.go(-1)"
+      class="navbar"
+    >
+      <template #left>
+        <div class="title">
+          <van-icon name="arrow-left" class="icon" />
+          <div class="txt">消息</div>
+        </div>
       </template>
-      <template v-slot:title> 我 的 消 息 </template>
-    </header-bar>
-    <van-notice-bar
-      left-icon="volume-o"
-      text="由于本项目的后台接口为互联网dalao资源，
-      并且该接口文档中没有对私信的操作：如“全部已读、清空聊天记录”等内容的相关信息，
-      因此并没有实现这些功能。只有最基础的列表查看QAQ"
-    />
-    <div class="headerGrid">
-      <div class="fans">
-        <div class="my-icon icon_g" style="background-color: #ff4500">
-          &#xe605;
-        </div>
-        <div class="text">粉丝</div>
-      </div>
-      <div class="pinglun">
-        <div class="my-icon icon_g" style="background-color: #00bfff">
-          &#xe606;
-        </div>
-        <div class="text">评论</div>
-      </div>
-      <div class="aite">
-        <div class="my-icon icon_g" style="background-color: #ff8c00">
-          &#xe648;
-        </div>
-        <div class="text">@我</div>
-      </div>
-      <div class="tongzhi">
-        <div class="my-icon icon_g" style="background-color: #ffd700">
-          &#xe615;
-        </div>
-        <div class="text">通知</div>
-      </div>
-    </div>
-    <div class="title">官方消息</div>
-    <div class="GfMsg">
-      <div class="lickPicIcon my-icon">&#xe702;</div>
-      <div class="text">新歌发布</div>
-      <div class="icon"><van-icon name="arrow" size=".4rem" /></div>
-    </div>
-    <div class="title">私信对话</div>
-    <div class="shixingBox">
-      <div
-        class="sx_item"
-        v-for="(item, index) in fromUserPrivateMsg"
-        :key="index"
-        @click="getDetailMsg(item.fromUser.userId, item.fromUser.nickname)"
-      >
-        <div class="sx_pic">
-          <div class="avater">
-            <img :src="item.fromUser.avatarUrl" />
+      <template #right>
+        <van-icon name="search" class="icon" />
+      </template>
+    </van-nav-bar>
+    <!-- 主体内容 -->
+    <div class="msgBody">
+      <van-notice-bar
+        left-icon="volume-o"
+        text="由于接口为互联网dalao资源，API不完善，所以本功能模块只有基础的数据查看功能"
+      />
+      <!-- 头部功能栏 -->
+      <div class="headGrid">
+        <div class="gridItem">
+          <div class="icon" style="background-color: #fc2e55">
+            <van-icon class-prefix="my-icon" name="fans" />
           </div>
-          <!-- 避免官方号和个人号、用户号数据结构不同报错 -->
-          <div class="rzicon" v-if="item.fromUser.avatarDetail">
-            <img :src="item.fromUser.avatarDetail.identityIconUrl" />
-          </div>
+          <div class="txt">粉丝</div>
         </div>
-        <div class="sx_content">
-          <div class="sx_nameAndTime">
-            <div class="name">
-              {{ item.fromUser.nickname }}
-            </div>
-            <div class="time">{{ item.lastMsgTime | formatDate(1) }}</div>
+        <div class="gridItem">
+          <div class="icon" style="background-color: #5bb2e8">
+            <van-icon class-prefix="my-icon" name="pinlun" />
           </div>
-          <div class="sx_text">
-            <div class="sx_text_content van-ellipsis">
-              <!-- 避免官方号和个人号、用户号数据结构不同报错 -->
-              <span v-if="JSON.parse(item.lastMsg).promotionUrl">
-                {{ JSON.parse(item.lastMsg).promotionUrl.text }} :
-              </span>
-              <!-- 避免官方号和个人号、用户号数据结构不同报错 -->
-              <span v-if="JSON.parse(item.lastMsg).album">
-                {{ JSON.parse(item.lastMsg).album.type }} :
+          <div class="txt">评论</div>
+        </div>
+        <div class="gridItem">
+          <div class="icon" style="background-color: #fb6852">
+            <van-icon class-prefix="my-icon" name="aite" />
+          </div>
+          <div class="txt">@我</div>
+        </div>
+        <div class="gridItem">
+          <div class="icon" style="background-color: #fdba27">
+            <van-icon class-prefix="my-icon" name="tonzhi" />
+          </div>
+          <div class="txt">通知</div>
+        </div>
+      </div>
+      <div class="title">官方消息</div>
+      <div class="gmMsg">
+        <div class="avatar">
+          <van-icon class-prefix="my-icon" name="newsend" />
+        </div>
+        <div class="content">
+          <div class="name">新歌发布</div>
+          <div class="msg" v-if="false">J.Flas发布了新歌</div>
+        </div>
+        <van-icon name="arrow" class="toIcon" />
+      </div>
+      <div class="title">私信对话</div>
+      <div class="privateMsg">
+        <div class="pmItem" v-for="(msg, index) in privateMsgs" :key="index">
+          <van-image
+            class="pic"
+            fit="cover"
+            :src="msg.fromUser.avatarUrl"
+            @click="toUserInfoDetailPage(msg.fromUser.userId)"
+          />
+          <van-image
+            v-if="msg.fromUser.avatarDetail"
+            class="identity"
+            :src="msg.fromUser.avatarDetail.identityIconUrl"
+          />
+          <div
+            class="content"
+            @click="
+              toPrivateMsgDetail(msg.fromUser.userId, msg.fromUser.nickname)
+            "
+          >
+            <div class="name van-ellipsis">{{ msg.fromUser.nickname }}</div>
+            <div class="msg van-ellipsis">
+              <span v-if="JSON.parse(msg.lastMsg).title">
+                {{ JSON.parse(msg.lastMsg).title }}：
               </span>
               <span>
-                {{ JSON.parse(item.lastMsg).msg }}
+                {{ JSON.parse(msg.lastMsg).msg }}
               </span>
             </div>
-            <!-- 避免官方号和个人号、用户号数据结构不同报错 -->
-            <div v-if="item.newMsgCount" class="sx_text_newMsgNum">
-              {{ item.newMsgCount }}
-            </div>
+          </div>
+          <div class="info">
+            <p class="time">{{ msg.lastMsgTime | formatDate(1) }}</p>
+            <p class="count" v-if="msg.newMsgCount">{{ msg.newMsgCount }}</p>
           </div>
         </div>
       </div>
@@ -98,32 +102,24 @@
 </template>
 
 <script>
-import HeaderBar from "../components/HeaderBar.vue";
 import { _getPrivateMsg } from "../network/user";
 export default {
   data() {
     return {
-      fromUserPrivateMsg: [],
+      // 私信列表
+      privateMsgs: [],
     };
   },
-  components: {
-    HeaderBar,
-  },
   methods: {
-    onRouterBack() {
-      this.$router.go(-1);
-    },
-    // 传输id给信息详情路由
-    getDetailMsg(id, name) {
-      this.$router.push({
-        path: "/userMsgDetail",
-        query: { id, name },
-      });
-    },
-    // 获得私信内容列表
     async getPrivateMsg() {
       let { data } = await _getPrivateMsg();
-      if (data.code === 200) this.fromUserPrivateMsg = data.msgs;
+      if (data.code === 200) this.privateMsgs = data.msgs;
+    },
+    toUserInfoDetailPage(id) {
+      this.$router.push({ path: "/userinfo", query: { id } });
+    },
+    toPrivateMsgDetail(id, name) {
+      this.$router.push({ path: "/userMsgDetail", query: { id, name } });
     },
   },
   mounted() {
@@ -134,128 +130,150 @@ export default {
 
 <style lang="less" scoped>
 #mymessage {
-  .headerGrid {
-    height: 120px;
+  .navbar {
     background-color: #fff;
-    display: grid;
-    justify-items: center;
-    align-items: center;
-    grid-template-columns: repeat(4, 25%);
-    .icon_g {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-bottom: 16px;
-      font-size: 24px;
-      text-align: center;
-      line-height: 50px;
-      color: #fff;
-    }
-    .text {
-      text-align: center;
-      font-size: 12px;
-      color: #a0a0a0;
-    }
-  }
-  .title {
-    height: 30px;
-    font-size: 12px;
-    line-height: 30px;
-    margin-left: 10px;
-    color: #a0a0a0;
-  }
-  .GfMsg {
-    background-color: #fff;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    .lickPicIcon {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin: 0 10px;
-      font-size: 36px;
-      line-height: 50px;
-      text-align: center;
-      color: #fff;
-      background-color: red;
-    }
-    .text {
-      width: 72%;
-      font-size: 14px;
-    }
-    .icon {
-      height: 15px;
-    }
-  }
-  .shixingBox {
-    background-color: #fff;
-    .sx_item {
-      height: 75px;
+    .title {
       display: flex;
       align-items: center;
-      .sx_pic {
+      .icon {
+        font-size: 16px;
+        color: #000;
+      }
+      .txt {
+        font-size: 14px;
+        margin-left: 6px;
+      }
+    }
+    .icon {
+      color: #000;
+      font-size: 20px;
+    }
+  }
+  .msgBody {
+    padding-top: 46px;
+    .headGrid {
+      height: 120px;
+      background-color: #fff;
+      display: grid;
+      grid-template-columns: repeat(4, 25%);
+      align-items: center;
+      justify-content: center;
+      .gridItem {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .icon {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          text-align: center;
+          line-height: 60px;
+        }
+        .my-icon {
+          color: #fff;
+          font-size: 26px;
+        }
+        .txt {
+          margin-top: 10px;
+          font-size: 12px;
+        }
+      }
+    }
+    .title {
+      height: 36px;
+      font-size: 12px;
+      line-height: 36px;
+      margin-left: 14px;
+    }
+    .gmMsg {
+      height: 70px;
+      padding: 0 10px;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .avatar {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        background-color: #fa5775;
+        color: #fff;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 34px;
+      }
+      .content {
+        width: 265px;
+        letter-spacing: 1px;
+        .name {
+          font-size: 14px;
+        }
+        .msg {
+          font-size: 10px;
+          margin-top: 4px;
+          color: #939393;
+        }
+      }
+      .toIcon {
+        color: #939393;
+        font-size: 16px;
+      }
+    }
+    .privateMsg {
+      background-color: #fff;
+      .pmItem {
+        height: 70px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
         position: relative;
-        width: 68px;
-        .avater {
-          margin-left: 6px;
+        padding: 0 10px;
+        .pic {
           width: 50px;
           height: 50px;
           border-radius: 50%;
           overflow: hidden;
-          > img {
-            width: 50px;
-            height: 50px;
-          }
         }
-        .rzicon {
-          position: absolute;
+        .identity {
           width: 16px;
           height: 16px;
-          right: 16%;
-          top: 50%;
-          > img {
-            width: 16px;
-            height: 16px;
-          }
+          position: absolute;
+          left: 47px;
+          top: 44px;
         }
-      }
-      .sx_content {
-        width: 80%;
-        .sx_nameAndTime {
-          display: flex;
-          align-items: center;
-          position: relative;
+        .content {
+          width: 190px;
           .name {
             font-size: 14px;
           }
-          .time {
+          .msg {
             font-size: 10px;
-            color: #a0a0a0;
-            position: absolute;
-            right: 4%;
+            margin-top: 4px;
+            color: #939393;
           }
         }
-      }
-      .sx_text {
-        margin-top: 3px;
-        display: flex;
-        align-items: center;
-        .sx_text_content {
-          width: 88%;
-          font-size: 12px;
-          color: #a0a0a0;
-        }
-        .sx_text_newMsgNum {
-          margin-left: 4%;
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          background-color: red;
-          font-size: 10px;
-          line-height: 14px;
-          text-align: center;
-          color: #fff;
+        .info {
+          width: 90px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          .time {
+            font-size: 10px;
+            color: #939393;
+          }
+          .count {
+            font-size: 10px;
+            border-radius: 50%;
+            background-color: red;
+            color: #fff;
+            width: 10px;
+            height: 10px;
+            padding: 2px;
+            text-align: center;
+            line-height: 10px;
+            margin-top: 6px;
+          }
         }
       }
     }

@@ -88,7 +88,7 @@
           <div class="current">{{ currentTime | formatCurrentTime }}</div>
           <van-slider v-model="percentage" @input="onCurrentTimeInput" />
           <div class="duration">
-            {{ curSongObj.duration | formatDuration }}
+            {{ duration | formatCurrentTime }}
           </div>
         </div>
         <!-- 功能按钮 -->
@@ -150,6 +150,8 @@ export default {
       curSongUrl: "",
       // 当前已播放时长
       currentTime: 0,
+      // 歌曲长度
+      duration: 0,
       // 当前播放的时间占总时长的百分比
       percentage: 0,
       // 音量
@@ -333,6 +335,7 @@ export default {
     this.$refs.audio.onloadeddata = (event) => {
       // 当媒体的第一帧数据获取到时，获取音量
       this.volume = event.target.volume * 100;
+      this.duration = event.target.duration;
     };
     // 当audio中的currentTime发生变化时调用
     this.$refs.audio.ontimeupdate = (event) => {
