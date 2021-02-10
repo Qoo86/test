@@ -52,7 +52,12 @@
       </div>
     </div>
     <!-- 播放列表 -->
-    <van-popup v-model="listShow" class="listShow" position="bottom">
+    <van-popup
+      v-model="listShow"
+      class="listShow"
+      position="bottom"
+      v-if="songList[currentIndex]"
+    >
       <div class="title">
         当前播放<span class="num">（{{ songList.length }}）</span>
       </div>
@@ -112,7 +117,12 @@
       </div>
     </van-popup>
     <!-- 歌曲页 -->
-    <van-popup v-model="pageShow" class="pageShow" position="bottom">
+    <van-popup
+      v-model="pageShow"
+      class="pageShow"
+      position="bottom"
+      v-if="songList[currentIndex]"
+    >
       <!-- 头部导航栏 -->
       <van-nav-bar :border="false" class="navbar">
         <template #left>
@@ -141,26 +151,78 @@
         </template>
       </van-nav-bar>
       <div class="pageBody">
-        <div class="pageContent"></div>
+        <div class="volumeSlider">
+          <van-icon name="volume-o" class="vloumeIcon" />
+          <van-slider
+            v-model="volume"
+            class="volumeslider"
+            @input="changeMusicVolume"
+          />
+        </div>
+        <div class="pageContent">
+          <div class="coverImg">
+            <van-image
+              :src="songList[currentIndex].pic"
+              :class="[isPause ? '' : 'pagerotate', 'img']"
+            />
+          </div>
+          <div class="lyricContent"></div>
+        </div>
         <div class="pageMenu">
           <div class="btnsTop">
-            <div class="like"></div>
-            <div class="download"></div>
-            <div class="sing"></div>
-            <div class="comment"></div>
-            <div class="do"></div>
+            <van-icon name="like-o" class="like" />
+            <van-icon name="down" class="download" />
+            <van-icon class-prefix="my-icon" name="song" />
+            <van-icon name="comment-o" class="comment" />
+            <van-icon name="ellipsis" class="ellipsis" />
           </div>
           <div class="musicSlider">
-            <div class="currentTIme"></div>
-            <!-- <van-slider v-model="valu/> -->
-            <div class="duration"></div>
+            <span class="currentTIme num">
+              {{ currentTime | formatCurrentTime }}
+            </span>
+            <van-slider
+              v-model="percentage"
+              class="slider"
+              @input="changeMusicCurrentTime"
+            />
+            <span class="duration num">
+              {{ duration | formatCurrentTime }}
+            </span>
           </div>
           <div class="btnsBottom">
-            <div class="playtype"></div>
-            <div class="pre"></div>
-            <div class="play"></div>
-            <div class="next"></div>
-            <div class="list"></div>
+            <div class="playtypeBtn">
+              <van-icon
+                class-prefix="my-icon"
+                name="lbxh"
+                v-if="playType === 1"
+                @click="changeLoudType(2)"
+              />
+              <van-icon
+                class-prefix="my-icon"
+                name="sjbf"
+                v-else-if="playType === 2"
+                @click="changeLoudType(3)"
+              />
+              <van-icon
+                class-prefix="my-icon"
+                name="dqxh"
+                v-else
+                @click="changeLoudType(1)"
+              />
+            </div>
+            <div class="preBtn">
+              <van-icon class-prefix="my-icon" name="pre" @click="_pre" />
+            </div>
+            <div class="playBtn">
+              <van-icon name="play-circle-o" v-if="isPause" @click="_play" />
+              <van-icon name="pause-circle-o" v-else @click="_pause" />
+            </div>
+            <div class="nextBtn">
+              <van-icon class-prefix="my-icon" name="next" @click="_next" />
+            </div>
+            <div class="listBtn">
+              <van-icon name="qr" @click="listShow = true" />
+            </div>
           </div>
         </div>
       </div>
@@ -193,6 +255,8 @@ export default {
       playType: 1,
       // 音乐播放进度的百分比
       percentage: 0,
+      // 音量
+      volume: 0,
     };
   },
   mounted() {
@@ -202,7 +266,10 @@ export default {
   },
   watch: {
     currentIndex(i) {
-      if (i < 0) this.listShow = false;
+      if (i < 0) {
+        this.listShow = false;
+        this.pageShow = false;
+      }
     },
   },
   methods: {
@@ -271,10 +338,13 @@ export default {
     onLoadedmetadata(event) {
       this.duration = event.target.duration;
       this.isPause = event.target.paused;
+      this.volume = event.target.volume * 100;
     },
     // currentTime变化时触发
     onTimeUpdate(event) {
       this.currentTime = event.target.currentTime;
+      this.percentage =
+        (event.target.currentTime / event.target.duration) * 100;
     },
     // 歌曲播放结束触发
     onEnded() {
@@ -329,6 +399,15 @@ export default {
     // 更改播放类型
     changeLoudType(t) {
       this.playType = t;
+    },
+    // 更改音量
+    changeMusicVolume(v) {
+      this.$refs.globalAudio.volume = v / 100;
+    },
+    // 更改播放进度
+    changeMusicCurrentTime(v) {
+      this.$refs.globalAudio.currentTime =
+        (v / 100) * this.$refs.globalAudio.duration;
     },
   },
 };
@@ -500,8 +579,80 @@ export default {
     }
     .pageBody {
       height: 621px;
+      .volumeSlider {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        .vloumeIcon {
+          font-size: 16px;
+          color: #ffffff;
+        }
+        .volumeslider {
+          margin: 0 14px;
+        }
+      }
+      .pageContent {
+        height: 421px;
+        position: relative;
+        .coverImg {
+          .img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 44px solid #000;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
+      .pageMenu {
+        height: 160px;
+        .btnsTop {
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          padding: 0 34px;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 20px;
+        }
+        .musicSlider {
+          display: flex;
+          align-items: center;
+          padding: 0 20px;
+          height: 40px;
+          .slider {
+            margin: 0 16px;
+          }
+          span.num {
+            color: #fff;
+            font-size: 10px;
+          }
+        }
+        .btnsBottom {
+          padding: 0 10px;
+          height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          color: rgba(255, 255, 255, 1);
+          font-size: 20px;
+          > div {
+            height: 40px;
+            line-height: 40px;
+          }
+          .playBtn {
+            font-size: 40px;
+          }
+        }
+      }
     }
   }
+  // 旋转动画
   @keyframes rotate {
     0% {
       transform: rotate(0);
@@ -512,6 +663,17 @@ export default {
   }
   .rotate {
     animation: rotate 10s linear infinite;
+  }
+  @keyframes pageRotate {
+    0% {
+      transform: translate(-50%, -50%) rotate(0);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  .pagerotate {
+    animation: pageRotate 10s linear infinite;
   }
 }
 </style>
