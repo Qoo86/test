@@ -86,9 +86,9 @@
           <div class="playListText">
             <div class="plt_name van-ellipsis">{{ item.name }}</div>
             <div class="plt_sm van-ellipsis">
-              {{ item.trackCount }}首 | by {{ item.creator.nickname }} | 播放{{
-                item.playCount | formatNumber
-              }}次
+              {{ item.trackCount }}首
+              <span v-if="item.creator">by {{ item.creator.nickname }}</span>
+              播放{{ item.playCount | formatNumber }}次
             </div>
           </div>
         </div>

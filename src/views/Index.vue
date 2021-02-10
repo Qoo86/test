@@ -66,9 +66,7 @@ export default {
     RankingListByIndex,
     TabBar,
   },
-  mounted() {
-    // this.$refs.popup.getLoginStatus();
-  },
+  mounted() {},
 };
 </script>
 

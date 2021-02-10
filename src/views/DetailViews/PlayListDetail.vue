@@ -5,7 +5,7 @@
       :border="false"
       fixed
       class="navbareset"
-      @click-left="routerBack"
+      @click-left="$router.go(-1)"
     >
       <template #left>
         <van-icon name="arrow-left" size="1.4em" />
@@ -278,10 +278,6 @@ export default {
     PlaylistSubscribersDetailPage,
   },
   methods: {
-    // 返回上级路由
-    routerBack() {
-      this.$router.go(-1);
-    },
     // 获取歌单详情
     async getPlayListdetail(id) {
       this.$store.commit("showLoading");

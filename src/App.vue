@@ -1,11 +1,28 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view class="pb60" />
+    <play-music
+      v-if="$route.path !== '/personalfm'"
+      :class="[
+        $route.path === '/index' ||
+        $route.path === '/search/hotSearch' ||
+        $route.path === '/user'
+          ? 'b50'
+          : 'b0',
+        ,
+        'pmFixed',
+      ]"
+    />
   </div>
 </template>
 
 <script>
-export default {};
+import PlayMusic from "./components/PlayMusic/PlayMusic.vue";
+export default {
+  components: {
+    PlayMusic,
+  },
+};
 </script>
 
 <style lang="less">

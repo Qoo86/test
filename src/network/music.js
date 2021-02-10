@@ -45,3 +45,10 @@ export function _like(id, like) {
     params: { id, like },
   }).catch((err) => err.response);
 }
+
+export function _checkMusic(id) {
+  return request({
+    url: "/check/music",
+    params: { id },
+  }).catch((err) => err.response);
+}

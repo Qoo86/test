@@ -4,7 +4,7 @@
 /* 引入第三方或自定义的字体图标样式 */
 @font-face {
   font-family: "my-icon";
-  src: url("//at.alicdn.com/t/font_2265958_23uqqzzytwy.ttf") format("truetype");
+  src: url("//at.alicdn.com/t/font_2265958_k2miji66ses.ttf") format("truetype");
 }
 
 .my-icon {
@@ -85,6 +85,27 @@
 
 .my-icon-newsend::before {
   content: "\e702";
+}
+
+.my-icon-pre::before {
+  content: "\e620";
+}
+
+.my-icon-del::before {
+  content: "\e626";
+}
+
+.my-icon-lbxh::before {
+  content: "\e65f";
+}
+.my-icon-sjbf::before {
+  content: "\e627";
+}
+.my-icon-dqxh::before {
+  content: "\e628";
+}
+.my-icon-share::before {
+  content: "\e614";
 }
 /* 
 <!-- 通过 class-prefix 指定类名为 my-icon -->

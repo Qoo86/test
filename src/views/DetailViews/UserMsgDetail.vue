@@ -14,7 +14,7 @@
         </div>
       </template>
       <template #right>
-        <van-icon name="more-o" class="icon" />
+        <van-icon name="ellipsis" class="icon" />
       </template>
     </van-nav-bar>
     <!-- 私信历史列表 -->

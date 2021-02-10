@@ -9,7 +9,6 @@ export default new Vuex.Store({
     isPlayMusicPage: false,
     isPopup: false,
     isShareSheet: false,
-    // 歌单详情中的收藏者列表弹出层的显示隐藏
     isSubPopup: false,
   },
   mutations: {

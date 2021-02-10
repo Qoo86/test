@@ -195,7 +195,6 @@
     <tab-bar></tab-bar>
     <!-- 弹出层组件 -->
     <popup ref="popup"></popup>
-
     <loading />
   </div>
 </template>

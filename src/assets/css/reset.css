@@ -1,11 +1,8 @@
 * {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
-    Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
-    sans-serif;
+  font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
 }
-
 .grid_span {
   margin-top: 14px;
   font-size: 13px;
@@ -70,18 +67,33 @@
 .pink {
   color: pink;
 }
-
 .colorCCC {
   color: #ccc;
 }
-
 .c939393 {
   color: #939393;
 }
 .cddd {
   color: #ddd;
 }
-
 .z999 {
   z-index: 999;
+}
+
+.b0 {
+  bottom: 0;
+}
+.b50 {
+  bottom: 50px;
+}
+.pmFixed {
+  z-index: 99;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  transition: all 0.2s ease-in;
+}
+.pb60 {
+  padding-bottom: 60px;
 }

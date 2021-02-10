@@ -2,7 +2,9 @@
   <div id="ranking">
     <div class="headerBox">
       <div class="title">歌手榜</div>
-      <div class="more">更多</div>
+      <router-link to="/toplist" tag="div">
+        <div class="more">更多</div>
+      </router-link>
     </div>
     <van-tabs v-model="active" class="mt10">
       <van-tab title="中国" animated>

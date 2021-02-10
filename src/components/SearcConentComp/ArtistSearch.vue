@@ -15,7 +15,7 @@
         <div class="ar_avatar">
           <van-image :src="artist.img1v1Url" round fit="cover" class="pic" />
         </div>
-        <div class="ar_name">
+        <div class="ar_name van-ellipsis">
           {{ artist.name }}
           <span v-if="artist.alia" class="name">( {{ artist.alia[0] }} )</span>
           <span v-else-if="artist.trans" class="name"

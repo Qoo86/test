@@ -20,10 +20,11 @@
             {{ playlist.name }}
           </div>
           <div class="count van-ellipsis">
-            {{ playlist.trackCount }}首，by
-            {{ playlist.creator.nickname }}，播放{{
-              playlist.playCount | formatNumber
-            }}次
+            {{ playlist.trackCount }}首
+            <span v-if="playlist.creator">
+              by {{ playlist.creator.nickname }}
+            </span>
+            播放{{ playlist.playCount | formatNumber }}次
           </div>
         </div>
       </div>

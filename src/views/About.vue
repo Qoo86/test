@@ -22,7 +22,7 @@
       <p>我只实现了部份功能，作为vue框架的练手项目</p>
       <p>UI风格参照了<b>网易云音乐APP</b></p>
       <p>其他部分全部由我一个人完成</p>
-      <p>希望这个项目能帮我找到<b>工作</b></p>
+      <p>希望这个项目能帮我找到<b>工作</b>趴QAQ</p>
       <p>另外，由于API为互联网资源</p>
       <p>内部实现为直接调用网易云音乐官方API</p>
       <p>避免不了BUG 但我会尽力 尽量不影响使用</p>
@@ -53,7 +53,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 30px;
   .logo {
     margin-bottom: 10%;
     width: 100px;

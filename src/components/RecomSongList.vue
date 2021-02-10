@@ -2,7 +2,9 @@
   <div id="RecomSongList">
     <div class="title">
       <div class="title_name">推荐歌单</div>
-      <div class="more">更 多</div>
+      <router-link tag="div" to="/playlistgroup">
+        <div class="more">更 多</div>
+      </router-link>
     </div>
     <div class="songListBox">
       <div

@@ -6,7 +6,7 @@
         <van-icon
           name="arrow-left"
           color="#fff"
-          @click="onRouterBack"
+          @click="$router.go(-1)"
         ></van-icon>
       </template>
       <template v-slot:title> 每 日 推 荐 </template>
@@ -20,7 +20,7 @@
         class="songItem"
         v-for="(item, index) in dailySongs"
         :key="index"
-        @click="toAudioPage(item.id)"
+        @click="playThisMusic(item.id)"
       >
         <div class="s_img">
           <van-image :src="item.al.picUrl" fit="cover">
@@ -53,27 +53,12 @@
     </div>
     <!-- 加载组件 -->
     <loading />
-    <!-- 弹出层组件 -->
-    <van-popup v-model="show" class="popup" closeable position="bottom">
-      <!-- 音乐播放器组件 -->
-      <audio-page
-        :targetId="targetId"
-        :songUrlList="songUrlList"
-        :songdetails="songdetails"
-      />
-    </van-popup>
   </div>
 </template>
 
 <script>
 import HeaderBar from "../components/HeaderBar.vue";
-import AudioPage from "../components/Audio/audioPage";
-
 import { _getDailyRecom } from "../network/index.js";
-import {
-  _getSongUrlsById,
-  _getPlayListDetialBySongsId,
-} from "../network/music.js";
 
 export default {
   data() {
@@ -85,19 +70,12 @@ export default {
       recommendReasons: [],
       // 当前歌单的id列表
       songidlist: [],
-
-      // 当前歌单的歌曲url列表
-      songUrlList: [],
-      // 当前歌单的歌曲详情列表
-      songdetails: [],
-
-      // 当前点击的歌曲的id
-      targetId: 0,
     };
   },
   methods: {
-    onRouterBack() {
-      this.$router.go(-1);
+    // 播放音乐
+    playThisMusic(id) {
+      this.$bus.$emit("playThisMusic", id);
     },
     async getDailyRecomSong() {
       this.$store.commit("showLoading");
@@ -113,17 +91,7 @@ export default {
           this.songidlist.push(res.data.dailySongs[i].id);
         }
       }
-      // 根据id列表获取歌曲详情列表
-      let { data: songdetails } = await _getPlayListDetialBySongsId(
-        this.songidlist.toString()
-      );
-      if (songdetails.code === 200) this.songdetails = songdetails.songs;
-      // console.log(this.songdetails);
-      // 根据id列表获取歌曲url列表
-      let { data: urls } = await _getSongUrlsById(this.songidlist.toString());
-      // 保存歌单url列表
-      if (urls.code === 200) this.songUrlList = urls.data;
-      // console.log(this.songUrlList);
+
       this.$store.commit("hiddenLoading");
     },
     // 将推荐理由和歌曲匹配起来
@@ -132,12 +100,6 @@ export default {
         if (this.recommendReasons[i].songId === id)
           return this.recommendReasons[i].reason;
       }
-    },
-    //
-    toAudioPage(id) {
-      // 获取当前点级的歌曲id
-      this.targetId = id;
-      this.show = true;
     },
   },
   computed: {
@@ -152,7 +114,6 @@ export default {
   },
   components: {
     HeaderBar,
-    AudioPage,
   },
   mounted() {
     this.getDailyRecomSong();

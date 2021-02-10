@@ -14,7 +14,7 @@
         </div>
       </template>
       <template #right>
-        <van-icon name="search" class="icon" />
+        <van-icon name="ellipsis" class="icon" />
       </template>
     </van-nav-bar>
     <!-- 主体内容 -->
