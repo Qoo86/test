@@ -51,71 +51,6 @@
         <van-icon name="qr" @click="listShow = true" />
       </div>
     </div>
-    <!-- 播放列表 -->
-    <van-popup
-      v-model="listShow"
-      class="listShow"
-      position="bottom"
-      v-if="songList[currentIndex]"
-    >
-      <div class="title">
-        当前播放<span class="num">（{{ songList.length }}）</span>
-      </div>
-      <div class="menu">
-        <div class="roundType" @click="changeLoudType(2)" v-if="playType === 1">
-          <van-icon class-prefix="my-icon" name="lbxh" />
-          <div class="txt">列表循环</div>
-        </div>
-        <div
-          class="roundType"
-          @click="changeLoudType(3)"
-          v-else-if="playType === 2"
-        >
-          <van-icon class-prefix="my-icon" name="sjbf" />
-          <div class="txt">随机播放</div>
-        </div>
-        <div class="roundType" @click="changeLoudType(1)" v-else>
-          <van-icon class-prefix="my-icon" name="dqxh" />
-          <div class="txt">单曲循环</div>
-        </div>
-        <div class="subALl">
-          <van-icon name="star-o" />
-          <div class="txt">收藏全部</div>
-        </div>
-        <div class="cleanAll" @click="cleanAll">
-          <van-icon name="delete" />
-        </div>
-      </div>
-      <div class="list">
-        <div class="item" v-for="(song, index) in songList" :key="song.id">
-          <div
-            @click="currentIndex = index"
-            :class="[
-              'info',
-              index == currentIndex ? 'active' : 'unactive',
-              'van-ellipsis',
-            ]"
-          >
-            <span class="songname">
-              <span class="my-icon" v-if="index == currentIndex">
-                &#xe629;
-              </span>
-              <span> {{ song.title }} </span>
-            </span>
-            <span class="artist">
-              -
-              <span v-for="(ar, index) in song.artist" :key="index">
-                <span v-if="index === song.artist.length - 1">
-                  {{ ar.name }}
-                </span>
-                <span v-else>{{ ar.name }} / </span>
-              </span>
-            </span>
-          </div>
-          <van-icon name="cross" class="cross" @click="delClickMusic(index)" />
-        </div>
-      </div>
-    </van-popup>
     <!-- 歌曲页 -->
     <van-popup
       v-model="pageShow"
@@ -281,6 +216,71 @@
     </van-popup>
     <!-- 加载组件 -->
     <loading />
+    <!-- 播放列表 -->
+    <van-popup
+      v-model="listShow"
+      class="listShow"
+      position="bottom"
+      v-if="songList[currentIndex]"
+    >
+      <div class="title">
+        当前播放<span class="num">（{{ songList.length }}）</span>
+      </div>
+      <div class="menu">
+        <div class="roundType" @click="changeLoudType(2)" v-if="playType === 1">
+          <van-icon class-prefix="my-icon" name="lbxh" />
+          <div class="txt">列表循环</div>
+        </div>
+        <div
+          class="roundType"
+          @click="changeLoudType(3)"
+          v-else-if="playType === 2"
+        >
+          <van-icon class-prefix="my-icon" name="sjbf" />
+          <div class="txt">随机播放</div>
+        </div>
+        <div class="roundType" @click="changeLoudType(1)" v-else>
+          <van-icon class-prefix="my-icon" name="dqxh" />
+          <div class="txt">单曲循环</div>
+        </div>
+        <div class="subALl">
+          <van-icon name="star-o" />
+          <div class="txt">收藏全部</div>
+        </div>
+        <div class="cleanAll" @click="cleanAll">
+          <van-icon name="delete" />
+        </div>
+      </div>
+      <div class="list">
+        <div class="item" v-for="(song, index) in songList" :key="song.id">
+          <div
+            @click="currentIndex = index"
+            :class="[
+              'info',
+              index == currentIndex ? 'active' : 'unactive',
+              'van-ellipsis',
+            ]"
+          >
+            <span class="songname">
+              <span class="my-icon" v-if="index == currentIndex">
+                &#xe629;
+              </span>
+              <span> {{ song.title }} </span>
+            </span>
+            <span class="artist">
+              -
+              <span v-for="(ar, index) in song.artist" :key="index">
+                <span v-if="index === song.artist.length - 1">
+                  {{ ar.name }}
+                </span>
+                <span v-else>{{ ar.name }} / </span>
+              </span>
+            </span>
+          </div>
+          <van-icon name="cross" class="cross" @click="delClickMusic(index)" />
+        </div>
+      </div>
+    </van-popup>
     <!-- 评论区组件 -->
     <van-popup
       v-if="songList[currentIndex]"
@@ -807,29 +807,29 @@ export default {
         }
       }
     }
-  }
-  // 旋转动画
-  @keyframes rotate {
-    0% {
-      transform: rotate(0);
+    // 旋转动画
+    @keyframes rotate {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
-    100% {
-      transform: rotate(360deg);
+    .rotate {
+      animation: rotate 10s linear infinite;
     }
-  }
-  .rotate {
-    animation: rotate 10s linear infinite;
-  }
-  @keyframes pageRotate {
-    0% {
-      transform: translate(-50%, -50%) rotate(0);
+    @keyframes pageRotate {
+      0% {
+        transform: translate(-50%, -50%) rotate(0);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
     }
-    100% {
-      transform: translate(-50%, -50%) rotate(360deg);
+    .pagerotate {
+      animation: pageRotate 10s linear infinite;
     }
-  }
-  .pagerotate {
-    animation: pageRotate 10s linear infinite;
   }
 }
 </style>

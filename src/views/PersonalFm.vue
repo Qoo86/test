@@ -446,6 +446,15 @@ export default {
             text-align: center;
             box-sizing: border-box;
             scroll-behavior: smooth;
+            // 隐藏滚动条
+            /* Firefox */
+            scrollbar-width: none;
+            /* IE 10+ */
+            -ms-overflow-style: none;
+            /* Chrome Safari */
+            &::-webkit-scrollbar {
+              display: none;
+            }
             > li {
               margin: 30px 0;
               font-size: 13px;

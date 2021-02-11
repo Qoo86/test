@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view class="pb60" />
+    <router-view :class="[$route.path === '/personalfm' ? '' : 'pb60']" />
     <play-music
       v-if="$route.path !== '/personalfm'"
       :class="[
