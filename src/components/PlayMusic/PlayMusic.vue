@@ -698,7 +698,7 @@ export default {
         overflow: hidden;
         .fade-enter-active,
         .fade-leave-active {
-          transition: opacity 1s;
+          transition: opacity 0.8s;
         }
         .fade-enter,
         .fade-leave-to {
