@@ -14,10 +14,10 @@ export function _getCommentNew(id, type, pageNo, sortType, cursor) {
 }
 
 // 给评论点赞/取消点赞
-export function _likeComment(id, cid, t) {
+export function _likeComment(id, cid, t, type) {
   return request({
     url: "/comment/like",
-    params: { id, cid, t, type: 2 },
+    params: { id, cid, t, type },
   }).catch((err) => err.response);
 }
 

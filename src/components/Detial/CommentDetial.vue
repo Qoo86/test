@@ -227,7 +227,7 @@ export default {
     },
     // 点赞/取消点赞
     async likeComment(cid, t) {
-      let { data } = await _likeComment(this.parentId, cid, t);
+      let { data } = await _likeComment(this.parentId, cid, t, this.type);
       if (data.code !== 200) return this.$msg.fail(data.msg);
       if (this.sortT === 2) {
         this.sortByHot(2);

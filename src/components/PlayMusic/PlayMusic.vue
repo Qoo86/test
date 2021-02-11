@@ -831,5 +831,9 @@ export default {
       animation: pageRotate 10s linear infinite;
     }
   }
+  .commentComp {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
