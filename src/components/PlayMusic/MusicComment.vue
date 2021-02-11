@@ -130,7 +130,7 @@
 
 <script>
 import { _getCommentNew, _likeComment } from "../../network/comment";
-import ParentCommentDetail from "../Detial/ParentCommentDetail";
+import ParentCommentDetail from "../Detial/ParentCommentDetail.vue";
 export default {
   data() {
     return {

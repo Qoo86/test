@@ -5,11 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    // 加载组件
     isLoading: false,
-    isPlayMusicPage: false,
+    // 歌单/专辑/私人FM中的歌曲的评论组件
     isPopup: false,
+    // 分享面板组件
     isShareSheet: false,
+    // 歌单收藏者列表组件
     isSubPopup: false,
+    // 全局播放器中的歌曲的评论组件
     isSongCommentPopup: false,
   },
   mutations: {
@@ -18,12 +22,6 @@ export default new Vuex.Store({
     },
     hiddenLoading(state) {
       state.isLoading = false;
-    },
-    showisPlayMusicPage(state) {
-      state.isPlayMusicPage = true;
-    },
-    hiddenisPlayMusicPage(state) {
-      state.isPlayMusicPage = false;
     },
     showPopup(state) {
       state.isPopup = true;
