@@ -162,38 +162,39 @@
         <div class="pageContent" @click="showLyric = !showLyric">
           <transition name="fade">
             <div v-if="showLyric" class="lyricMain">
-              <div v-if="songList[currentIndex].lrc" class="lmBody">
-                <ul class="lyricContent" ref="ul">
-                  <li
-                    v-for="(lr, index) in songList[currentIndex].lrc"
-                    :key="index"
-                    :class="{
-                      active:
-                        currentTime >=
-                          songList[currentIndex].lrc[index].timer &&
-                        currentTime <
-                          (songList[currentIndex].lrc[index + 1]
-                            ? songList[currentIndex].lrc[index + 1].timer
-                            : duration)
-                          ? true
-                          : false,
-                      lrli: true,
-                    }"
-                  >
-                    <p class="lr">{{ lr.lyric }}</p>
-                    <p class="tlr" v-if="songList[currentIndex].tlrc">
-                      <span
-                        v-for="(tlr, index) in songList[currentIndex].tlrc"
-                        :key="index"
-                      >
-                        <span v-if="tlr.timer === lr.timer">
-                          {{ tlr.lyric }}
-                        </span>
+              <ul
+                class="lyricContent"
+                v-if="songList[currentIndex].lrc"
+                ref="ul"
+              >
+                <li
+                  v-for="(lr, index) in songList[currentIndex].lrc"
+                  :key="index"
+                  :class="{
+                    active:
+                      currentTime >= songList[currentIndex].lrc[index].timer &&
+                      currentTime <
+                        (songList[currentIndex].lrc[index + 1]
+                          ? songList[currentIndex].lrc[index + 1].timer
+                          : duration)
+                        ? true
+                        : false,
+                    lrli: true,
+                  }"
+                >
+                  <p class="lr">{{ lr.lyric }}</p>
+                  <p class="tlr" v-if="songList[currentIndex].tlrc">
+                    <span
+                      v-for="(tlr, index) in songList[currentIndex].tlrc"
+                      :key="index"
+                    >
+                      <span v-if="tlr.timer === lr.timer">
+                        {{ tlr.lyric }}
                       </span>
-                    </p>
-                  </li>
-                </ul>
-              </div>
+                    </span>
+                  </p>
+                </li>
+              </ul>
               <div v-else class="nolyric">纯音乐，请欣赏</div>
             </div>
           </transition>
@@ -727,31 +728,27 @@ export default {
         .lyricMain {
           width: 100%;
           height: 421px;
-          .lmBody {
-            width: inherit;
+          .lyricContent {
             height: inherit;
-            .lyricContent {
-              height: inherit;
-              width: inherit;
-              box-sizing: border-box;
-              padding: 0 30px;
-              text-align: center;
-              overflow: scroll;
-              scroll-behavior: smooth;
-              .lrli {
-                color: rgba(255, 255, 255, 0.6);
-                margin: 20px 0;
-                .lr {
-                  font-size: 12px;
-                }
-                .tlr {
-                  font-size: 10px;
-                  padding-top: 6px;
-                }
+            width: inherit;
+            box-sizing: border-box;
+            padding: 0 30px;
+            text-align: center;
+            overflow: scroll;
+            scroll-behavior: smooth;
+            .lrli {
+              color: rgba(255, 255, 255, 0.6);
+              margin: 20px 0;
+              .lr {
+                font-size: 12px;
               }
-              .active {
-                color: #fff;
+              .tlr {
+                font-size: 10px;
+                padding-top: 6px;
               }
+            }
+            .active {
+              color: #fff;
             }
           }
         }
