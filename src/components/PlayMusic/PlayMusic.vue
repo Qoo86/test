@@ -738,6 +738,15 @@ export default {
               text-align: center;
               overflow: scroll;
               scroll-behavior: smooth;
+              // 隐藏滚动条
+              /* Firefox */
+              scrollbar-width: none;
+              /* IE 10+ */
+              -ms-overflow-style: none;
+              /* Chrome Safari */
+              &::-webkit-scrollbar {
+                display: none;
+              }
               .lrli {
                 color: rgba(255, 255, 255, 0.6);
                 margin: 20px 0;
