@@ -740,13 +740,13 @@ export default {
           }
           .lrli {
             color: rgba(255, 255, 255, 0.6);
-            padding: 8px 0;
+            margin: 20px 0;
             .lr {
               font-size: 12px;
             }
             .tlr {
               font-size: 10px;
-              padding-top: 10px;
+              padding-top: 6px;
             }
           }
           .active {
