@@ -159,21 +159,60 @@
             @input="changeMusicVolume"
           />
         </div>
-        <div class="pageContent">
-          <div class="coverImg">
+        <div class="pageContent" @click="showLyric = !showLyric">
+          <transition name="fade" v-if="songList[currentIndex].lrc">
+            <ul class="lyricContent" v-if="showLyric" ref="ul">
+              <li
+                v-for="(lr, index) in songList[currentIndex].lrc"
+                :key="index"
+                :class="{
+                  active:
+                    currentTime >= songList[currentIndex].lrc[index].timer &&
+                    currentTime <
+                      (songList[currentIndex].lrc[index + 1]
+                        ? songList[currentIndex].lrc[index + 1].timer
+                        : duration)
+                      ? true
+                      : false,
+                  lrli: true,
+                }"
+              >
+                <p class="lr">{{ lr.lyric }}</p>
+              </li>
+            </ul>
+          </transition>
+          <transition name="fade" v-else>
+            <div v-if="showLyric" class="nolyric">纯音乐，请欣赏</div>
+          </transition>
+          <transition name="fade">
             <van-image
+              v-if="!showLyric"
               :src="songList[currentIndex].pic"
-              :class="[isPause ? '' : 'pagerotate', 'img']"
+              :class="[isPause ? '' : 'pagerotate', 'coverImg']"
             />
-          </div>
-          <div class="lyricContent"></div>
+          </transition>
         </div>
         <div class="pageMenu">
           <div class="btnsTop">
             <van-icon name="like-o" class="like" />
             <van-icon name="down" class="download" />
-            <van-icon class-prefix="my-icon" name="song" />
-            <van-icon name="comment-o" class="comment" />
+            <van-icon
+              class-prefix="my-icon"
+              name="song"
+              v-if="showLyric"
+              @click="showLyric = !showLyric"
+            />
+            <van-icon
+              class-prefix="my-icon"
+              name="lyric"
+              v-else
+              @click="showLyric = !showLyric"
+            />
+            <van-icon
+              name="comment-o"
+              class="comment"
+              @click="showCommentComp"
+            />
             <van-icon name="ellipsis" class="ellipsis" />
           </div>
           <div class="musicSlider">
@@ -229,12 +268,27 @@
     </van-popup>
     <!-- 加载组件 -->
     <loading />
+    <!-- 评论区组件 -->
+    <van-popup
+      v-if="songList[currentIndex]"
+      v-model="$store.state.isPopup"
+      class="commentComp"
+      position="bottom"
+    >
+      <comment-detial
+        :parentId="songList[currentIndex].id"
+        :toCommentinfos="toCommentInfos"
+        :type="0"
+        :key="songList[currentIndex].id"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { _checkMusic } from "../../network/music";
 import { getSongObject } from "./sendSongItemObj.js";
+import CommentDetial from "../../components/Detial/CommentDetial";
 
 export default {
   data() {
@@ -257,7 +311,13 @@ export default {
       percentage: 0,
       // 音量
       volume: 0,
+      // 控制歌词和歌曲信息页面的切换
+      showLyric: false,
+      toCommentInfos: {},
     };
+  },
+  components: {
+    CommentDetial,
   },
   mounted() {
     this.$bus.$on("playThisMusic", (id) => {
@@ -345,6 +405,7 @@ export default {
       this.currentTime = event.target.currentTime;
       this.percentage =
         (event.target.currentTime / event.target.duration) * 100;
+      this.lyricScroll();
     },
     // 歌曲播放结束触发
     onEnded() {
@@ -408,6 +469,36 @@ export default {
     changeMusicCurrentTime(v) {
       this.$refs.globalAudio.currentTime =
         (v / 100) * this.$refs.globalAudio.duration;
+    },
+    // 歌词滚动
+    lyricScroll() {
+      if (this.showLyric) {
+        let dom = document.getElementsByClassName("active")[0];
+        let ul = this.$refs.ul;
+        if (ul) {
+          if (dom) {
+            if (ul.clientHeight * 0.5 > dom.offsetTop) {
+              ul.scrollTop = 0;
+            } else if (
+              dom.offsetTop >
+              ul.scrollHeight - ul.clientHeight * 0.5
+            ) {
+              ul.scrollTop = ul.scrollHeight - ul.clientHeight;
+            } else {
+              ul.scrollTop = dom.offsetTop - ul.clientHeight * 0.5 + 24;
+            }
+          }
+        }
+      }
+    },
+    // 展示评论组件
+    showCommentComp() {
+      this.toCommentInfos = {
+        name: this.songList[this.currentIndex].title,
+        coverImgUrl: this.songList[this.currentIndex].pic,
+        artists: this.songList[this.currentIndex].artist,
+      };
+      this.$store.commit("showPopup");
     },
   },
 };
@@ -573,8 +664,7 @@ export default {
       }
       .artist {
         font-size: 10px;
-        color: #cccccc;
-        margin-top: -4px;
+        color: rgba(255, 255, 255, 0.6);
       }
     }
     .pageBody {
@@ -595,17 +685,58 @@ export default {
       .pageContent {
         height: 421px;
         position: relative;
+        overflow: hidden;
+        .fade-enter-active,
+        .fade-leave-active {
+          transition: opacity 1s;
+        }
+        .fade-enter,
+        .fade-leave-to {
+          opacity: 0;
+        }
         .coverImg {
-          .img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 44px solid #000;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
+          width: 200px;
+          height: 200px;
+          border-radius: 50%;
+          overflow: hidden;
+          border: 44px solid #000;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .nolyric {
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 16px;
+          text-align: center;
+          line-height: 421px;
+        }
+        .lyricContent {
+          height: 100%;
+          width: 100%;
+          box-sizing: border-box;
+          padding: 0 30px;
+          text-align: center;
+          overflow: scroll;
+          scroll-behavior: smooth;
+          // 隐藏滚动条
+          /* Firefox */
+          scrollbar-width: none;
+          /* IE 10+ */
+          -ms-overflow-style: none;
+          /* Chrome Safari */
+          &::-webkit-scrollbar {
+            display: none;
+          }
+          .lrli {
+            line-height: 50px;
+            color: rgba(255, 255, 255, 0.6);
+            .lr {
+              font-size: 12px;
+            }
+          }
+          .active {
+            color: #fff;
           }
         }
       }

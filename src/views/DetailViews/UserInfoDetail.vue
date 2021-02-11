@@ -338,6 +338,7 @@ export default {
   }
   .navbar2 {
     background-color: #fff;
+    z-index: 10;
     .nb_title {
       width: 222px;
       color: #000;
