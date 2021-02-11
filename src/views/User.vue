@@ -341,7 +341,6 @@ export default {
 <style lang="less" scoped>
 #user {
   .navBar {
-    z-index: 999;
     position: sticky;
     // background-color: transparent;
     transition: background-color 0.6s ease-in-out;
@@ -453,22 +452,6 @@ export default {
           width: inherit;
           height: inherit;
         }
-        // .zezao {
-        //   width: 60px;
-        //   height: 60px;
-        //   background-color: rgba(0, 0, 0, 0.4);
-        //   position: absolute;
-        //   top: 0;
-        //   left: 0;
-        //   z-index: 98;
-        // }
-        // .loveIcon {
-        //   position: absolute;
-        //   top: 50%;
-        //   left: 50%;
-        //   z-index: 99;
-        //   transform: translate(-50%, -50%);
-        // }
       }
       .lmb_txt {
         width: 58%;

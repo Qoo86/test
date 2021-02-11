@@ -10,6 +10,7 @@ export default new Vuex.Store({
     isPopup: false,
     isShareSheet: false,
     isSubPopup: false,
+    isSongCommentPopup: false,
   },
   mutations: {
     showLoading(state) {
@@ -41,6 +42,12 @@ export default new Vuex.Store({
     },
     hiddenSubPopup(state) {
       state.isSubPopup = false;
+    },
+    showisSongCommentPopup(state) {
+      state.isSongCommentPopup = true;
+    },
+    hiddenisSongCommentPopup(state) {
+      state.isSongCommentPopup = false;
     },
   },
   actions: {},

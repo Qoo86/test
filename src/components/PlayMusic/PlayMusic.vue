@@ -281,7 +281,7 @@
     <!-- 评论区组件 -->
     <van-popup
       v-if="songList[currentIndex]"
-      v-model="$store.state.isPopup"
+      v-model="$store.state.isSongCommentPopup"
       class="commentComp"
       position="bottom"
     >
@@ -298,7 +298,7 @@
 <script>
 import { _checkMusic } from "../../network/music";
 import { getSongObject } from "./sendSongItemObj.js";
-import CommentDetial from "../../components/Detial/CommentDetial";
+import CommentDetial from "./MusicComment";
 
 export default {
   data() {
@@ -508,7 +508,7 @@ export default {
         coverImgUrl: this.songList[this.currentIndex].pic,
         artists: this.songList[this.currentIndex].artist,
       };
-      this.$store.commit("showPopup");
+      this.$store.commit("showisSongCommentPopup");
     },
   },
 };
@@ -729,7 +729,6 @@ export default {
           text-align: center;
           overflow: scroll;
           scroll-behavior: smooth;
-
           .lrli {
             color: rgba(255, 255, 255, 0.6);
             margin: 20px 0;
