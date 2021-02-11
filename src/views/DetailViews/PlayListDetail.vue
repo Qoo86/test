@@ -116,7 +116,12 @@
         </div>
       </div>
       <div class="sl_content">
-        <div class="sl_item" v-for="(song, index) in tracks" :key="index">
+        <div
+          class="sl_item"
+          v-for="(song, index) in tracks"
+          :key="index"
+          @click="playThisMusic(song.id)"
+        >
           <div class="item_index">{{ index + 1 }}</div>
           <div class="item_txt">
             <div class="t_songname van-ellipsis">
@@ -406,6 +411,10 @@ export default {
     // 评论详情
     toCommentDetail() {
       this.$store.commit("showPopup");
+    },
+    // 播放音乐
+    playThisMusic(id) {
+      this.$bus.$emit("playThisMusic", id);
     },
   },
   mounted() {

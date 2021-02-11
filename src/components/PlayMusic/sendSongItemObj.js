@@ -11,19 +11,19 @@ export async function getSongObject(id) {
   let { data: url } = await _getSongUrlsById(id);
   // 獲取歌曲歌詞
   let { data: lrc } = await _getLyric(id);
+
   let lyrics, tlyrics;
+
   if (lrc.lrc) {
     let res = formatLyric(lrc.lrc.lyric);
     lyrics = res.lyricsArr;
-  } else {
-    lyrics = false;
-  }
+  } else lyrics = false;
+
   if (lrc.tlyric) {
     let tres = formatLyric(lrc.tlyric.lyric);
     tlyrics = tres.lyricsArr;
-  } else {
-    tlyrics = false;
-  }
+  } else tlyrics = false;
+
   const item = {
     id: id,
     title: detail.songs[0].name,
@@ -33,6 +33,7 @@ export async function getSongObject(id) {
     lrc: lyrics,
     tlrc: tlyrics,
   };
+
   return { item };
 }
 
