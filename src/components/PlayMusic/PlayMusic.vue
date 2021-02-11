@@ -178,6 +178,16 @@
                 }"
               >
                 <p class="lr">{{ lr.lyric }}</p>
+                <p class="tlr" v-if="songList[currentIndex].tlrc">
+                  <span
+                    v-for="(tlr, index) in songList[currentIndex].tlrc"
+                    :key="index"
+                  >
+                    <span v-if="tlr.timer === lr.timer">
+                      {{ tlr.lyric }}
+                    </span>
+                  </span>
+                </p>
               </li>
             </ul>
           </transition>
@@ -729,10 +739,14 @@ export default {
             display: none;
           }
           .lrli {
-            line-height: 50px;
             color: rgba(255, 255, 255, 0.6);
+            padding: 8px 0;
             .lr {
               font-size: 12px;
+            }
+            .tlr {
+              font-size: 10px;
+              padding-top: 10px;
             }
           }
           .active {
