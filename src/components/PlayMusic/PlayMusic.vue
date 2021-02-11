@@ -214,8 +214,6 @@
         </div>
       </div>
     </van-popup>
-    <!-- 加载组件 -->
-    <loading />
     <!-- 播放列表 -->
     <van-popup
       v-model="listShow"
@@ -295,6 +293,8 @@
         :key="songList[currentIndex].id"
       />
     </van-popup>
+    <!-- 加载组件 -->
+    <loading />
   </div>
 </template>
 
