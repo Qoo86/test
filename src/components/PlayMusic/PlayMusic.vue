@@ -300,7 +300,7 @@
 
 <script>
 import { _checkMusic } from "../../network/music";
-import { getSongObject, getSongObjectList } from "./sendSongItemObj.js";
+import { getSongObject } from "./sendSongItemObj.js";
 import CommentDetial from "./MusicComment";
 
 export default {
