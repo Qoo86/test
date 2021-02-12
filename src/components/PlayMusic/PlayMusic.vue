@@ -300,7 +300,7 @@
 
 <script>
 import { _checkMusic } from "../../network/music";
-import { getSongObject } from "./sendSongItemObj.js";
+import { getSongObject, getSongObjectList } from "./sendSongItemObj.js";
 import CommentDetial from "./MusicComment";
 
 export default {
@@ -334,7 +334,7 @@ export default {
   },
   mounted() {
     this.$bus.$on("playThisMusic", (id) => {
-      this.playClickMusic(id);
+      this.addClickMusic(id);
     });
   },
   watch: {
@@ -347,7 +347,7 @@ export default {
   },
   methods: {
     // 将歌曲添加到列表
-    async playClickMusic(id) {
+    async addClickMusic(id) {
       this.$store.commit("showLoading");
       let { data: res } = await _checkMusic(id);
       if (res.success) {
@@ -373,6 +373,7 @@ export default {
                   this.songList.splice(this.currentIndex + 1, 0, target);
                   this.currentIndex++;
                 }
+                this.$store.commit("hiddenLoading");
                 return;
               }
             }

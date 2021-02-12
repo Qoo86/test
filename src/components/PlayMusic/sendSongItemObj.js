@@ -37,8 +37,6 @@ export async function getSongObject(id) {
   return { item };
 }
 
-export async function getSongObjectList(ids) {}
-
 function formatLyric(str) {
   let strSource = str.split(/(\[.*\])/).slice(1);
   let lyricsArr = [];

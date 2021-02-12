@@ -7,7 +7,12 @@
       @load="getSongsSearch(key)"
       finished-text="没有更多了"
     >
-      <div class="song_item" v-for="(song, index) in songs" :key="index">
+      <div
+        class="song_item"
+        v-for="(song, index) in songs"
+        :key="index"
+        @click="playThisMusic(song.id)"
+      >
         <div class="songinfo">
           <div class="s_name van-ellipsis">
             {{ song.name
@@ -68,6 +73,10 @@ export default {
       } else {
         console.log(data);
       }
+    },
+    // 播放音乐
+    playThisMusic(id) {
+      this.$bus.$emit("playThisMusic", id);
     },
   },
   props: ["keyword"],
