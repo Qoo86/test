@@ -37,6 +37,39 @@ export async function getSongObject(id) {
   return { item };
 }
 
+export async function getMusicList(ids) {
+  let { data: details } = await _getPlayListDetialBySongsId(ids.toString());
+  let itemArr = [];
+  for (let i = 0; i < details.songs.length; i++) {
+    let { data: url } = await _getSongUrlsById(ids[i]);
+    let {
+      data: { lrc, tlyric },
+    } = await _getLyric(ids[i]);
+
+    let lyrics, tlyrics;
+
+    if (lrc) {
+      let res = formatLyric(lrc.lyric);
+      lyrics = res.lyricsArr;
+    }
+    if (tlyric) {
+      let tres = formatLyric(tlyric.lyric);
+      tlyrics = tres.lyricsArr;
+    }
+    let item = {
+      id: ids[i],
+      title: details.songs[i].name,
+      pic: details.songs[i].al.picUrl,
+      url: url.data[0].url,
+      artist: details.songs[i].ar,
+      lrc: lyrics || false,
+      tlrc: tlyrics || false,
+    };
+    itemArr.push(item);
+  }
+  return { itemArr };
+}
+
 function formatLyric(str) {
   let strSource = str.split(/(\[.*\])/).slice(1);
   let lyricsArr = [];

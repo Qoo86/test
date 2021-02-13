@@ -103,7 +103,7 @@
     </div>
     <!-- 歌单列表区域 -->
     <div class="songList">
-      <div class="sl_title">
+      <div class="sl_title" @click="playAll(trackIds)">
         <div class="t_text">
           <span class="my-icon">&#xe690;</span>播放全部<span
             class="fz12 ml4 c939393"
@@ -415,6 +415,9 @@ export default {
     // 播放音乐
     playThisMusic(id) {
       this.$bus.$emit("playThisMusic", id);
+    },
+    playAll(ids) {
+      this.$bus.$emit("playAll", ids);
     },
   },
   mounted() {

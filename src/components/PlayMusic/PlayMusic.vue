@@ -300,7 +300,7 @@
 
 <script>
 import { _checkMusic } from "../../network/music";
-import { getSongObject } from "./sendSongItemObj.js";
+import { getSongObject, getMusicList } from "./sendSongItemObj.js";
 import CommentDetial from "./MusicComment";
 
 export default {
@@ -336,16 +336,46 @@ export default {
     this.$bus.$on("playThisMusic", (id) => {
       this.addClickMusic(id);
     });
+
+    this.$bus.$on("playAll", (ids) => {
+      this.addAllMusic(ids);
+    });
   },
   watch: {
-    currentIndex(i) {
-      if (i < 0) {
+    songList(sl) {
+      if (sl.length === 0) {
         this.listShow = false;
         this.pageShow = false;
+        this.currentIndex = -1;
       }
     },
   },
   methods: {
+    // 全部添加
+    async addAllMusic(parmas) {
+      this.$store.commit("showLoading");
+      let ids = [...parmas];
+      // 去掉播放列表中已经存在的歌曲
+      for (let i = 0; i < ids.length; i++) {
+        for (let j = 0; j < this.songList.length; j++) {
+          if (ids[i] === this.songList[j].id) ids.splice(i, 1);
+        }
+      }
+      // 检查歌曲是否可用
+      for (let i = 0; i < ids.length; i++) {
+        let {
+          data: { success },
+        } = await _checkMusic(ids[i]);
+        if (!success) ids.splice(i, 1);
+      }
+      // 如果筛选后id列表仍有数据 则包装歌曲对象push进播放列表
+      if (ids.length !== 0) {
+        let { itemArr } = await getMusicList(ids);
+        this.songList = itemArr.concat(this.songList);
+        this.currentIndex = 0;
+      }
+      this.$store.commit("hiddenLoading");
+    },
     // 将歌曲添加到列表
     async addClickMusic(id) {
       this.$store.commit("showLoading");
@@ -390,7 +420,9 @@ export default {
     },
     // 将歌曲从列表删除
     delClickMusic(index) {
-      if (index <= this.currentIndex) {
+      if (index === this.currentIndex && index === 0) {
+        this.songList.splice(index, 1);
+      } else if (index <= this.currentIndex) {
         this.songList.splice(index, 1);
         this.currentIndex--;
       } else {
@@ -469,7 +501,6 @@ export default {
     // 清空列表
     cleanAll() {
       this.songList = [];
-      this.currentIndex = -1;
     },
     // 更改播放类型
     changeLoudType(t) {
