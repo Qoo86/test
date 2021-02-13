@@ -8,7 +8,7 @@
 ## 项目目前状态
 
 ### 目前项目V1.0版本已经完成 （具备基础功能） 具体功能如下：
-1. 登录/以游客访问
+### 1. 登录/以游客访问
 
 ![login_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/login1.png)
 ![login_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/login2.png)
@@ -17,39 +17,39 @@
 ![login_success](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/login_sucess.png)
 ![unlogin](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/unlogin.png)
 
-2. 查看每日推荐歌曲（需要登录）
+### 2. 查看每日推荐歌曲（需要登录）
 
 ![daily](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/dailyRec.png)
 
-3. 查看歌单广场
+### 3. 查看歌单广场
 
 ![playlist_group_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/playlist_group_1.png)
 ![playlist_group_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/playlist_group_2.png)
 
-4. 播放私人FM
+### 4. 播放私人FM
 
 ![fm_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/fm_1.png)
 ![fm_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/fm_2.png)
 
-5. 查看排行榜列表
+### 5. 查看排行榜列表
 
 ![rank_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/rank_1.png)
 
-6. 搜索
+### 6. 搜索
 
 ![search_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/search_1.png)
 ![search_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/search_2.png)
 ![search_3](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/search_3.png)
 
-7. 进入个人中心
+### 7. 进入个人中心
 
 ![usercenter]()
 
-8. 查看用户信息页
+### 8. 查看用户信息页
 
 ![userinfo](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/usercenter.png)
 
-9.  查看歌手信息页
+### 9.  查看歌手信息页
 
 ![artist_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/artist_1.png)
 ![artist_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/artist_2.png)
@@ -57,7 +57,7 @@
 ![artist_4](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/artist_4.jpg)
 ![artist_5](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/artist_5.jpg)
 
-10. 查看歌单/专辑列表
+### 10. 查看歌单/专辑列表
 
 ![album_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/album_1.png)
 ![album_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/album_2.png)
@@ -66,17 +66,17 @@
 ![playlist_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/playlist_2.png)
 
 
-11. 查看私信以及私信详情
+### 11. 查看私信以及私信详情
 
 ![private_msg_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/private_msg_1.png)
 ![private_msg_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/private_msg_2.png)
 
-1.  评论查看功能
+### 12.  评论查看功能
 
 ![comment_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/comment_1.png)
 ![comment_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/comment_2.png)
 
-13. 全局播放器播放音乐
+### 13. 全局播放器播放音乐
 
 ![app_mp_1](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/app_music_play.png)
 ![app_mp_2](https://gitee.com/yukari_www/yukari-music/raw/master/src/assets/ReadMe_Image/app_music_play_1.png)
