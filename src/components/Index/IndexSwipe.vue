@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { _getSwipe } from "../network/index.js";
+import { _getSwipe } from "../../network/index.js";
 export default {
   data() {
     return {
@@ -33,10 +33,10 @@ export default {
 <style lang="less" scoped>
 .swiper {
   height: 150px;
-}
-.img {
-  width: 375px;
-  height: 146px;
-  display: block;
+  .img {
+    width: 375px;
+    height: 146px;
+    display: block;
+  }
 }
 </style>

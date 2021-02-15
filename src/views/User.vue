@@ -194,14 +194,14 @@
     <!-- 底部导航栏 -->
     <tab-bar></tab-bar>
     <!-- 弹出层组件 -->
-    <popup ref="popup"></popup>
+    <sidebar ref="popup" />
     <loading />
   </div>
 </template>
 
 <script>
 import TabBar from "../components/TabBar.vue";
-import Popup from "../components/Popup.vue";
+import Sidebar from "../components/Sidebar.vue";
 import { _getUserInfo, _getUserSubCount, _getUserLv } from "../network/user.js";
 import { _getUserPlayListByid } from "../network/playlist.js";
 export default {
@@ -326,7 +326,7 @@ export default {
   },
   components: {
     TabBar,
-    Popup,
+    Sidebar,
   },
   mounted() {
     window.addEventListener("scroll", this.handleScrollByHearBarUserInfo);

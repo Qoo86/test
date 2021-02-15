@@ -33,19 +33,19 @@
         </div>
         <div class="gridItem">
           <div class="icon" style="background-color: #5bb2e8">
-            <van-icon class-prefix="my-icon" name="pinlun" />
+            <van-icon class-prefix="my-icon" name="comment" />
           </div>
           <div class="txt">评论</div>
         </div>
         <div class="gridItem">
           <div class="icon" style="background-color: #fb6852">
-            <van-icon class-prefix="my-icon" name="aite" />
+            <van-icon class-prefix="my-icon" name="ate" />
           </div>
           <div class="txt">@我</div>
         </div>
         <div class="gridItem">
           <div class="icon" style="background-color: #fdba27">
-            <van-icon class-prefix="my-icon" name="tonzhi" />
+            <van-icon class-prefix="my-icon" name="notice" />
           </div>
           <div class="txt">通知</div>
         </div>

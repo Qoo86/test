@@ -23,14 +23,29 @@
         is-link
         to="/myMessage"
       />
-      <van-cell title="创作者中心" icon-prefix="my-icon" icon="czz" is-link />
+      <van-cell
+        title="创作者中心"
+        icon-prefix="my-icon"
+        icon="creator_center"
+        is-link
+      />
     </div>
     <div class="funList">
       <van-cell title="音乐黑名单" icon-prefix="my-icon" icon="ban" is-link />
-      <van-cell title="青少年模式" icon-prefix="my-icon" icon="qsn" is-link />
+      <van-cell
+        title="青少年模式"
+        icon-prefix="my-icon"
+        icon="youth_model"
+        is-link
+      />
       <van-cell title="我的订单" icon-prefix="my-icon" icon="order" is-link />
-      <van-cell title="优惠券" icon-prefix="my-icon" icon="yhq" is-link />
-      <van-cell title="音乐闹钟" icon-prefix="my-icon" icon="nz" is-link />
+      <van-cell title="优惠券" icon-prefix="my-icon" icon="coupon" is-link />
+      <van-cell
+        title="音乐闹钟"
+        icon-prefix="my-icon"
+        icon="alarm_clock"
+        is-link
+      />
     </div>
     <div class="funList">
       <van-cell

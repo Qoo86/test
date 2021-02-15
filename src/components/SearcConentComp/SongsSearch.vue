@@ -1,6 +1,9 @@
 <template>
   <div id="song">
-    <div class="title"><span class="my-icon">&#xe690;</span> 播放全部</div>
+    <div class="title">
+      <van-icon name="play-circle" class="pc_icon" />
+      播放全部
+    </div>
     <van-list
       v-model="loading"
       :finished="finished"
@@ -15,10 +18,10 @@
       >
         <div class="songinfo">
           <div class="s_name van-ellipsis">
-            {{ song.name
-            }}<span class="second_name" v-if="song.transNames"
-              >({{ song.transNames[0] }})</span
-            >
+            {{ song.name }}
+            <span class="second_name" v-if="song.transNames">
+              ({{ song.transNames[0] }})
+            </span>
           </div>
           <div class="s_by van-ellipsis">
             <span v-for="(ar, index) in song.artists" :key="index">
@@ -34,13 +37,7 @@
             {{ song.alias[0] }}
           </div>
         </div>
-        <div class="songicon" v-if="song.mvid !== 0">
-          <div class="my-icon mv">&#xe621;</div>
-          <div class="my-icon more">&#xe6f8;</div>
-        </div>
-        <div class="songicon" v-else>
-          <div class="my-icon more ml30">&#xe6f8;</div>
-        </div>
+        <van-icon class-prefix="my-icon" class="s_icon" name="col_ellipsis" />
       </div>
     </van-list>
   </div>
@@ -91,13 +88,17 @@ export default {
   height: 520px;
   overflow: scroll;
   .title {
+    background-color: #fff;
     height: 40px;
-    line-height: 40px;
+    display: flex;
+    align-items: center;
     font-size: 14px;
-    margin-left: 10px;
-    .my-icon {
+    position: sticky;
+    top: 0px;
+    .pc_icon {
       color: #4080d0;
-      padding-right: 6px;
+      font-size: 16px;
+      margin: 0 6px 0 10px;
     }
   }
   .song_item {
@@ -110,8 +111,8 @@ export default {
     margin-bottom: 4px;
     box-sizing: border-box;
     .songinfo {
-      width: 280px;
-      font-size: 13.6px;
+      width: 320px;
+      font-size: 13px;
       .second_name {
         color: #969799;
         padding-left: 4px;
@@ -127,17 +128,9 @@ export default {
         color: #969799;
       }
     }
-    .songicon {
-      width: 60px;
-      display: flex;
+    .s_icon {
       font-size: 16px;
-      > .my-icon {
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        line-height: 30px;
-        color: #5b5b5b;
-      }
+      color: #939393;
     }
   }
 }

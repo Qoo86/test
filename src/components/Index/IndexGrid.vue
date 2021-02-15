@@ -4,13 +4,13 @@
       <van-grid-item
         to="/dailyrecom"
         icon-prefix="my-icon"
-        icon="ritui"
+        icon="recommend"
         text="每日推荐"
       />
       <van-grid-item
         icon-prefix="my-icon"
         to="/playlistgroup"
-        icon="gedang"
+        icon="playlist"
         text="歌单"
       />
       <van-grid-item
@@ -22,16 +22,9 @@
       <van-grid-item
         to="/toplist"
         icon-prefix="my-icon"
-        icon="phb"
+        icon="toplist"
         text="排行榜"
       />
     </van-grid>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
-
-<style lang="less" scoped>
-</style>

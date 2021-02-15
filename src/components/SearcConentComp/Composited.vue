@@ -2,40 +2,38 @@
   <div class="content">
     <!-- 单曲 -->
     <div class="list_div">
-      <van-cell value="单曲" value-class="s_title" />
+      <div class="s_title">单曲</div>
       <van-empty
         image="error"
         description="暂无相关的任何单曲"
         v-if="!song.songs"
       />
       <div class="songList" v-else>
-        <div v-for="item in song.songs" :key="item.id">
-          <van-cell-group>
-            <van-cell :title="item.name" center class="van-multi-ellipsis--l2">
-              <template #label>
-                <span class="custom-title van-ellipsis">
-                  <span v-for="(ar, index) in item.ar" :key="index">
-                    <span v-if="index === item.ar.length - 1">
-                      {{ ar.name }}
-                    </span>
-                    <span v-else>{{ ar.name }} / </span>
-                  </span>
-                  -
-                  {{ item.al.name }}
-                </span>
-              </template>
-              <template #right-icon>
-                <van-icon name="play-circle-o" size="1.4em" />
-              </template>
-            </van-cell>
-          </van-cell-group>
+        <div class="sl_item" v-for="item in song.songs" :key="item.id">
+          <div class="info">
+            <div class="name van-ellipsis">{{ item.name }}</div>
+            <div class="by van-ellipsis">
+              <span v-for="(ar, index) in item.ar" :key="index">
+                <span v-if="index === item.ar.length - 1"> {{ ar.name }} </span>
+                <span v-else>{{ ar.name }} / </span>
+              </span>
+              <span v-if="item.al.name"> - {{ item.al.name }}</span>
+            </div>
+          </div>
+          <van-icon
+            class-prefix="my-icon"
+            name="col_ellipsis"
+            class="ellipsis_icon"
+          />
         </div>
       </div>
-      <van-cell :value="song.moreText" value-class="s_more" v-if="song.more" />
+      <div class="s_more" v-if="song.more">
+        {{ song.moreText }}
+      </div>
     </div>
     <!-- 专辑 -->
     <div class="list_div">
-      <van-cell value="专辑" value-class="s_title" />
+      <div class="s_title">专辑</div>
       <van-empty
         image="error"
         description="暂无相关的任何专辑"
@@ -48,9 +46,7 @@
           :key="index"
           @click="toAlbumDetail(item.id)"
         >
-          <div class="a_listImg">
-            <van-image width="50" height="50" :src="item.picUrl" />
-          </div>
+          <van-image class="a_listImg" :src="item.picUrl" />
           <div class="a_listText">
             <div class="a_listName van-ellipsis">{{ item.name }}</div>
             <div class="a_listbyandtime">
@@ -59,15 +55,13 @@
           </div>
         </div>
       </div>
-      <van-cell
-        :value="album.moreText"
-        value-class="s_more"
-        v-if="album.more"
-      />
+      <div class="s_more" v-if="album.more">
+        {{ album.moreText }}
+      </div>
     </div>
     <!-- 歌单 -->
     <div class="list_div">
-      <van-cell value="歌单" value-class="s_title" />
+      <div class="s_title">歌单</div>
       <van-empty
         image="error"
         description="暂无相关的任何歌单"
@@ -80,9 +74,7 @@
           :key="index"
           @click="toPlayListDetail(item.id)"
         >
-          <div class="playListIMg">
-            <van-image width="50" height="50" :src="item.coverImgUrl" />
-          </div>
+          <van-image class="playListIMg" :src="item.coverImgUrl" />
           <div class="playListText">
             <div class="plt_name van-ellipsis">{{ item.name }}</div>
             <div class="plt_sm van-ellipsis">
@@ -93,15 +85,13 @@
           </div>
         </div>
       </div>
-      <van-cell
-        :value="playList.moreText"
-        value-class="s_more"
-        v-if="playList.more"
-      />
+      <div class="s_more" v-if="playList.more">
+        {{ playList.moreText }}
+      </div>
     </div>
     <!-- 歌手 -->
     <div class="list_div">
-      <van-cell value="歌手" value-class="s_title" />
+      <div class="s_title">歌手</div>
       <van-empty
         image="error"
         description="暂无相关的任何歌手"
@@ -114,29 +104,24 @@
           :key="index"
           @click="toArtistDetail(item.id)"
         >
-          <div class="s_listitemImg">
-            <van-image
-              :src="item.picUrl"
-              width="1.4rem"
-              height="1.4rem"
-              round
-              fit="cover"
-            />
-          </div>
+          <van-image
+            :src="item.picUrl"
+            class="s_listitemImg"
+            round
+            fit="cover"
+          />
           <div class="s_listitemName van-ellipsis">
             {{ item.name }}
           </div>
         </div>
       </div>
-      <van-cell
-        :value="artist.moreText"
-        value-class="s_more"
-        v-if="artist.more"
-      />
+      <div class="s_more" v-if="artist.more">
+        {{ artist.moreText }}
+      </div>
     </div>
     <!-- 用户 -->
     <div class="list_div">
-      <van-cell value="用户" value-class="s_title" />
+      <div class="s_title">用户</div>
       <van-empty
         image="error"
         description="暂无相关的任何用户"
@@ -149,15 +134,7 @@
           :key="index"
           @click="toUserInfoDetailPage(item.userId)"
         >
-          <div class="userimg">
-            <van-image
-              :src="item.avatarUrl"
-              width="1.4rem"
-              height="1.4rem"
-              round
-              fit="cover"
-            />
-          </div>
+          <van-image :src="item.avatarUrl" class="userimg" round fit="cover" />
           <div class="userInfo">
             <div class="username van-ellipsis">
               {{ item.nickname }}
@@ -172,7 +149,7 @@
     </div>
     <!-- 视频 -->
     <div class="list_div">
-      <van-cell value="视频" value-class="s_title" />
+      <div class="s_title">视频</div>
       <van-empty
         image="error"
         description="暂无相关的任何视频"
@@ -184,17 +161,9 @@
           v-for="(item, index) in video.videos"
           :key="index"
         >
-          <div class="v_img">
-            <div class="playicon">
-              <van-icon name="play" class="icon" />
-            </div>
-            <van-image
-              :src="item.coverUrl"
-              fit="cover"
-              width="80px"
-              height="45px"
-            />
-          </div>
+          <van-image :src="item.coverUrl" fit="cover" class="v_img">
+            <van-icon name="play" class="icon" />
+          </van-image>
           <div class="v_text">
             <div class="v_name van-ellipsis">{{ item.title }}</div>
             <div class="v_content van-ellipsis">
@@ -205,11 +174,9 @@
           </div>
         </div>
       </div>
-      <van-cell
-        :value="video.moreText"
-        value-class="s_more"
-        v-if="video.more"
-      />
+      <div class="s_more" v-if="video.more">
+        {{ video.moreText }}
+      </div>
     </div>
   </div>
 </template>
@@ -267,16 +234,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.van-cell__title {
-  font-size: 13px;
-}
-.van-cell__label {
-  font-size: 11px;
-}
-.custom-title {
-  display: inline-block;
-  width: 240px;
-}
 .content {
   height: 512px;
   overflow: scroll;
@@ -286,13 +243,45 @@ export default {
     background-color: #fff;
     border-radius: 10px;
     .s_title {
-      font-weight: 600;
-      letter-spacing: 0.2em;
+      font-size: 14px;
+      height: 42px;
+      line-height: 42px;
+      padding-left: 20px;
+      letter-spacing: 5px;
+      font-weight: 500;
+      border-bottom: 1px solid #e9e9e9;
     }
     .s_more {
       font-size: 12px;
       text-align: center;
       color: #a4a2a2;
+      height: 44px;
+      line-height: 44px;
+    }
+
+    .songList {
+      .sl_item {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-bottom: 1px solid #e9e9e9;
+        .info {
+          width: 280px;
+          .name {
+            font-size: 13px;
+          }
+          .by {
+            color: #939393;
+            font-size: 10px;
+            margin-top: 6px;
+          }
+        }
+        .ellipsis_icon {
+          color: #939393;
+          font-size: 16px;
+        }
+      }
     }
 
     .playList {
@@ -300,20 +289,16 @@ export default {
         height: 70px;
         display: flex;
         align-items: center;
+        justify-content: center;
         .playListIMg {
           width: 50px;
           height: 50px;
           border-radius: 12px;
           overflow: hidden;
-          margin-left: 20px;
-          > img {
-            width: inherit;
-            height: inherit;
-          }
         }
         .playListText {
-          width: 230px;
-          margin-left: 20px;
+          width: 240px;
+          margin-left: 12px;
           .plt_name {
             font-size: 13px;
           }
@@ -331,16 +316,17 @@ export default {
         height: 70px;
         display: flex;
         align-items: center;
+        justify-content: center;
+        padding: 0 20px;
         .a_listImg {
           width: 50px;
           height: 50px;
-          margin-left: 20px;
           border-radius: 12px;
           overflow: hidden;
         }
         .a_listText {
-          margin-left: 14px;
-          width: 230px;
+          width: 240px;
+          margin-left: 13px;
           .a_listName {
             font-size: 14px;
           }
@@ -358,13 +344,15 @@ export default {
         height: 76px;
         display: flex;
         align-items: center;
+        justify-content: center;
         .s_listitemImg {
-          margin-left: 20px;
+          width: 46px;
+          height: 46px;
         }
         .s_listitemName {
-          width: 230px;
+          width: 240px;
           font-size: 14px;
-          margin-left: 10px;
+          margin-left: 12px;
         }
       }
     }
@@ -374,12 +362,14 @@ export default {
         height: 76px;
         display: flex;
         align-items: center;
+        justify-content: center;
         .userimg {
-          margin-left: 20px;
+          width: 46px;
+          height: 46px;
         }
         .userInfo {
-          width: 210px;
-          margin-left: 8px;
+          width: 260px;
+          margin-left: 12px;
           .username {
             font-size: 14px;
             .my-icon {
@@ -400,23 +390,20 @@ export default {
         height: 76px;
         display: flex;
         align-items: center;
+        justify-content: center;
         .v_img {
-          margin-left: 20px;
+          position: relative;
           width: 80px;
           height: 45px;
-          border-radius: 12px;
+          border-radius: 5px;
           overflow: hidden;
-          position: relative;
-          .playicon {
+          .icon {
             position: absolute;
-            left: 50%;
+            color: rgba(255, 255, 255, 0.8);
             top: 50%;
+            left: 50%;
+            font-size: 32px;
             transform: translate(-50%, -50%);
-            z-index: 999;
-            .icon {
-              font-size: 26px;
-              color: rgba(255, 255, 255, 0.8);
-            }
           }
         }
         .v_text {

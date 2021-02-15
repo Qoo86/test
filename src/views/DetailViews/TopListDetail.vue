@@ -5,7 +5,7 @@
       :border="false"
       fixed
       class="navbar"
-      @click-left="backlastroute"
+      @click-left="$router.go(-1)"
     >
       <template #left>
         <van-icon name="arrow-left" color="#000" />
@@ -24,10 +24,10 @@
             @click="toplaylistdetail(item.id)"
           >
             <div class="i_pic">
-              <van-image class="img" :src="item.coverImgUrl" />
+              <van-image class="i_pic" :src="item.coverImgUrl" />
               <div class="i_updatetime">{{ item.updateFrequency }}</div>
             </div>
-            <div class="i_songlist">
+            <ul class="i_songlist">
               <li
                 v-for="(songs, index) in item.tracks"
                 :key="songs.index"
@@ -35,7 +35,7 @@
               >
                 {{ index + 1 }}.{{ songs.first }} - {{ songs.second }}
               </li>
-            </div>
+            </ul>
           </div>
         </div>
       </div>
@@ -52,7 +52,6 @@
             <div class="cl_pic">
               <van-image class="img" :src="item.coverImgUrl" />
               <div class="update">{{ item.updateFrequency }}</div>
-              <div class="zezao"></div>
             </div>
             <div class="cl_name">{{ item.name }}</div>
           </div>
@@ -71,14 +70,12 @@
             <div class="cl_pic">
               <van-image class="img" :src="item.coverImgUrl" />
               <div class="update">{{ item.updateFrequency }}</div>
-              <div class="zezao"></div>
             </div>
             <div class="cl_name">{{ item.name }}</div>
           </div>
         </div>
       </div>
     </div>
-
     <loading />
   </div>
 </template>
@@ -116,10 +113,6 @@ export default {
     // 跳转到歌单详情
     toplaylistdetail(id) {
       this.$router.push({ path: "/playlistdetail", query: { id } });
-    },
-    // 返回上级路由
-    backlastroute() {
-      this.$router.go(-1);
     },
   },
   mounted() {
@@ -162,10 +155,6 @@ export default {
             height: 96px;
             border-radius: 15px;
             overflow: hidden;
-            .img {
-              width: inherit;
-              height: inherit;
-            }
             .i_updatetime {
               position: absolute;
               font-size: 10px;
@@ -212,20 +201,6 @@ export default {
               width: inherit;
               height: inherit;
             }
-            // .zezao {
-            //   position: absolute;
-            //   top: 0;
-            //   left: 0;
-            //   width: inherit;
-            //   height: inherit;
-            //   background-image: linear-gradient(
-            //     179.2deg,
-            //     rgba(0, 0, 0, 0.5) 0%,
-            //     rgba(255, 255, 255, 0.2) 33%,
-            //     rgba(15, 0, 0, 0.5) 100%
-            //   );
-            //   z-index: 1;
-            // }
             .update {
               position: absolute;
               color: #fff;

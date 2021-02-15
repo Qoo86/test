@@ -1,54 +1,60 @@
 <template>
-  <div>
+  <div id="daliyrecom">
     <!-- 头部组件 -->
-    <header-bar>
-      <template v-slot:left>
-        <van-icon
-          name="arrow-left"
-          color="#fff"
-          @click="$router.go(-1)"
-        ></van-icon>
+    <van-nav-bar
+      fixed
+      :border="false"
+      :class="{ navbart: !isScroll, navbarf: isScroll }"
+    >
+      <template #left>
+        <van-icon name="arrow-left" class="icon" @click="$router.go(-1)" />
       </template>
-      <template v-slot:title> 每 日 推 荐 </template>
-    </header-bar>
-    <div class="headerShow">
+      <template #title>
+        <span class="title">每 日 推 荐</span>
+      </template>
+    </van-nav-bar>
+    <div class="headerBox">
       <div class="date">{{ today }}</div>
-      <div class="historyrecom">历史日推</div>
+      <div class="history">历史日推</div>
+    </div>
+    <div class="playall" @click="playAll(songidlist)">
+      <van-icon class="icon" name="play-circle" />
+      <span class="txt">播放全部</span>
     </div>
     <div class="songList">
       <div
         class="songItem"
-        v-for="(item, index) in dailySongs"
-        :key="index"
+        v-for="item in dailySongs"
+        :key="item.id"
         @click="playThisMusic(item.id)"
       >
-        <div class="s_img">
-          <van-image :src="item.al.picUrl" fit="cover">
-            <template v-slot:loading>
-              <van-loading type="spinner" />
-            </template>
-            <template v-slot:error>加载失败</template>
-          </van-image>
-        </div>
-        <div class="text">
-          <div class="s_title van-ellipsis">
-            {{ item.name }}
-            <span v-if="item.alia[0]" style="color: #767676"
-              >({{ item.alia[0] }})</span
-            >
-            <span class="reason"> {{ reasonMsg(item.id) }} </span>
+        <van-image :src="item.al.picUrl" fit="cover" class="pic" />
+        <div class="info">
+          <div class="title">
+            <div class="name van-ellipsis">
+              {{ item.name }}
+              <span class="otherName" v-if="item.alia[0]">
+                ({{ item.alia[0] }})
+              </span>
+            </div>
+            <div class="reason van-ellipsis">
+              {{ reasonMsg(item.id) }}
+            </div>
           </div>
-          <div class="s_content van-ellipsis">
-            <span v-for="(ar, index) in item.ar" :key="index">
+          <div class="artists">
+            <span class="artist" v-for="(ar, index) in item.ar" :key="index">
               <span v-if="index === item.ar.length - 1"> {{ ar.name }} </span>
               <span v-else> {{ ar.name }} / </span>
             </span>
-            - {{ item.al.name }}
+            <span class="by"> - {{ item.al.name }} </span>
           </div>
         </div>
-        <div class="isMv my-icon" v-if="item.mv !== 0">&#xe621;</div>
-        <div class="menu my-icon ml30" v-if="item.mv === 0">&#xe6f8;</div>
-        <div class="menu my-icon" v-else>&#xe6f8;</div>
+        <van-icon
+          class-prefix="my-icon"
+          :class="{ icon: true, notmv: !item.mv }"
+          name="mv"
+        />
+        <van-icon class-prefix="my-icon" class="icon" name="col_ellipsis" />
       </div>
     </div>
     <!-- 加载组件 -->
@@ -57,13 +63,12 @@
 </template>
 
 <script>
-import HeaderBar from "../components/HeaderBar.vue";
 import { _getDailyRecom } from "../network/index.js";
 
 export default {
   data() {
     return {
-      show: false,
+      isScroll: false,
       // 日推歌曲列表
       dailySongs: [],
       // 推荐理由列表
@@ -76,6 +81,9 @@ export default {
     // 播放音乐
     playThisMusic(id) {
       this.$bus.$emit("playThisMusic", id);
+    },
+    playAll(ids) {
+      this.$bus.$emit("playAll", ids);
     },
     async getDailyRecomSong() {
       this.$store.commit("showLoading");
@@ -101,6 +109,15 @@ export default {
           return this.recommendReasons[i].reason;
       }
     },
+    topNavigationChange() {
+      var scrollTop =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      if (scrollTop > 200) {
+        this.isScroll = true;
+      } else {
+        this.isScroll = false;
+      }
+    },
   },
   computed: {
     today: function () {
@@ -109,97 +126,139 @@ export default {
       let d = D.getDate();
       m = m < 10 ? "0" + m : m;
       d = d < 10 ? "0" + d : d;
-      return `${m}月${d}日`;
+      return `Day${d}/Mouth${m}`;
     },
-  },
-  components: {
-    HeaderBar,
   },
   mounted() {
     this.getDailyRecomSong();
+    window.addEventListener("scroll", this.topNavigationChange);
   },
 };
 </script>
 
 <style lang="less" scoped>
-.popup {
-  height: 100%;
-  width: 100%;
-}
-.reason {
-  background-color: #f3ffc7;
-  color: #ffc814;
-  font-size: 10px;
-}
-.headerShow {
-  height: 120px;
-  background-image: radial-gradient(
-    circle 263px at 100.2% 3%,
-    rgba(12, 85, 141, 0.8) 31.1%,
-    rgba(205, 181, 93, 0.81) 36.4%,
-    rgba(244, 102, 90, 0.8) 50.9%,
-    rgba(199, 206, 187, 0.8) 60.7%,
-    rgba(249, 140, 69, 0.8) 72.5%,
-    rgba(12, 73, 116, 0.8) 72.6%
-  );
-  box-sizing: border-box;
-  padding: 36px 0 0 10px;
-  color: white;
-  .date {
-    font-size: 20px;
-    .day {
-      font-size: 26px;
+#daliyrecom {
+  background-color: #fff;
+  .navbart {
+    background-color: transparent;
+    .icon {
+      font-size: 20px;
+      margin-left: -6px;
+    }
+    .title {
+      display: none;
     }
   }
-  .historyrecom {
-    margin-top: 10px;
-    color: black;
-    background-color: rgba(255, 255, 255, 0.6);
-    height: 20px;
-    line-height: 20px;
-    font-size: 11px;
-    width: 64px;
-    text-align: center;
-    border-radius: 15px;
+  .navbarf {
+    background-image: linear-gradient(
+      67.2deg,
+      rgba(37, 208, 199, 1) -7.5%,
+      rgba(165, 90, 240, 1) 62.7%
+    );
+    .icon {
+      font-size: 20px;
+      margin-left: -6px;
+    }
+    .title {
+      display: block;
+    }
   }
-}
-.songList {
-  display: flex;
-  flex-direction: column;
-  .songItem {
-    height: 60px;
-    width: 100%;
+  .headerBox {
+    height: 180px;
+    background-image: linear-gradient(
+      67.2deg,
+      rgba(37, 208, 199, 1) -7.5%,
+      rgba(165, 90, 240, 1) 62.7%
+    );
+    position: relative;
+    color: #fff;
+    .date {
+      position: absolute;
+      font-family: Verdana;
+      font-size: 20px;
+      bottom: 60px;
+      left: 10px;
+    }
+    .history {
+      position: absolute;
+      bottom: 20px;
+      left: 10px;
+      font-size: 10px;
+      width: 60px;
+      height: 24px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      text-align: center;
+      line-height: 24px;
+    }
+  }
+  .playall {
     background-color: #fff;
-    overflow: hidden;
+    height: 40px;
+    line-height: 40px;
     display: flex;
     align-items: center;
-    .s_img {
-      width: 40px;
-      height: 40px;
-      margin-left: 12px;
-      border-radius: 6px;
-      overflow: hidden;
+    margin-left: 5px;
+    position: sticky;
+    top: 46px;
+    z-index: 2;
+    .icon {
+      font-size: 20px;
+      color: #1499ee;
     }
-    .text {
-      width: 250px;
-      margin-left: 10px;
-      .s_title {
+    .txt {
+      font-size: 14px;
+      margin-left: 6px;
+    }
+  }
+  .songList {
+    .songItem {
+      height: 60px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .info {
+        .title {
+          width: 250px;
+          display: flex;
+          .name {
+            width: 200px;
+            font-size: 14px;
+            .otherName {
+              color: #939393;
+            }
+          }
+          .reason {
+            margin-top: 3px;
+            height: 14px;
+            max-width: 50px;
+            line-height: 14px;
+            font-size: 10px;
+            background-color: #fffcd7;
+            color: #ceb45e;
+          }
+        }
+        .artists {
+          margin-top: 2px;
+          width: 260px;
+          font-size: 10px;
+          color: #939393;
+        }
+      }
+      .icon {
         font-size: 14px;
+        color: #1499ee;
       }
-      .s_content {
-        margin-top: 5px;
-        font-size: 11px;
-        color: #767676;
+      .notmv {
+        color: rgba(147, 147, 147, 0.4);
       }
-    }
-    .isMv,
-    .menu {
-      color: #767676;
-      font-size: 16px;
-      line-height: 30px;
-      text-align: center;
-      height: 30px;
-      width: 30px;
     }
   }
 }

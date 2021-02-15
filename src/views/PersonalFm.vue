@@ -19,65 +19,59 @@
       <!-- 歌曲信息展示区 -->
       <div class="songInfo">
         <!-- 歌曲主要信息区域 -->
-        <div
-          class="songMain"
-          :style="{ opacity: smOpacity, zIndex: smzIndex }"
-          @click="swich"
-        >
-          <div class="blurPic">
+        <transition name="van-fade">
+          <div class="songMain" v-if="swichPic" @click="swich">
             <van-image
-              class="pic"
+              class="blurPic"
               v-if="curSongObj.album"
               :src="curSongObj.album.picUrl"
               fit="cover"
             />
-          </div>
-          <div class="songName van-ellipsis">{{ curSongObj.name }}</div>
-          <div class="by van-ellipsis">
-            <span v-for="(ar, index) in curSongObj.artists" :key="index">
-              <span v-if="index === curSongObj.artists.length - 1">
-                {{ ar.name }}
+            <div class="songName van-ellipsis">{{ curSongObj.name }}</div>
+            <div class="by van-ellipsis">
+              <span v-for="(ar, index) in curSongObj.artists" :key="index">
+                <span v-if="index === curSongObj.artists.length - 1">
+                  {{ ar.name }}
+                </span>
+                <span v-else> {{ ar.name }} / </span>
               </span>
-              <span v-else> {{ ar.name }} / </span>
-            </span>
+            </div>
           </div>
-        </div>
+        </transition>
         <!-- 歌词区域 -->
-        <div
-          class="songLyric"
-          :style="{ opacity: slOpacity, zIndex: slzIndex }"
-          @click="swich"
-        >
-          <div class="lyricMain" v-if="isLyric">
-            <ul class="lyric" ref="ul">
-              <li v-for="(ly, index) in lyrics" :key="index">
-                <div
-                  :class="{
-                    active:
-                      currentTime >= lyrics[index].timer &&
-                      currentTime <
-                        (lyrics[index + 1]
-                          ? lyrics[index + 1].timer
-                          : $refs.audio.duration)
-                        ? true
-                        : false,
-                  }"
-                >
-                  <p>
-                    {{ ly.lyric }}
-                  </p>
-                  <p v-for="(tly, index) in tLyrics" :key="index" class="tly">
-                    <span v-if="tly.timer === ly.timer">{{ tly.lyric }}</span>
-                  </p>
-                </div>
-              </li>
-              <p class="byuser" v-if="lyricUser">
-                歌词贡献者：{{ lyricUser.nickname }}
-              </p>
-            </ul>
+        <transition name="van-fade">
+          <div class="songLyric" v-if="!swichPic" @click="swich">
+            <div class="lyricMain" v-if="isLyric">
+              <ul class="lyric" ref="ul">
+                <li v-for="(ly, index) in lyrics" :key="index">
+                  <div
+                    :class="{
+                      active:
+                        currentTime >= lyrics[index].timer &&
+                        currentTime <
+                          (lyrics[index + 1]
+                            ? lyrics[index + 1].timer
+                            : $refs.audio.duration)
+                          ? true
+                          : false,
+                    }"
+                  >
+                    <p>
+                      {{ ly.lyric }}
+                    </p>
+                    <p v-for="(tly, index) in tLyrics" :key="index" class="tly">
+                      <span v-if="tly.timer === ly.timer">{{ tly.lyric }}</span>
+                    </p>
+                  </div>
+                </li>
+                <p class="byuser" v-if="lyricUser">
+                  歌词贡献者：{{ lyricUser.nickname }}
+                </p>
+              </ul>
+            </div>
+            <div class="errDescribe" v-else>{{ errDescribe }}</div>
           </div>
-          <div class="errDescribe" v-else>{{ errDescribe }}</div>
-        </div>
+        </transition>
       </div>
       <!-- 底部功能区域 -->
       <div class="functionalArea">
@@ -110,17 +104,13 @@
             <van-icon class-prefix="my-icon" name="next" />
           </div>
           <div class="comIcon" @click="showCommentComp">
-            <van-icon name="comment-o" />
+            <van-icon class-prefix="my-icon" name="comment_noline" />
           </div>
         </div>
       </div>
     </div>
     <!-- 评论区组件 -->
-    <van-popup
-      v-model="$store.state.isPopup"
-      class="commentComp"
-      position="bottom"
-    >
+    <van-popup v-model="$store.state.isPopup" position="bottom">
       <comment-detial
         :parentId="curSongObj.id"
         :toCommentinfos="toCommentInfos"
@@ -170,12 +160,8 @@ export default {
       lyricUser: {},
       // 翻译版歌词
       tLyrics: [],
-      // 歌曲信息样式
-      smOpacity: 1,
-      smzIndex: 10,
-      // 歌词样式
-      slOpacity: 0,
-      slzIndex: 9,
+      // 封面和歌词切换
+      swichPic: true,
       // 发送给评论组件的部分信息
       toCommentInfos: {},
     };
@@ -294,31 +280,22 @@ export default {
     },
     // 歌词与歌曲信息的切换
     swich() {
-      if (this.smOpacity) {
-        this.smOpacity = 0;
-        this.smzIndex = 9;
-        this.slOpacity = 1;
-        this.slzIndex = 10;
-      } else {
-        this.smOpacity = 1;
-        this.smzIndex = 10;
-        this.slOpacity = 0;
-        this.slzIndex = 9;
-      }
+      this.swichPic = !this.swichPic;
     },
     // 歌词滚动
     lyricScroll() {
       let dom = document.getElementsByClassName("active")[0];
       let ul = this.$refs.ul;
-      if (dom) {
-        if (ul.clientHeight * 0.5 > dom.offsetTop) {
-          ul.scrollTop = 0;
-        } else if (dom.offsetTop > ul.scrollHeight - ul.clientHeight * 0.5) {
-          ul.scrollTop = ul.scrollHeight - ul.clientHeight;
-        } else {
-          ul.scrollTop = dom.offsetTop - ul.clientHeight * 0.5 + 24;
+      if (ul)
+        if (dom) {
+          if (ul.clientHeight * 0.5 > dom.offsetTop) {
+            ul.scrollTop = 0;
+          } else if (dom.offsetTop > ul.scrollHeight - ul.clientHeight * 0.5) {
+            ul.scrollTop = ul.scrollHeight - ul.clientHeight;
+          } else {
+            ul.scrollTop = dom.offsetTop - ul.clientHeight * 0.5 + 24;
+          }
         }
-      }
     },
     // 展示评论组件
     showCommentComp() {
@@ -362,7 +339,6 @@ export default {
   );
   .navbar {
     background-color: transparent;
-    z-index: 999;
     .title {
       color: #fff;
       font-size: 16px;
@@ -378,61 +354,46 @@ export default {
       align-items: center;
       .icon {
         color: #fff;
-        margin-right: 20px;
+        margin-right: 14px;
         font-size: 12px;
       }
     }
     .songInfo {
-      height: 410px;
+      height: 440px;
       position: relative;
-      margin: 20px 0;
       .songMain {
+        width: 100%;
+        height: 100%;
         position: absolute;
         top: 0;
         left: 0;
-        height: 100%;
-        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        transition: opacity 0.5s ease-in;
         .blurPic {
           width: 260px;
           height: 260px;
           border-radius: 10px;
           overflow: hidden;
-          .pic {
-            width: inherit;
-            height: inherit;
-          }
         }
         .songName {
           text-align: center;
           width: 300px;
-          margin-top: 10px;
+          margin: 16px 0 4px;
           font-size: 16px;
-          height: 36px;
-          line-height: 40px;
           color: #fff;
         }
         .by {
           text-align: center;
           width: 300px;
-          margin-top: -4px;
-          height: 20px;
-          line-height: 20px;
           font-size: 12px;
           color: #dcdcdc;
         }
       }
       .songLyric {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 410px;
         width: 100%;
-        transition: opacity 0.5s ease-in;
+        height: 100%;
         .lyricMain {
           height: inherit;
           width: inherit;
@@ -457,9 +418,9 @@ export default {
             }
             > li {
               margin: 30px 0;
-              font-size: 13px;
+              font-size: 12px;
               .tly {
-                font-size: 11px;
+                font-size: 10px;
                 margin-top: 4px;
               }
               .active {
@@ -474,9 +435,7 @@ export default {
           }
         }
         .errDescribe {
-          margin-top: 50%;
-          margin-left: 50%;
-          transform: translate(-50%, -50%);
+          padding-top: 50%;
           text-align: center;
           font-size: 14px;
           color: rgba(255, 255, 255, 0.7);
@@ -488,7 +447,7 @@ export default {
       .musicSlider {
         height: 60px;
         display: grid;
-        grid-template-columns: 13% 74% 13%;
+        grid-template-columns: 15% 70% 15%;
         align-items: center;
         .current,
         .duration {
@@ -500,9 +459,9 @@ export default {
       .BTN {
         height: 70px;
         padding: 0 30px;
+        color: #f0f0f0;
         display: grid;
         align-items: center;
-        color: #f0f0f0;
         grid-template-columns: 18% 18% 28% 18% 18%;
         > div {
           height: 100%;
@@ -516,10 +475,6 @@ export default {
         }
       }
     }
-  }
-  .commentComp {
-    width: 100%;
-    height: 100%;
   }
 }
 </style>

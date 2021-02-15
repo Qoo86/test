@@ -5,12 +5,12 @@
       <p>Music</p>
     </div>
     <div class="button">
-      <van-button type="default" block round @click="showLoginPopup"
-        >手 机 号 码 登 录</van-button
-      >
-      <van-button type="danger" block round to="/index"
-        >免 登 录 立 即 体 验</van-button
-      >
+      <van-button type="default" block round @click="showLoginPopup">
+        手 机 号 码 登 录
+      </van-button>
+      <van-button type="danger" block round to="/index">
+        免 登 录 立 即 体 验
+      </van-button>
     </div>
 
     <!-- 弹出层 -->
@@ -27,7 +27,7 @@
           <p class="slg_txt red">
             <span class="fz12">
               tips:
-              手机号和密码为注册网易云音乐平台时候的手机和密码。由于接口为网络资源，且在本项目并没有进行加密，请注意帐号安全！另外，登录状态刷新较慢，耐心等待一下呀
+              手机号和密码为注册网易云音乐平台时候的手机和密码。由于接口为网络资源，且在本项目并没有进行加密，请注意帐号安全！
             </span>
           </p>
         </div>
@@ -81,7 +81,6 @@ export default {
     // 登录
     async login() {
       let { data: res } = await _login(this.phone, this.password);
-
       if (res.code == 200) {
         window.localStorage.setItem("token", res.token);
         window.localStorage.setItem("userinfo", JSON.stringify(res.profile));

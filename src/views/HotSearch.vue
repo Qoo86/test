@@ -1,18 +1,15 @@
 <template>
-  <div class="contentbox">
-    <!-- 热搜榜 -->
-    <div class="hotbox">
-      <div class="title">热搜榜</div>
-      <div class="hotdetial">
-        <div
-          class="hotedetialitem"
-          v-for="(item, index) in hotDetail"
-          :key="item.id"
-          @click="toSearch(item.searchWord)"
-        >
-          <span class="itemlever">{{ index + 1 }}</span>
-          <span class="itemname">{{ item.searchWord }}</span>
-        </div>
+  <div class="hotbox">
+    <div class="title">热搜榜</div>
+    <div class="hotdetial">
+      <div
+        class="hotedetialitem"
+        v-for="(item, index) in hotDetail"
+        :key="item.id"
+        @click="toSearch(item.searchWord)"
+      >
+        <span class="itemlever">{{ index + 1 }}</span>
+        <span class="itemname">{{ item.searchWord }}</span>
       </div>
     </div>
   </div>
@@ -48,36 +45,33 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.contentbox {
-  margin: 16px 16px 0 16px;
-  position: relative;
-  .hotbox {
-    .title {
+.hotbox {
+  margin: 0 16px;
+  .title {
+    font-size: 14px;
+    height: 54px;
+    line-height: 54px;
+  }
+  .hotdetial {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    .hotedetialitem {
+      height: 30px;
       font-size: 14px;
-    }
-    .hotdetial {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      .hotedetialitem {
-        height: 30px;
-        font-size: 14px;
-        line-height: 24px;
-        cursor: pointer;
+      line-height: 30px;
+      .itemlever {
+        color: #ccc;
+        padding-right: 14px;
+      }
+      .itemname {
+        color: #757575;
+      }
+      &:nth-of-type(-n + 3) {
         .itemlever {
-          color: #ccc;
-          padding-right: 14px;
+          color: #ec4141;
         }
         .itemname {
-          color: #757575;
-        }
-        &:nth-of-type(-n + 3) {
-          .itemlever {
-            color: #ec4141;
-          }
-          .itemname {
-            color: #000;
-          }
+          color: #000;
         }
       }
     }

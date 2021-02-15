@@ -88,6 +88,8 @@ export default {
 
 <style lang="less" scoped>
 #PSDP {
+  width: 100%;
+  height: 667px;
   .navbar {
     background-color: #fff;
     .t_icon {
@@ -99,7 +101,7 @@ export default {
     }
   }
   .PSDP_body {
-    margin-top: 56px;
+    padding-top: 56px;
     .cell {
       margin: 4px 0;
       height: 60px;

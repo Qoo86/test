@@ -274,7 +274,8 @@ export default {
 <style lang="less" scoped>
 #comment {
   background-color: #e0e0e0;
-  height: 100%;
+  width: 100%;
+  height: 667px;
   .navbar {
     background: #fff;
     .t_icon {

@@ -2,22 +2,20 @@
   <div id="RecomSongList">
     <div class="title">
       <div class="title_name">推荐歌单</div>
-      <router-link tag="div" to="/playlistgroup">
-        <div class="more">更 多</div>
+      <router-link tag="div" class="more" to="/playlistgroup">
+        更 多
       </router-link>
     </div>
     <div class="songListBox">
       <div
         v-for="item in recSonList"
         :key="item.id"
-        class="songList"
+        class="playlist"
         @click="toPlayListDetail(item.id)"
       >
-        <div class="songListImg">
-          <van-image :src="item.picUrl" />
-        </div>
-        <div class="songListName van-multi-ellipsis--l2">{{ item.name }}</div>
-        <div class="songListNameplayCount">
+        <van-image :src="item.picUrl" class="playlist_coverImg" />
+        <div class="playlist_name van-multi-ellipsis--l2">{{ item.name }}</div>
+        <div class="playlist_playcount">
           ▶ {{ item.playCount | formatNumber }}
         </div>
       </div>
@@ -26,7 +24,7 @@
 </template>
 
 <script>
-import { _getRecomPlayList } from "../network/index.js";
+import { _getRecomPlayList } from "../../network/index.js";
 export default {
   data() {
     return {
@@ -61,20 +59,18 @@ export default {
 <style lang="less" scoped>
 #RecomSongList {
   .title {
-    background-color: #fff;
     display: flex;
     justify-content: space-between;
-    padding: 20px 6px 0 6px;
+    padding: 20px 10px 0;
     color: #3e3e3e;
     .title_name {
-      font-size: 15px;
-      font-weight: 600;
+      font-size: 14px;
     }
     .more {
       font-size: 10px;
       text-align: center;
       height: 16px;
-      width: 50px;
+      width: 46px;
       line-height: 16px;
       border: 1px solid #717171;
       border-radius: 10px;
@@ -87,38 +83,34 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    .songList {
+    .playlist {
       position: relative;
       margin: 10px 0 0;
       width: 80px;
       height: 120px;
-      .songListImg {
+      .playlist_coverImg {
         width: 80px;
         height: 80px;
         border-radius: 10px;
         overflow: hidden;
         background-color: aquamarine;
         opacity: 0.8;
-        .van-image__img {
-          width: 80px;
-          height: 80px;
-        }
       }
-      .songListName {
+      .playlist_name {
         padding-top: 6px;
         width: 80px;
         font-size: 11px;
         text-align: center;
       }
-      .songListNameplayCount {
+      .playlist_playcount {
         position: absolute;
         color: #fff;
         font-size: 10px;
         top: 4px;
         right: 4px;
-        height: 14px;
-        line-height: 14px;
-        background-color: rgba(0, 0, 0, 0.5);
+        height: 16px;
+        line-height: 16px;
+        background-color: rgba(0, 0, 0, 0.4);
         border-radius: 20px;
         padding: 0 6px;
       }

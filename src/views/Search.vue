@@ -19,26 +19,27 @@
 
     <router-view :key="$route.fullPath" @backKeyw="getBackKeyw" />
 
-    <transition name="van-slide-left">
-      <div v-show="isShowMsgBox" class="searchMsgBox z999">
+    <transition name="van-fade">
+      <div v-show="isShowMsgBox" class="searchMsgBox">
         <div
-          class="toSearch searchMsg van-ellipsis"
+          class="searchtitle van-ellipsis"
           @click="toSuggestSearch(searchValue)"
         >
-          搜索"{{ searchValue }}"
+          搜索 “{{ searchValue }}”
         </div>
         <div
-          class="searchMsg"
+          class="searchItem"
           v-for="(item, index) in searchSuggest"
           :key="index"
           @click="toSuggestSearch(item.keyword)"
         >
-          <span class="my-icon msg_sicon">&#xe604;</span> {{ item.keyword }}
+          <van-icon name="search" class="sIcon" />
+          <span class="van-ellipsis">{{ item.keyword }}</span>
         </div>
       </div>
     </transition>
     <!-- 底部导航栏 -->
-    <tab-bar></tab-bar>
+    <tab-bar />
   </div>
 </template>
 
@@ -118,33 +119,39 @@ export default {
 
 <style lang="less" scoped>
 #search {
+  position: relative;
   .searchMsgBox {
-    position: absolute;
-    width: 96%;
-    max-height: 500px;
-    overflow: scroll;
+    width: 90%;
     background-color: #fff;
-    box-shadow: 0 0 5px #888;
-    top: 60px;
+    position: absolute;
+    top: 70px;
     left: 50%;
-    transform: translate(-50%, 0);
-    font-size: 14px;
-    padding: 4px 10px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 6px 2px #ccc;
+    font-size: 13px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    .searchMsg {
-      color: #888;
-      height: 36px;
-      line-height: 36px;
-
-      .msg_sicon {
-        padding-right: 10px;
-      }
-    }
-    .toSearch {
+    z-index: 2;
+    .searchtitle {
+      height: 46px;
+      line-height: 46px;
       color: #5383e8;
+      border-bottom: 1px solid #d6d6d6;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    .searchItem {
+      height: 46px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      color: #939399;
+      border-bottom: 1px solid #d6d6d6;
+      padding: 0 10px;
+      box-sizing: border-box;
+      .sIcon {
+        font-size: 20px;
+        margin-right: 4px;
+      }
     }
   }
 }

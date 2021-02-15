@@ -12,9 +12,7 @@
         :key="index"
         @click="toPlayListDetail(playlist.id)"
       >
-        <div class="i_pic">
-          <van-image class="img" :src="playlist.coverImgUrl" />
-        </div>
+        <van-image class="i_pic" :src="playlist.coverImgUrl" />
         <div class="i_info">
           <div class="name van-ellipsis">
             {{ playlist.name }}
@@ -87,10 +85,6 @@ export default {
       height: 50px;
       border-radius: 6px;
       overflow: hidden;
-      .img {
-        width: inherit;
-        height: inherit;
-      }
     }
     .i_info {
       width: 300px;

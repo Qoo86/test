@@ -1,6 +1,6 @@
 <template>
-  <div id="pm">
-    <div class="pmMini" v-if="songList.length !== 0">
+  <div id="pm" v-if="songList.length !== 0">
+    <div class="pmMini">
       <van-image
         fit="cover"
         :src="songList[currentIndex].pic"
@@ -180,19 +180,19 @@
             <div class="playtypeBtn">
               <van-icon
                 class-prefix="my-icon"
-                name="lbxh"
+                name="sequence"
                 v-if="playType === 1"
                 @click="changeLoudType(2)"
               />
               <van-icon
                 class-prefix="my-icon"
-                name="sjbf"
+                name="random"
                 v-else-if="playType === 2"
                 @click="changeLoudType(3)"
               />
               <van-icon
                 class-prefix="my-icon"
-                name="dqxh"
+                name="loop"
                 v-else
                 @click="changeLoudType(1)"
               />
@@ -226,7 +226,7 @@
       </div>
       <div class="menu">
         <div class="roundType" @click="changeLoudType(2)" v-if="playType === 1">
-          <van-icon class-prefix="my-icon" name="lbxh" />
+          <van-icon class-prefix="my-icon" name="sequence" />
           <div class="txt">列表循环</div>
         </div>
         <div
@@ -234,11 +234,11 @@
           @click="changeLoudType(3)"
           v-else-if="playType === 2"
         >
-          <van-icon class-prefix="my-icon" name="sjbf" />
+          <van-icon class-prefix="my-icon" name="random" />
           <div class="txt">随机播放</div>
         </div>
         <div class="roundType" @click="changeLoudType(1)" v-else>
-          <van-icon class-prefix="my-icon" name="dqxh" />
+          <van-icon class-prefix="my-icon" name="loop" />
           <div class="txt">单曲循环</div>
         </div>
         <div class="subALl">
@@ -283,7 +283,6 @@
     <van-popup
       v-if="songList[currentIndex]"
       v-model="$store.state.isSongCommentPopup"
-      class="commentComp"
       position="bottom"
     >
       <comment-detial
@@ -347,6 +346,9 @@ export default {
         this.listShow = false;
         this.pageShow = false;
         this.currentIndex = -1;
+        this.$store.commit("hiddenMusicPlayPlaceholder");
+      } else {
+        this.$store.commit("showMusicPlayPlaceholder");
       }
     },
   },
@@ -839,33 +841,29 @@ export default {
         }
       }
     }
-    // 旋转动画
-    @keyframes rotate {
-      0% {
-        transform: rotate(0);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
+  }
+  // 旋转动画
+  @keyframes rotate {
+    0% {
+      transform: rotate(0);
     }
-    .rotate {
-      animation: rotate 10s linear infinite;
-    }
-    @keyframes pageRotate {
-      0% {
-        transform: translate(-50%, -50%) rotate(0);
-      }
-      100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
-    }
-    .pagerotate {
-      animation: pageRotate 10s linear infinite;
+    100% {
+      transform: rotate(360deg);
     }
   }
-  .commentComp {
-    width: 100%;
-    height: 100%;
+  .rotate {
+    animation: rotate 10s linear infinite;
+  }
+  @keyframes pageRotate {
+    0% {
+      transform: translate(-50%, -50%) rotate(0);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+  .pagerotate {
+    animation: pageRotate 10s linear infinite;
   }
 }
 </style>

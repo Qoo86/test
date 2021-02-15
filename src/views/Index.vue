@@ -1,74 +1,73 @@
 <template>
-  <div>
+  <div id="index">
     <!-- 头部组件 -->
-    <header-bar>
-      <template v-slot:left>
+    <van-nav-bar fixed placeholder :border="false" class="navbar">
+      <template #left>
         <van-icon
           class-prefix="my-icon"
           name="meau"
-          size="0.5rem"
-          color="#fff"
-          @click="showPopup"
-        ></van-icon>
+          class="menuicon"
+          @click="$refs.popup.show = true"
+        />
       </template>
-      <template v-slot:title> Yukari Music </template>
-      <template v-slot:right>
+      <template #title> Yukari Music </template>
+      <template #right>
         <van-icon
-          class-prefix="my-icon"
           name="search"
-          size="0.5rem"
-          color="#fff"
-          @click="toSearch"
-        ></van-icon
-      ></template>
-    </header-bar>
+          class="icon searchicon"
+          @click="$router.push('/search')"
+        />
+      </template>
+    </van-nav-bar>
     <!-- 轮播图组件 -->
-    <swipe></swipe>
+    <index-swipe />
     <!-- 功能栏组件 -->
-    <grid></grid>
+    <index-grid />
     <!-- 弹出层组件 -->
-    <popup ref="popup"></popup>
+    <sidebar ref="popup" />
     <!-- 推荐歌单组件 -->
-    <recom-song-list></recom-song-list>
-    <ranking-list-by-index></ranking-list-by-index>
+    <index-recom-playlist />
+    <!-- 歌手排行 -->
+    <index-rank-by-singer />
     <!-- 底部导航栏 -->
-    <tab-bar></tab-bar>
+    <tab-bar />
   </div>
 </template>
 
 <script>
 import HeaderBar from "../components/HeaderBar.vue";
-import Swipe from "../components/Swipe.vue";
-import Grid from "../components/Grid.vue";
-import Popup from "../components/Popup.vue";
-import RecomSongList from "../components/RecomSongList.vue";
-import RankingListByIndex from "../components/RankingListByIndex.vue";
+import IndexSwipe from "../components/Index/IndexSwipe.vue";
+import IndexGrid from "../components/Index/IndexGrid.vue";
+import Sidebar from "../components/Sidebar.vue";
+import IndexRecomPlaylist from "../components/Index/IndexRecommPlaylist.vue";
+import IndexRankBySinger from "../components/Index/IndexRankBySinger";
 import TabBar from "../components/TabBar.vue";
 
 export default {
-  data() {
-    return {};
-  },
-  methods: {
-    showPopup() {
-      this.$refs.popup.show = true;
-    },
-    toSearch() {
-      this.$router.push("/search");
-    },
-  },
   components: {
     HeaderBar,
-    Swipe,
-    Grid,
-    Popup,
-    RecomSongList,
-    RankingListByIndex,
+    IndexSwipe,
+    IndexGrid,
+    Sidebar,
+    IndexRecomPlaylist,
+    IndexRankBySinger,
     TabBar,
   },
-  mounted() {},
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+#index {
+  background-color: #fff;
+  .navbar {
+    .menuicon {
+      color: #fff;
+      font-size: 18px;
+    }
+    .searchicon {
+      font-weight: 900;
+      font-size: 20px;
+    }
+  }
+}
 </style>

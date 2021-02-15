@@ -16,103 +16,131 @@
   text-rendering: auto;
   -webkit-font-smoothing: antialiased;
 }
-
+/* 菜单图标 */
 .my-icon-meau::before {
   content: "\e600";
 }
-.my-icon-phb::before {
+/* 每日推荐图标 */
+.my-icon-toplist::before {
   color: #ec4141;
   content: "\e68f";
 }
+/* 私人FM图片 */
 .my-icon-fm::before {
   color: #ec4141;
   content: "\e601";
 }
-.my-icon-gedang::before {
+/* 歌单图标 */
+.my-icon-playlist::before {
   color: #ec4141;
   content: "\e636";
 }
-.my-icon-ritui::before {
+/* 每日推荐图标 */
+.my-icon-recommend::before {
   color: #ec4141;
   content: "\e6a8";
 }
+/* 音乐黑名单图标 */
 .my-icon-ban::before {
   content: "\e62e";
 }
+/* 关于图标 */
 .my-icon-about::before {
   content: "\e603";
 }
-.my-icon-czz::before {
+/* 创作者中心图标 */
+.my-icon-creator_center::before {
   content: "\e60d";
 }
-.my-icon-qsn::before {
+/* 青少年模式图标 */
+.my-icon-youth_model::before {
   content: "\e62a";
 }
-.my-icon-nz::before {
+/* 音乐闹钟图标 */
+.my-icon-alarm_clock::before {
   content: "\e602";
 }
+/* 订单图标 */
 .my-icon-order::before {
   content: "\e608";
 }
+/* 消息图标 */
 .my-icon-msg::before {
   content: "\e609";
 }
-.my-icon-yhq::before {
+/* 优惠券图标 */
+.my-icon-coupon::before {
   content: "\e623";
 }
-.my-icon-search::before {
-  content: "\e604";
-}
-.my-icon-next::before {
-  content: "\e691";
-}
-
+/* 粉丝图标 */
 .my-icon-fans::before {
   content: "\e605";
 }
-
-.my-icon-pinlun::before {
+/* 评论图标 */
+.my-icon-comment::before {
   content: "\e606";
 }
-
-.my-icon-aite::before {
+/* 艾特图标 */
+.my-icon-ate::before {
   content: "\e648";
 }
-
-.my-icon-tonzhi::before {
+/* 通知图标 */
+.my-icon-notice::before {
   content: "\e615";
 }
-
+/* 新歌发布图标 */
 .my-icon-newsend::before {
   content: "\e702";
 }
-
+/* 上一曲图标 */
 .my-icon-pre::before {
   content: "\e620";
 }
-
+/* 下一曲图标 */
+.my-icon-next::before {
+  content: "\e691";
+}
+/* X 按钮图标 */
 .my-icon-del::before {
   content: "\e626";
 }
-
-.my-icon-lbxh::before {
+/* 列表循环图标 */
+.my-icon-sequence::before {
   content: "\e65f";
 }
-.my-icon-sjbf::before {
+/* 随机播放图标 */
+.my-icon-random::before {
   content: "\e627";
 }
-.my-icon-dqxh::before {
+/* 单曲循环图标 */
+.my-icon-loop::before {
   content: "\e628";
 }
+/* 分享图标 */
 .my-icon-share::before {
   content: "\e614";
 }
+/* 唱片图标 */
 .my-icon-song::before {
   content: "\e62b";
 }
+/* 歌词图标 */
 .my-icon-lyric::before {
   content: "\e62c";
 }
-/* 
-<!-- 通过 class-prefix 指定类名为 my-icon -->
-<van-icon class-prefix="my-icon" name="extra" /> */
+/* mv图标 */
+.my-icon-mv::before {
+  content: "\e621";
+}
+/* c-ellipsis*/
+.my-icon-col_ellipsis::before {
+  content: "\e6f8";
+}
+/* 评论 */
+.my-icon-comment_noline::before {
+  content: "\e606";
+}
+/* 下载图标 */
+.my-icon-download::before {
+  content: "\e6f3";
+}

@@ -4,7 +4,7 @@
     <van-nav-bar
       :border="false"
       fixed
-      class="navbareset"
+      class="navbar"
       @click-left="$router.go(-1)"
     >
       <template #left>
@@ -15,8 +15,12 @@
       </template>
       <template #right>
         <div class="menu">
-          <div class="my-icon">&#xe604;</div>
-          <div class="my-icon">&#xe6f8;</div>
+          <van-icon name="search" class="menu_icon" />
+          <van-icon
+            class-prefix="my-icon"
+            name="col_ellipsis"
+            class="menu_icon"
+          />
         </div>
       </template>
     </van-nav-bar>
@@ -33,9 +37,7 @@
             {{ playlistmsg.name }}
           </div>
           <div class="h_t_creatorInfo">
-            <div class="ctr_avatar">
-              <van-image class="ctr_pic" round :src="creator.avatarpic" />
-            </div>
+            <van-image class="ctr_pic" round :src="creator.avatarpic" />
             <div class="ctr_name">{{ creator.username }}</div>
           </div>
           <div
@@ -54,12 +56,11 @@
       <div class="box_bottom">
         <!--  iscreated == 是否是自己创建 -->
         <div v-if="iscreated">
-          <div class="item_div collection">
-            <div class="my-icon cddd">&#xe617;</div>
-            <div class="num cddd" v-if="collectionCount !== 0">
+          <div class="item_div collection" style="color: #ddd">
+            <van-icon name="star-o" class="menu_icon" />
+            <div class="num">
               {{ collectionCount | formatNumber }}
             </div>
-            <div class="num cddd" v-else>收藏</div>
           </div>
         </div>
         <div v-if="!iscreated">
@@ -69,16 +70,16 @@
             class="item_div collection"
             v-if="subscribed"
             @click="subscribedToFalse"
+            style="color: #5282e8"
           >
-            <div class="my-icon blue">&#xe617;</div>
-            <div class="num blue" v-if="collectionCount !== 0">
+            <van-icon name="star-o" class="menu_icon" />
+            <div class="num">
               {{ collectionCount | formatNumber }}
             </div>
-            <div class="num" v-else>收藏</div>
           </div>
           <!-- 否 -->
           <div class="item_div collection" v-else @click="subscribedToTrue">
-            <div class="my-icon">&#xe617;</div>
+            <van-icon name="star-o" class="menu_icon" />
             <div class="num" v-if="collectionCount !== 0">
               {{ collectionCount | formatNumber }}
             </div>
@@ -86,14 +87,18 @@
           </div>
         </div>
         <div class="item_div comment" @click="toCommentDetail">
-          <div class="my-icon">&#xe606;</div>
+          <van-icon
+            class-prefix="my-icon"
+            class="menu_icon"
+            name="comment_noline"
+          />
           <div class="num" v-if="commentCount !== 0">
             {{ commentCount | formatNumber }}
           </div>
           <div class="num" v-else>评论</div>
         </div>
-        <div class="item_div share" @click="$store.commit('showShareSheet')">
-          <div class="my-icon">&#xe6dc;</div>
+        <div class="item_div share">
+          <van-icon class-prefix="my-icon" class="menu_icon" name="share" />
           <div class="num" v-if="shareCount !== 0">
             {{ shareCount | formatNumber }}
           </div>
@@ -105,14 +110,13 @@
     <div class="songList">
       <div class="sl_title" @click="playAll(trackIds)">
         <div class="t_text">
-          <span class="my-icon">&#xe690;</span>播放全部<span
-            class="fz12 ml4 c939393"
-            >( {{ trackIds.length }}首 )</span
-          >
+          <van-icon name="play-circle" class="icon" />
+          <span> 播放全部 </span>
+          <span class="length">({{ trackIds.length }}首)</span>
         </div>
         <div class="t_othericon">
-          <div class="my-icon">&#xe6f3;</div>
-          <div class="my-icon">&#xe62f;</div>
+          <van-icon class="oIcon" class-prefix="my-icon" name="download" />
+          <van-icon class="oIcon" name="add-o" />
         </div>
       </div>
       <div class="sl_content">
@@ -126,9 +130,9 @@
           <div class="item_txt">
             <div class="t_songname van-ellipsis">
               {{ song.name }}
-              <span v-if="song.alia[0]" class="othername"
-                >({{ song.alia[0] }})</span
-              >
+              <span v-if="song.alia[0]" class="othername">
+                ({{ song.alia[0] }})
+              </span>
             </div>
             <div class="t_songby van-ellipsis">
               <span v-for="(ar, index) in song.ar" :key="index">
@@ -138,13 +142,16 @@
               <span v-if="song.al.name"> - {{ song.al.name }}</span>
             </div>
           </div>
-          <div class="item_icon" v-if="song.mv === 0">
-            <div class="more my-icon ml26">&#xe6f8;</div>
-          </div>
-          <div class="item_icon" v-else>
-            <div class="mv my-icon">&#xe621;</div>
-            <div class="more my-icon">&#xe6f8;</div>
-          </div>
+          <van-icon
+            class-prefix="my-icon"
+            :class="{ item_icon: true, notmv: !song.mv }"
+            name="mv"
+          />
+          <van-icon
+            class-prefix="my-icon"
+            class="item_icon"
+            name="col_ellipsis"
+          />
         </div>
       </div>
     </div>
@@ -154,68 +161,50 @@
       v-if="collectionCount !== 0"
       @click="$store.commit('showSubPopup')"
     >
-      <div class="useravatr">
-        <van-image
-          v-for="(pic, index) in subscribers"
-          :key="index"
-          round
-          :src="pic.avatarUrl"
-          class="pic"
-        />
-      </div>
+      <van-image
+        v-for="(pic, index) in subscribers"
+        :key="index"
+        round
+        :src="pic.avatarUrl"
+        class="pic"
+      />
       <div class="collectionnum">
         {{ collectionCount | formatNumber }}人收藏
-        <van-icon name="arrow" size="1.1em" color="#939393" class="icon" />
+        <van-icon name="arrow" />
       </div>
     </div>
     <!-- 遮罩层 -->
     <van-overlay :show="overlayshow" @click="overlayshow = false">
-      <div class="wrapper">
-        <div class="block">
-          <div class="pl_pic">
-            <img :src="playlistmsg.coverImgUrl" />
+      <div class="wapper">
+        <van-image class="pl_pic" :src="playlistmsg.coverImgUrl" />
+        <div class="pl_name">{{ playlistmsg.name }}</div>
+        <div class="tag">
+          <div class="title">标签：</div>
+          <div
+            class="tag_item"
+            v-for="items in playlistmsg.tags"
+            :key="items.id"
+          >
+            {{ items }}
           </div>
-          <div class="pl_name">{{ playlistmsg.name }}</div>
-          <div class="tag">
-            <div class="title">标签：</div>
-            <div
-              class="tag_item"
-              v-for="items in playlistmsg.tags"
-              :key="items.id"
-            >
-              {{ items }}
-            </div>
-          </div>
-          <div class="description">
-            {{ playlistmsg.description }}
-          </div>
+        </div>
+        <div class="description">
+          {{ playlistmsg.description }}
         </div>
       </div>
     </van-overlay>
     <!-- 加载组件 -->
     <loading />
     <!-- 评论组件 -->
-    <van-popup
-      v-model="$store.state.isPopup"
-      class="commentComp"
-      position="bottom"
-    >
+    <van-popup v-model="$store.state.isPopup" position="bottom">
       <comment-detial
         :parentId="songlistid"
         :toCommentinfos="toCommentinfos"
         :type="2"
       />
     </van-popup>
-    <!-- 分享面板组件 -->
-    <van-share-sheet
-      v-model="$store.state.isShareSheet"
-      title="立即分享给好友"
-      :options="options"
-      @cancel="$store.commit('hiddenShareSheet')"
-      @click-overlay="$store.commit('hiddenShareSheet')"
-    />
     <!-- 收藏者列表组件 -->
-    <van-popup position="top" class="h100p" v-model="$store.state.isSubPopup">
+    <van-popup position="top" v-model="$store.state.isSubPopup">
       <playlist-subscribers-detail-page :playlistid="songlistid" />
     </van-popup>
   </div>
@@ -429,7 +418,7 @@ export default {
 
 <style lang="less" scoped>
 #playlistdetial {
-  .navbareset {
+  .navbar {
     background-image: linear-gradient(
       110.3deg,
       rgba(72, 85, 99, 1) 8.8%,
@@ -438,9 +427,10 @@ export default {
     .menu {
       color: #fff;
       display: flex;
-      font-size: 1.2em;
-      > .my-icon {
-        margin-left: 8px;
+      align-items: center;
+      .menu_icon {
+        font-size: 18px;
+        margin-left: 4px;
       }
     }
   }
@@ -454,11 +444,9 @@ export default {
     position: relative;
     .box_top {
       height: 180px;
-      box-sizing: border-box;
       display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 20px 10px;
+      justify-content: space-around;
       .headerbox_Pic {
         text-align: center;
         width: 135px;
@@ -483,7 +471,7 @@ export default {
         }
       }
       .headerbox_txt {
-        width: 240px;
+        width: 230px;
         .h_t_playlistName {
           color: #ececec;
           font-size: 14px;
@@ -492,7 +480,7 @@ export default {
           display: flex;
           align-items: center;
           color: #d8d8d8;
-          margin: 6px 0 12px;
+          margin: 12px 0;
           .ctr_pic {
             width: 24px;
             height: 24px;
@@ -542,9 +530,9 @@ export default {
         }
         height: 24px;
         width: 100%;
-        .my-icon {
+        .menu_icon {
           font-size: 18px;
-          margin-right: 6px;
+          margin-right: 4px;
         }
         .num {
           font-size: 12px;
@@ -561,23 +549,26 @@ export default {
       justify-content: space-between;
       height: 40px;
       .t_text {
-        margin-left: 10px;
         font-size: 14px;
-        height: 20px;
-        line-height: 20px;
-        > .my-icon {
-          font-size: 16px;
-          color: #2b6de6;
-          margin-right: 4px;
+        display: flex;
+        align-items: center;
+        .icon {
+          margin: 0 8px 0 16px;
+          color: #1499ee;
+          font-size: 20px;
+        }
+        .length {
+          font-size: 12px;
+          color: #939393;
+          padding-left: 4px;
         }
       }
       .t_othericon {
-        margin-right: 10px;
         display: flex;
         font-size: 16px;
         height: 20px;
         line-height: 20px;
-        > .my-icon {
+        > .oIcon {
           margin: 0 6px;
         }
       }
@@ -587,9 +578,10 @@ export default {
         display: flex;
         height: 50px;
         align-items: center;
+        justify-content: space-around;
         .item_index {
           text-align: center;
-          width: 50px;
+          width: 30px;
           font-size: 14px;
           color: #939393;
         }
@@ -608,12 +600,12 @@ export default {
           }
         }
         .item_icon {
-          display: flex;
-          justify-content: space-between;
           font-size: 14px;
-          color: #939393;
-          width: 40px;
+          color: #148cee;
           box-sizing: border-box;
+        }
+        .notmv {
+          color: rgba(147, 147, 147, 0.4);
         }
       }
     }
@@ -624,92 +616,70 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .useravatr {
-      margin-left: 10px;
-      .pic {
-        margin: 0 4px;
-        width: 32px;
-        height: 32px;
-      }
+    .pic {
+      margin-left: 4px;
+      width: 32px;
+      height: 32px;
     }
     .collectionnum {
       font-size: 13px;
       color: #939393;
       margin-right: 20px;
       height: 60px;
-      display: flex;
-      align-items: center;
-      .icon {
-        margin-left: 4px;
-      }
+      line-height: 60px;
     }
   }
   // 遮罩层相关
-  .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .wapper {
+    padding: 26% 20px 0;
+    box-sizing: border-box;
+    width: 100%;
     height: 100%;
     background-image: linear-gradient(
       110.3deg,
       rgba(72, 85, 99, 1) 8.8%,
       rgba(127, 146, 166, 1) 95.1%
     );
-    .block {
-      margin-top: 36%;
-      width: 100%;
-      height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .pl_pic {
+      width: 180px;
+      height: 180px;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    .pl_name {
+      margin: 20px 0 40px;
+      font-size: 16px;
+      color: #fff;
+      font-weight: 500;
+    }
+    .tag {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      padding: 0 20px;
-      .pl_pic {
-        width: 180px;
-        height: 180px;
+      width: 100%;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #fff;
+      .tag_item {
+        font-size: 12.6px;
+        height: 22px;
+        width: 48px;
+        line-height: 22px;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.4);
+        margin: 0 4px;
         border-radius: 15px;
-        overflow: hidden;
-        > img {
-          width: inherit;
-          height: inherit;
-        }
-      }
-      .pl_name {
-        margin: 20px 0 40px 0;
-        font-size: 16px;
-        color: #fff;
-        font-weight: 500;
-      }
-      .tag {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        font-size: 14px;
-        margin-bottom: 10px;
-        color: #fff;
-        .tag_item {
-          font-size: 12.6px;
-          height: 22px;
-          width: 48px;
-          line-height: 22px;
-          text-align: center;
-          background-color: rgba(0, 0, 0, 0.4);
-          margin: 0 4px;
-          border-radius: 15px;
-        }
-      }
-      .description {
-        font-size: 12.8px;
-        line-height: 18px;
-        color: #fff;
-        height: 260px;
-        overflow: scroll;
       }
     }
-  }
-  // 评论弹出层
-  .commentComp {
-    width: 100%;
-    height: 100%;
+    .description {
+      font-size: 12.8px;
+      line-height: 18px;
+      color: #fff;
+      height: 260px;
+      overflow: scroll;
+    }
   }
 }
 </style>

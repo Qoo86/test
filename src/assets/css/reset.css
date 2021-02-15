@@ -79,21 +79,3 @@
 .z999 {
   z-index: 999;
 }
-
-.b0 {
-  bottom: 0;
-}
-.b50 {
-  bottom: 50px;
-}
-.pmFixed {
-  z-index: 99;
-  height: 60px;
-  width: 100%;
-  position: fixed;
-  left: 0;
-  transition: all 0.2s ease-in;
-}
-.pb60 {
-  padding-bottom: 60px;
-}
