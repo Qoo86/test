@@ -15,9 +15,7 @@
     <!-- 歌单信息显示区域 -->
     <div class="playlistinfo">
       <div class="pl_header">
-        <div class="pic">
-          <van-image class="img" :src="toCommentinfos.coverImgUrl" />
-        </div>
+        <van-image class="pic" :src="toCommentinfos.coverImgUrl" />
         <div class="info">
           <div class="pl_name van-multi-ellipsis--l2">
             {{ toCommentinfos.name }}
@@ -68,9 +66,7 @@
             v-for="items in commentslist"
             :key="items.commentId"
           >
-            <div class="userPic">
-              <van-image :src="items.user.avatarUrl" round />
-            </div>
+            <van-image class="userPic" :src="items.user.avatarUrl" round />
             <div class="cm_info">
               <div class="cm_top">
                 <div class="nandt">
@@ -92,10 +88,10 @@
                   @click="likeComment(items.commentId, 1)"
                 >
                   <span class="count">{{ items.likedCount }}</span>
-                  <span class="my-icon">&#xe61d;</span>
+                  <van-icon name="good-job" />
                 </div>
               </div>
-              <div class="cm_body">
+              <div class="info_body">
                 {{ items.content }}
               </div>
               <div
@@ -104,7 +100,7 @@
                 @click="issheetShow(items.commentId, id)"
               >
                 {{ items.showFloorComment.replyCount }}条回复
-                <span class="my-icon">&#xe610;</span>
+                <van-icon name="arrow" />
               </div>
             </div>
           </div>
@@ -300,10 +296,6 @@ export default {
         border-radius: 6px;
         overflow: hidden;
         margin: 0 10px;
-        .img {
-          width: inherit;
-          height: inherit;
-        }
       }
       .info {
         width: 260px;
@@ -354,10 +346,6 @@ export default {
         .userPic {
           width: 40px;
           height: 40px;
-          > img {
-            width: inherit;
-            height: inherit;
-          }
         }
         .cm_info {
           padding: 0 16px 4px 4px;
@@ -387,7 +375,7 @@ export default {
               }
             }
           }
-          .cm_body {
+          .info_body {
             margin: 4px 0;
             font-size: 14.6px;
           }

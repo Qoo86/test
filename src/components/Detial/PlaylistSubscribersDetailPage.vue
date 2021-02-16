@@ -29,12 +29,20 @@
           <div class="userInfo">
             <div class="username">
               <span class="name">{{ items.nickname }}</span>
-              <span class="sex my-icon blue" v-if="items.gender === 1"
-                >&#xe66b;</span
-              >
-              <span class="sex my-icon pink" v-if="items.gender === 2"
-                >&#xe647;</span
-              >
+              <van-icon
+                class-prefix="my-icon"
+                class="sex"
+                color="blue"
+                name="man2"
+                v-if="items.gender === 1"
+              />
+              <van-icon
+                class-prefix="my-icon"
+                class="sex"
+                color="pink"
+                name="women2"
+                v-if="items.gender === 2"
+              />
             </div>
             <div class="userSignature van-ellipsis">{{ items.signature }}</div>
           </div>

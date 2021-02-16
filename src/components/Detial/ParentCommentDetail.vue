@@ -15,7 +15,7 @@
             </div>
             <div class="likeinfo">
               <div class="count">{{ ownerComment.likedCount }}</div>
-              <div class="my-icon">&#xe61d;</div>
+              <van-icon name="good-job-o" />
             </div>
           </div>
           <div class="commentTxt">
@@ -38,9 +38,7 @@
           v-for="items in commentsList"
           :key="items.commentId"
         >
-          <div class="hb_pic">
-            <van-image class="img" :src="items.user.avatarUrl" round />
-          </div>
+          <van-image class="hb_pic" :src="items.user.avatarUrl" round />
           <div class="hb_content">
             <div class="info">
               <div class="userinfo">
@@ -49,7 +47,7 @@
               </div>
               <div class="likeinfo">
                 <div class="count">{{ items.likedCount }}</div>
-                <div class="my-icon">&#xe61d;</div>
+                <van-icon name="good-job-o" />
               </div>
             </div>
             <div class="commentTxt">
@@ -185,11 +183,9 @@ export default {
     display: grid;
     grid-template-columns: 16% 84%;
     .hb_pic {
-      text-align: center;
-      .img {
-        width: 40px;
-        height: 40px;
-      }
+      margin-left: 8px;
+      width: 40px;
+      height: 40px;
     }
     .hb_content {
       .info {

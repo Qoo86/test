@@ -11,8 +11,6 @@
         <van-icon name="arrow-left" class="icon" />
         <div class="title">歌单广场</div>
       </template>
-      <template #title> </template>
-      <template #right> </template>
     </van-nav-bar>
     <!-- 歌单主体 -->
     <div class="playlistBody">
@@ -20,7 +18,7 @@
       <div class="title">
         <div class="txt">{{ cat }}</div>
         <div class="screen" @click="show = !show">
-          <span class="my-icon">&#xe625;</span>
+          <van-icon name="filter-o" class="icon" />
           <span>筛选</span>
         </div>
       </div>
@@ -204,7 +202,7 @@ export default {
       }
       .screen {
         margin-right: 20px;
-        .my-icon {
+        > .icon {
           margin-right: 6px;
         }
       }
