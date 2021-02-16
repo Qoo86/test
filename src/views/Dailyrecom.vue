@@ -4,7 +4,7 @@
     <van-nav-bar
       fixed
       :border="false"
-      :class="{ navbart: !isScroll, navbarf: isScroll }"
+      :class="{ navbar: !isScroll, navbar_scroll: isScroll }"
     >
       <template #left>
         <van-icon name="arrow-left" class="icon" @click="$router.go(-1)" />
@@ -139,7 +139,7 @@ export default {
 <style lang="less" scoped>
 #daliyrecom {
   background-color: #fff;
-  .navbart {
+  .navbar {
     background-color: transparent;
     .icon {
       font-size: 20px;
@@ -149,7 +149,7 @@ export default {
       display: none;
     }
   }
-  .navbarf {
+  .navbar_scroll {
     background-image: linear-gradient(
       67.2deg,
       rgba(37, 208, 199, 1) -7.5%,
