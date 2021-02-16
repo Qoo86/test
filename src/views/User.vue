@@ -19,69 +19,60 @@
         </div>
       </template>
     </van-nav-bar>
-
     <div class="UserInfobody">
       <!-- 用户信息区 -->
       <div class="userInfo" @click="toUserInfoDetailPage(accountData.userId)">
-        <div class="userPic">
-          <img :src="accountData.avatarUrl" />
-        </div>
+        <img class="userPic" :src="accountData.avatarUrl" />
         <div class="userText">
           <div class="userName">{{ accountData.nickname }}</div>
           <div class="userLeve">Lv.{{ userLevel }}</div>
         </div>
-        <div class="iconBtn"><van-icon name="arrow" size=".4rem" /></div>
+        <van-icon name="arrow" class="ui_icon" />
       </div>
       <!-- 功能区 -->
       <div class="menuGird">
         <div class="grid_item">
-          <div class="my-icon">&#xe65e;</div>
+          <van-icon name="music-o" class="u_icon" />
           <div class="text">本地 / 下载</div>
         </div>
         <div class="grid_item">
-          <div class="my-icon">&#xe60c;</div>
+          <van-icon class-prefix="my-icon" name="cloud" class="u_icon" />
           <div class="text">云盘</div>
         </div>
         <div class="grid_item">
-          <div class="my-icon">&#xe660;</div>
+          <van-icon class-prefix="my-icon" name="buy" class="u_icon" />
           <div class="text">已购</div>
         </div>
         <div class="grid_item">
-          <div class="my-icon">&#xe60f;</div>
+          <van-icon class-prefix="my-icon" name="historyPlay" class="u_icon" />
           <div class="text">最近播放</div>
         </div>
         <div class="grid_item">
-          <div class="my-icon">&#xe7de;</div>
+          <van-icon name="friends-o" class="u_icon" />
           <div class="text">我的好友</div>
         </div>
         <div class="grid_item">
-          <div class="my-icon">&#xe617;</div>
+          <van-icon name="star-o" class="u_icon" />
           <div class="text">收藏和赞</div>
         </div>
         <div class="grid_item">
-          <div class="my-icon">&#xe616;</div>
+          <van-icon class-prefix="my-icon" name="blog" class="u_icon" />
           <div class="text">我的博客</div>
         </div>
         <div class="grid_item">
-          <div class="my-icon" style="color: #ccc">&#xe656;</div>
+          <van-icon name="plus" class="u_icon" color="#ccc" />
           <div class="text">更多音乐应用</div>
         </div>
       </div>
       <!-- 我喜欢的音乐 -->
-      <div class="likeMusicBox">
-        <div class="lmb_pic" @click="toPlayListDetail(userLikePlayList.id)">
-          <!-- <div class="loveIcon">
-            <van-icon name="like" color="#ffffff" />
-          </div> -->
-          <img :src="userLikePlayList.coverImgUrl" />
-          <!-- <div class="zezao"></div> -->
-        </div>
+      <div class="likeMusicBox" @click="toPlayListDetail(userLikePlayList.id)">
+        <img class="lmb_pic" :src="userLikePlayList.coverImgUrl" />
         <div class="lmb_txt">
           <div class="title">我喜欢的音乐</div>
           <div class="num">{{ userLikePlayList.trackCount }}首</div>
         </div>
         <div class="lmn_xdicon">
-          <span class="my-icon"> &#xe607; </span>
+          <van-icon class-prefix="my-icon" name="likemodel" class="lmb_icon" />
           <span class="txt">心动模式</span>
         </div>
       </div>
@@ -91,7 +82,7 @@
       v-model="active"
       scrollspy
       sticky
-      offset-top="46px"
+      offset-top="46"
       color="#5282E7"
       :background="tabBackground"
     >
@@ -102,8 +93,12 @@
               创建歌单（{{ createdPlaylistCount - 1 }}个）
             </div>
             <div class="t_memu">
-              <div class="add my-icon">&#xe656;</div>
-              <div class="more my-icon">&#xe6f8;</div>
+              <van-icon name="plus" />
+              <van-icon
+                class-prefix="my-icon"
+                class="more"
+                name="col_ellipsis"
+              />
             </div>
           </div>
           <div
@@ -112,15 +107,13 @@
             :key="playListItem.index"
             @click="toPlayListDetail(playListItem.id)"
           >
-            <div class="b_SL_pic">
-              <img :src="playListItem.coverImgUrl" />
-            </div>
+            <van-image class="b_SL_pic" :src="playListItem.coverImgUrl" />
             <div class="b_SL_txt">
               <div class="t_title van-ellipsis">{{ playListItem.name }}</div>
               <div class="t_sonNum">{{ playListItem.trackCount }}首</div>
             </div>
             <div class="b_SL_more">
-              <div class="more my-icon">&#xe6f8;</div>
+              <van-icon class-prefix="my-icon" name="col_ellipsis" />
             </div>
           </div>
         </div>
@@ -130,8 +123,12 @@
           <div class="title">
             <div class="t_txt">收藏歌单（{{ subPlaylistCount }}个）</div>
             <div class="t_memu">
-              <div class="add my-icon">&#xe656;</div>
-              <div class="more my-icon">&#xe6f8;</div>
+              <van-icon name="plus" />
+              <van-icon
+                class-prefix="my-icon"
+                class="more"
+                name="col_ellipsis"
+              />
             </div>
           </div>
           <!-- 循环体 -->
@@ -141,9 +138,7 @@
             :key="playListItem.index"
             @click="toPlayListDetail(playListItem.id)"
           >
-            <div class="b_SL_pic">
-              <img :src="playListItem.coverImgUrl" />
-            </div>
+            <van-image class="b_SL_pic" :src="playListItem.coverImgUrl" />
             <div class="b_SL_txt">
               <div class="t_title van-ellipsis">{{ playListItem.name }}</div>
               <div class="t_sonNum van-ellipsis">
@@ -152,7 +147,7 @@
               </div>
             </div>
             <div class="b_SL_more">
-              <div class="more my-icon">&#xe6f8;</div>
+              <van-icon class-prefix="my-icon" name="col_ellipsis" />
             </div>
           </div>
         </div>
@@ -167,10 +162,10 @@
             <div class="gdzsContentBody">
               <ul class="gdzsUl" :class="{ marquee_top: animate }">
                 <li v-for="item in autoLunboText" :key="item.index">
-                  适合<span class="bg" :class="item.bg1">{{ item.first }}</span
-                  >听的<span class="bg" :class="item.bg2">{{
-                    item.second
-                  }}</span>
+                  适合
+                  <span class="bg" :class="item.bg1">{{ item.first }}</span>
+                  听的
+                  <span class="bg" :class="item.bg2">{{ item.second }}</span>
                 </li>
               </ul>
             </div>
@@ -182,15 +177,13 @@
                 color="linear-gradient(to right, #ff6034, #ee0a24)"
                 onclick="javascript: alert('没想到吧这是假的，无事发生');"
               >
-                <span class="plr6">试试看</span></van-button
+                <span>试试看</span></van-button
               >
             </div>
           </div>
         </div>
       </van-tab>
     </van-tabs>
-    <!-- 占位符 -->
-    <div class="h100"></div>
     <!-- 底部导航栏 -->
     <tab-bar></tab-bar>
     <!-- 弹出层组件 -->
@@ -386,10 +379,6 @@ export default {
         border-radius: 50%;
         overflow: hidden;
         border: 2px solid #fff;
-        img {
-          width: inherit;
-          height: inherit;
-        }
       }
       .userText {
         width: 78%;
@@ -410,6 +399,9 @@ export default {
           background-color: #fff;
         }
       }
+      .ui_icon {
+        font-size: 16px;
+      }
     }
     .menuGird {
       margin-bottom: 14px;
@@ -423,7 +415,7 @@ export default {
         flex-direction: column;
         align-items: center;
         margin: 20px 0 10px;
-        .my-icon {
+        .u_icon {
           color: #2379f2;
           font-size: 28px;
         }
@@ -471,18 +463,19 @@ export default {
         border-radius: 15px;
         box-sizing: border-box;
         width: 80px;
-        box-shadow: 0 0.6px 0px 0 rgba(20%, 20%, 40%, 0.5) inset;
+        box-shadow: 0 1px 0.5px rgba(20%, 20%, 40%, 0.5) inset;
         height: 22px;
         border: 1px solid #787878;
         display: flex;
         justify-content: center;
         align-items: center;
-        > span.my-icon {
+        .lmb_icon {
+          color: #000;
           font-size: 19px;
         }
         > span.txt {
           font-size: 10px;
-          margin-left: 6px;
+          margin-left: 4px;
         }
       }
     }
@@ -504,7 +497,7 @@ export default {
         font-size: 16px;
         color: #9d9d9d;
         .more {
-          margin-left: 16px;
+          margin-left: 10px;
         }
       }
     }
@@ -519,10 +512,6 @@ export default {
         height: 46px;
         overflow: hidden;
         border-radius: 10px;
-        > img {
-          width: inherit;
-          height: inherit;
-        }
       }
       .b_SL_txt {
         width: 260px;
@@ -545,6 +534,7 @@ export default {
     }
   }
   .gedangzhushou {
+    margin-bottom: 100px;
     .title {
       margin-left: 0.37333rem;
       height: 34px;

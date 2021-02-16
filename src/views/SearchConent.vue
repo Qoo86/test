@@ -31,7 +31,6 @@ import PlaylistSearch from "../components/SearcConentComp/PlaylistSearch.vue";
 import ArtistSearch from "../components/SearcConentComp/ArtistSearch.vue";
 import UserSearch from "../components/SearcConentComp/UserSearch.vue";
 import { _getSearchdata } from "../network/search";
-import User from "./User.vue";
 export default {
   data() {
     return {

@@ -88,12 +88,7 @@
 </template>
 
 <script>
-import {
-  _getPlayListCatlist,
-  _getTopPlayList,
-  // _getPlaylistHighqualityTags,
-  // _getTopPlaylistHighquality,
-} from "../network/playlist";
+import { _getPlayListCatlist, _getTopPlayList } from "../network/playlist";
 export default {
   data() {
     return {

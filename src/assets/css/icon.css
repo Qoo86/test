@@ -144,3 +144,41 @@
 .my-icon-download::before {
   content: "\e6f3";
 }
+
+/* 云盘图标 */
+.my-icon-cloud::before {
+  content: "\e60c";
+}
+/* 已购图标 */
+.my-icon-buy::before {
+  content: "\e660";
+}
+/* 最近播放图标 */
+.my-icon-historyPlay::before {
+  content: "\e60f";
+}
+/* blog图标 */
+.my-icon-blog::before {
+  content: "\e616";
+}
+/* 心动模式图标 */
+.my-icon-likemodel::before {
+  content: "\e607";
+}
+
+/* 男 图标 带圈 */
+.my-icon-man::before {
+  content: "\e60a";
+}
+/* 女 图标 带圈 */
+.my-icon-women::before {
+  content: "\e683";
+}
+/* 男 图标 不带圈 */
+.my-icon-man2::before {
+  content: "\e66b";
+}
+/* 女 图标 不带圈 */
+.my-icon-women2::before {
+  content: "\e647";
+}

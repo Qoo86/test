@@ -14,7 +14,7 @@
     </div>
 
     <!-- 弹出层 -->
-    <van-popup v-model="showPopup" position="top" class="h100p" closeable>
+    <van-popup v-model="showPopup" position="top" class="popup_login" closeable>
       <div class="form">
         <!-- 文字描述 -->
         <div class="slogen">
@@ -24,8 +24,8 @@
           <p class="slg_txt">
             这个世界因为音乐而变得悦耳！希望你能在这里找到属于你的那一片天地
           </p>
-          <p class="slg_txt red">
-            <span class="fz12">
+          <p class="slg_txt">
+            <span class="slg_txt_tips">
               tips:
               手机号和密码为注册网易云音乐平台时候的手机和密码。由于接口为网络资源，且在本项目并没有进行加密，请注意帐号安全！
             </span>
@@ -51,7 +51,7 @@
               placeholder="密码"
               :rules="[{ required: true, message: '请填写密码' }]"
             />
-            <div class="m16">
+            <div class="loginbtn">
               <van-button round block type="danger" native-type="submit">
                 登 录
               </van-button>
@@ -116,6 +116,10 @@ export default {
       margin: 20px 0;
     }
   }
+  .popup_login {
+    height: 100%;
+    width: 100%;
+  }
   div.form {
     margin-top: 60px;
     .slogen {
@@ -132,9 +136,16 @@ export default {
         margin-top: 18px;
         font-size: 14px;
       }
+      .slg_txt_tips {
+        color: red;
+        font-size: 12px;
+      }
     }
     .text_input {
       margin-top: 40px;
+    }
+    .loginbtn {
+      margin: 16px;
     }
   }
 }

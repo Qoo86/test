@@ -29,45 +29,55 @@
           <div class="album_name van-ellipsis">{{ album.name }}</div>
           <div class="album_singer" @click="singersShow = true">
             <div class="name van-ellipsis">
-              歌手：<span v-for="(ar, index) in album.artists" :key="ar.id">
-                <span v-if="index === album.artists.length - 1">{{
-                  ar.name
-                }}</span>
+              歌手：
+              <span v-for="(ar, index) in album.artists" :key="ar.id">
+                <span v-if="index === album.artists.length - 1">
+                  {{ ar.name }}
+                </span>
                 <span v-else> {{ ar.name }} / </span>
               </span>
             </div>
-            <div class="icon"><van-icon name="arrow" /></div>
+            <van-icon name="arrow" class="icon" />
           </div>
           <div class="album_time">
             发行时间：{{ album.publishTime | formatDate(2) }}
           </div>
-          <div class="album_dep" @click="overlayshow = true">
-            <div class="van-ellipsis dep" v-if="album.description">
+          <div
+            class="album_dep"
+            v-if="album.description"
+            @click="overlayshow = true"
+          >
+            <div class="van-ellipsis dep">
               {{ album.description }}
             </div>
+            <van-icon name="arrow" class="icon" />
+          </div>
+          <div class="album_dep" v-else>
             <div class="van-ellipsis dep">暂无</div>
-            <div class="icon"><van-icon name="arrow" /></div>
           </div>
         </div>
       </div>
       <!-- 下半区域 功能菜单 -->
       <div class="box_bottom">
         <div
-          class="item_div collection"
-          :class="{ item_div: true, collection: true, blue: isSub }"
+          :class="{ item_div: true, subActive: isSub }"
           @click="subAlbum(id, isSub ? 0 : 1)"
         >
-          <div class="my-icon">&#xe617;</div>
+          <van-icon name="star-o" class="b_m_icon" />
           <div class="num" v-if="subCount == 0">收藏</div>
           <div class="num" v-else>{{ subCount | formatNumber }}</div>
         </div>
         <div class="item_div comment" @click="$store.commit('showPopup')">
-          <div class="my-icon">&#xe606;</div>
+          <van-icon
+            class-prefix="my-icon"
+            name="comment_noline"
+            class="b_m_icon"
+          />
           <div class="num" v-if="commentCount == 0">评论</div>
           <div class="num" v-else>{{ commentCount | formatNumber }}</div>
         </div>
         <div class="item_div share">
-          <div class="my-icon">&#xe6dc;</div>
+          <van-icon class-prefix="my-icon" name="share" class="b_m_icon" />
           <div class="num" v-if="shareCount == 0">分享</div>
           <div class="num" v-else>{{ shareCount | formatNumber }}</div>
         </div>
@@ -78,14 +88,12 @@
       <div class="song_item">
         <div class="sl_title">
           <div class="t_text">
-            <span class="my-icon">&#xe690;</span>播放全部<span
-              class="fz12 ml4 c939393"
-              >( {{ songs.length }}首 )</span
-            >
+            <van-icon name="play-circle" class="playAllicon" />播放全部
+            <span class="length">( {{ songs.length }}首 )</span>
           </div>
           <div class="t_othericon">
-            <div class="my-icon">&#xe6f3;</div>
-            <div class="my-icon">&#xe62f;</div>
+            <van-icon class="oIcon" class-prefix="my-icon" name="download" />
+            <van-icon class="oIcon" name="add-o" />
           </div>
         </div>
         <div class="sl_content">
@@ -107,13 +115,16 @@
                 </span>
               </div>
             </div>
-            <div class="item_icon" v-if="song.mv">
-              <div class="mv my-icon">&#xe621;</div>
-              <div class="more my-icon">&#xe6f8;</div>
-            </div>
-            <div class="item_icon" v-else>
-              <div class="more my-icon ml26">&#xe6f8;</div>
-            </div>
+            <van-icon
+              class-prefix="my-icon"
+              :class="{ item_icon: true, notmv: !song.mv }"
+              name="mv"
+            />
+            <van-icon
+              class-prefix="my-icon"
+              class="item_icon"
+              name="col_ellipsis"
+            />
           </div>
         </div>
       </div>
@@ -122,9 +133,7 @@
     <!-- 歌手列表层 -->
     <van-popup v-model="singersShow" class="singers">
       <div class="singer_item" v-for="artist in artists" :key="artist.id">
-        <div class="avatar">
-          <van-image :src="artist.picUrl" class="img" fit="cover" />
-        </div>
+        <van-image :src="artist.picUrl" class="avatar" fit="cover" />
         <div class="name">{{ artist.name }}</div>
       </div>
     </van-popup>
@@ -132,9 +141,7 @@
     <van-overlay :show="overlayshow" @click="overlayshow = false">
       <div class="wrapper">
         <div class="block">
-          <div class="pic">
-            <van-image :src="album.picUrl" />
-          </div>
+          <van-image class="pic" :src="album.picUrl" />
           <div class="name">{{ album.name }}</div>
           <div class="type" v-if="album.subType">
             专辑类别：{{ album.subType }}
@@ -149,11 +156,7 @@
       </div>
     </van-overlay>
     <!-- 评论详情组件 -->
-    <van-popup
-      v-model="$store.state.isPopup"
-      class="commentComp"
-      position="bottom"
-    >
+    <van-popup v-model="$store.state.isPopup" position="bottom">
       <comment-detial
         :parentId="id"
         :toCommentinfos="toCommentinfos"
@@ -319,7 +322,7 @@ export default {
           }
           .icon {
             margin-top: 4px;
-            font-size: 14px;
+            font-size: 12px;
           }
         }
         .album_time,
@@ -366,13 +369,16 @@ export default {
         &:nth-child(-n + 2) {
           border-right: 2px solid #ccc;
         }
-        .my-icon {
+        .b_m_icon {
           font-size: 18px;
-          margin-right: 6px;
+          margin-right: 4px;
         }
         .num {
           font-size: 12px;
         }
+      }
+      .subActive {
+        color: blue;
       }
     }
   }
@@ -387,12 +393,17 @@ export default {
       .t_text {
         margin-left: 10px;
         font-size: 14px;
-        height: 20px;
-        line-height: 20px;
-        > .my-icon {
+        display: flex;
+        align-items: center;
+        .length {
+          font-size: 12px;
+          margin-left: 10px;
+          color: #939393;
+        }
+        .playAllicon {
           font-size: 16px;
           color: #4a69bb;
-          margin-right: 4px;
+          margin-right: 12px;
         }
       }
       .t_othericon {
@@ -401,7 +412,7 @@ export default {
         font-size: 16px;
         height: 20px;
         line-height: 20px;
-        > .my-icon {
+        > .oIcon {
           margin: 0 6px;
         }
       }
@@ -411,14 +422,15 @@ export default {
         display: flex;
         height: 50px;
         align-items: center;
+        justify-content: space-around;
         .item_index {
           text-align: center;
-          width: 50px;
+          width: 20px;
           font-size: 14px;
           color: #939393;
         }
         .item_txt {
-          width: 270px;
+          width: 264px;
           .t_songname {
             font-size: 14px;
             .othername {
@@ -426,18 +438,17 @@ export default {
             }
           }
           .t_songby {
-            font-size: 12px;
+            font-size: 11px;
             margin-top: 3px;
             color: #939393;
           }
         }
         .item_icon {
-          display: flex;
-          justify-content: space-between;
           font-size: 14px;
-          color: #939393;
-          width: 40px;
-          box-sizing: border-box;
+          color: #1499ee;
+        }
+        .notmv {
+          color: #e7e7e7;
         }
       }
     }
@@ -453,10 +464,6 @@ export default {
       .avatar {
         width: 46px;
         height: 46px;
-        .img {
-          width: inherit;
-          height: inherit;
-        }
         margin-left: 10px;
         overflow: hidden;
       }
@@ -515,10 +522,6 @@ export default {
         margin-bottom: 4px;
       }
     }
-  }
-  .commentComp {
-    width: 100%;
-    height: 100%;
   }
 }
 </style>

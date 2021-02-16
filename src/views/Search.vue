@@ -12,7 +12,7 @@
       <template #action>
         <div>
           <span @click="toSearchInput(searchValue)">搜索</span>
-          <span @click="goBack" class="pl10">返回</span>
+          <span @click="goBack" class="back">返回</span>
         </div>
       </template>
     </van-search>
@@ -153,6 +153,9 @@ export default {
         margin-right: 4px;
       }
     }
+  }
+  .back {
+    margin-left: 6px;
   }
 }
 </style>

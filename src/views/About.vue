@@ -1,16 +1,12 @@
 <template>
   <div>
     <!-- 头部组件 -->
-    <header-bar>
-      <template v-slot:left>
-        <van-icon
-          name="arrow-left"
-          color="#fff"
-          @click="onRouterBack"
-        ></van-icon>
+    <van-nav-bar fixed placeholder :border="false" class="navbar">
+      <template #left>
+        <van-icon name="arrow-left" color="#fff" @click="$router.go(-1)" />
       </template>
       <template v-slot:title> 关于Yukari Music </template>
-    </header-bar>
+    </van-nav-bar>
     <!-- 主体内容 -->
     <div class="content">
       <div class="logo">
@@ -35,17 +31,7 @@
 </template>
 
 <script>
-import HeaderBar from "../components/HeaderBar.vue";
-export default {
-  methods: {
-    onRouterBack() {
-      this.$router.go(-1);
-    },
-  },
-  components: {
-    HeaderBar,
-  },
-};
+export default {};
 </script>
 
 <style lang="less" scoped>

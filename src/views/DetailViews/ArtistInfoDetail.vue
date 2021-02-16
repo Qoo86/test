@@ -128,19 +128,19 @@
       <van-tab title="歌曲">
         <div class="songList">
           <div class="title">
-            <div class="my-icon blue">&#xe690;</div>
+            <van-icon name="play-circle" class="title_icon" color="#1095C5" />
             <div class="t_txt">热门50首</div>
-            <div class="my-icon">&#xe617;</div>
-            <div class="my-icon">&#xe600;</div>
+            <van-icon name="star-o" class="title_icon" />
+            <van-icon name="wap-nav" class="title_icon" />
           </div>
           <div class="item" v-for="(song, index) in topSongs" :key="song.id">
             <div class="item_index">{{ index + 1 }}</div>
             <div class="item_txt">
               <div class="t_songname van-ellipsis">
                 {{ song.name }}
-                <span class="othername" v-if="song.tns"
-                  >({{ song.tns[0] }})</span
-                >
+                <span class="othername" v-if="song.tns">
+                  ({{ song.tns[0] }})
+                </span>
               </div>
               <div class="t_songby van-ellipsis">
                 <span v-for="(ar, index) in song.ar" :key="index">
@@ -153,17 +153,20 @@
                 {{ song.al.name }}
               </div>
             </div>
-            <div class="item_icon" v-if="song.mv">
-              <div class="mv my-icon">&#xe621;</div>
-              <div class="more my-icon">&#xe6f8;</div>
-            </div>
-            <div class="item_icon" v-else>
-              <div class="more my-icon ml26">&#xe6f8;</div>
-            </div>
+            <van-icon
+              class-prefix="my-icon"
+              :class="{ item_icon: true, nomv: !song.mv }"
+              name="mv"
+            />
+            <van-icon
+              class-prefix="my-icon"
+              class="item_icon"
+              name="col_ellipsis"
+            />
           </div>
           <div class="more">
             <div>全部歌曲</div>
-            <van-icon name="arrow" class="pl6" />
+            <van-icon name="arrow" class="more_icon" />
           </div>
         </div>
       </van-tab>
@@ -652,22 +655,23 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
-      .my-icon {
-        text-align: center;
-        font-size: 16px;
-        width: 30px;
-      }
       .t_txt {
-        font-size: 14px;
         width: 280px;
+        font-size: 14px;
+      }
+      .title_icon {
+        font-size: 18px;
+        margin: 0 4px;
+        color: #939393;
       }
     }
     .item {
       display: flex;
       height: 50px;
       align-items: center;
+      justify-content: space-around;
       .item_index {
-        width: 50px;
+        width: 20px;
         font-size: 16px;
         color: #939393;
         text-align: center;
@@ -687,12 +691,11 @@ export default {
         }
       }
       .item_icon {
-        display: flex;
-        justify-content: space-between;
         font-size: 16px;
-        color: #939393;
-        width: 40px;
-        box-sizing: border-box;
+        color: #1499ee;
+      }
+      .nomv {
+        color: rgba(147, 147, 147, 0.2);
       }
     }
     .more {
@@ -702,6 +705,9 @@ export default {
       display: flex;
       align-items: center;
       justify-content: center;
+      .more_icon {
+        margin-left: 10px;
+      }
     }
   }
   .albumList {

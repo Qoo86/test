@@ -43,16 +43,17 @@
     <!-- 主体内容 -->
     <div class="userMessage" :style="backgroundImage">
       <div class="um_info">
-        <div class="avatr">
-          <van-image :src="profile.avatarUrl" />
-        </div>
+        <van-image class="avatr" :src="profile.avatarUrl" />
         <div class="info">
           <div class="username">{{ profile.nickname }}</div>
           <div class="count">
-            <div>{{ profile.follows }}<span class="txt">关注</span></div>
             <div>
-              {{ profile.followeds | formatNumber
-              }}<span class="txt">粉丝</span>
+              {{ profile.follows }}
+              <span class="txt">关注</span>
+            </div>
+            <div>
+              {{ profile.followeds | formatNumber }}
+              <span class="txt">粉丝</span>
             </div>
             <div>Lv.{{ level }}</div>
           </div>
@@ -97,14 +98,14 @@
           <div class="tab_div musicinfo">
             <div class="title">音乐品味</div>
             <div class="mi_item">
-              <div class="my-icon">&#xe637;</div>
+              <van-icon name="bar-chart-o" class="my-icon" />
               <div class="info">
                 <div class="i_title">听歌排行</div>
                 <div class="dep">累计听歌{{ listenSongs }}首</div>
               </div>
             </div>
             <div class="mi_item" @click="toPlayListDetail(userLikesPlist.id)">
-              <div class="my-icon fz28">&#xe630;</div>
+              <van-icon name="like" class="my-icon" />
               <div class="info">
                 <div class="i_title">{{ userLikesPlist.name }}</div>
                 <div class="dep">
@@ -172,7 +173,7 @@
         <van-tab>
           <template #title>
             动态
-            <span class="fz8">{{ profile.eventCount }}</span>
+            <span class="tabnum">{{ profile.eventCount }}</span>
           </template>
           <div class="event">
             <div class="empty" v-if="profile.eventCount === 0">
@@ -393,10 +394,6 @@ export default {
         left: 50%;
         top: -39px;
         transform: translateX(-50%);
-        img {
-          width: inherit;
-          height: inherit;
-        }
       }
       .info {
         width: 100%;
@@ -547,6 +544,9 @@ export default {
         }
       }
     }
+  }
+  .tabnum {
+    font-size: 8px;
   }
   .event {
     height: 600px;

@@ -41,7 +41,7 @@
               {{ reasonMsg(item.id) }}
             </div>
           </div>
-          <div class="artists">
+          <div class="artists van-ellipsis">
             <span class="artist" v-for="(ar, index) in item.ar" :key="index">
               <span v-if="index === item.ar.length - 1"> {{ ar.name }} </span>
               <span v-else> {{ ar.name }} / </span>

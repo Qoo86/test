@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import HeaderBar from "../components/HeaderBar.vue";
 import IndexSwipe from "../components/Index/IndexSwipe.vue";
 import IndexGrid from "../components/Index/IndexGrid.vue";
 import Sidebar from "../components/Sidebar.vue";
@@ -45,7 +44,6 @@ import TabBar from "../components/TabBar.vue";
 
 export default {
   components: {
-    HeaderBar,
     IndexSwipe,
     IndexGrid,
     Sidebar,

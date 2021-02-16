@@ -25,10 +25,18 @@
         <div class="info">
           <div class="i_name">
             <div class="name van-ellipsis">{{ user.nickname }}</div>
-            <div class="sex1 my-icon" v-if="user.gender === 2">&#xe647;</div>
-            <div class="sex2 my-icon" v-else-if="user.gender === 1">
-              &#xe66b;
-            </div>
+            <van-icon
+              class-prefix="my-icon"
+              class="sex1"
+              v-if="user.gender === 2"
+              name="women2"
+            />
+            <van-icon
+              class-prefix="my-icon"
+              class="sex2"
+              v-else-if="user.gender === 1"
+              name="man2"
+            />
           </div>
           <div class="i_signature" v-if="user.avatarDetail">网易音乐人</div>
           <div class="i_signature van-ellipsis" v-else>
@@ -36,11 +44,9 @@
           </div>
         </div>
         <div class="follow">
-          <div class="btn1" v-if="user.followed">
-            <span class="my-icon">&#xe61f;</span>已关注
-          </div>
+          <div class="btn1" v-if="user.followed">已关注</div>
           <div class="btn2" v-else>
-            <span class="my-icon">&#xe631;</span>关注
+            <van-icon class="folow-icon" name="plus" />关注
           </div>
         </div>
       </div>
@@ -143,26 +149,23 @@ export default {
         width: 64px;
         height: 24px;
         font-size: 11.6px;
-        line-height: 24px;
-        text-align: center;
         color: #4a4a4a;
         border: 1px solid #989898;
         border-radius: 15px;
-        .my-icon {
-          font-size: 10px;
-          padding-right: 4px;
-        }
+        text-align: center;
+        line-height: 24px;
       }
       .btn2 {
         width: 64px;
         height: 24px;
         font-size: 11.6px;
-        line-height: 24px;
-        text-align: center;
         color: #5555e6;
         border: 1px solid #5555e6;
         border-radius: 15px;
-        .my-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .folow-icon {
           font-size: 10px;
           padding-right: 4px;
         }

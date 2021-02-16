@@ -138,8 +138,18 @@
           <div class="userInfo">
             <div class="username van-ellipsis">
               {{ item.nickname }}
-              <span v-if="item.gender == 1" class="my-icon blue">&#xe60a;</span>
-              <span v-else class="my-icon pink">&#xe683;</span>
+              <van-icon
+                class-prefix="my-icon"
+                v-if="item.gender == 1"
+                color="blue"
+                name="man"
+              />
+              <van-icon
+                class-prefix="my-icon"
+                v-else
+                color="pink"
+                name="women"
+              />
             </div>
             <div class="userjianjie van-ellipsis">{{ item.signature }}</div>
           </div>
