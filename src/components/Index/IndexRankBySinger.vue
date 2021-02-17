@@ -4,7 +4,7 @@
       <div class="title_name">歌手热度榜</div>
       <router-link tag="div" class="more" to="/toplist"> 更 多 </router-link>
     </div>
-    <van-tabs v-model="active" class="tabs" animated>
+    <van-tabs v-model="active" class="tabs" animated sticky offset-top="46">
       <van-tab title="中国">
         <div class="rank">
           <div
@@ -106,8 +106,6 @@
         </div>
       </van-tab>
     </van-tabs>
-    <br />
-    <br />
   </div>
 </template>
 

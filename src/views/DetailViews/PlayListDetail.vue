@@ -43,12 +43,12 @@
           <div
             class="introduce"
             @click="overlayshow = true"
-            v-if="playlistmsg.description !== null"
+            v-if="playlistmsg.description"
           >
             <div class="introduce_txt van-ellipsis">
               {{ playlistmsg.description }}
             </div>
-            <div class="my-icon">&#xe610;</div>
+            <van-icon name="arrow" />
           </div>
         </div>
       </div>

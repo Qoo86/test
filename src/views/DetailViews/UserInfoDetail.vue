@@ -78,7 +78,7 @@
       <van-tabs
         v-model="active"
         :background="tabsbgcolor"
-        offset-top="46"
+        offset-top="46px"
         sticky
         color="#5282E7"
         class="tabs"

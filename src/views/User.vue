@@ -8,13 +8,11 @@
       :style="{ backgroundColor: backgroundColor }"
     >
       <template #left>
-        <div class="my-icon icon" @click="showPopup">&#xe600;</div>
+        <van-icon name="wap-nav" class="icon" @click="showPopup" />
       </template>
       <template #title>
         <div class="navBarUserInfo" :style="{ opacity: opacity }">
-          <div class="nb_userPic">
-            <img :src="accountData.avatarUrl" />
-          </div>
+          <van-image class="nb_userPic" :src="accountData.avatarUrl" />
           <div class="nb_userName">{{ accountData.nickname }}</div>
         </div>
       </template>
@@ -22,7 +20,7 @@
     <div class="UserInfobody">
       <!-- 用户信息区 -->
       <div class="userInfo" @click="toUserInfoDetailPage(accountData.userId)">
-        <img class="userPic" :src="accountData.avatarUrl" />
+        <van-image class="userPic" :src="accountData.avatarUrl" />
         <div class="userText">
           <div class="userName">{{ accountData.nickname }}</div>
           <div class="userLeve">Lv.{{ userLevel }}</div>
@@ -66,7 +64,7 @@
       </div>
       <!-- 我喜欢的音乐 -->
       <div class="likeMusicBox" @click="toPlayListDetail(userLikePlayList.id)">
-        <img class="lmb_pic" :src="userLikePlayList.coverImgUrl" />
+        <van-image class="lmb_pic" :src="userLikePlayList.coverImgUrl" />
         <div class="lmb_txt">
           <div class="title">我喜欢的音乐</div>
           <div class="num">{{ userLikePlayList.trackCount }}首</div>
@@ -335,30 +333,22 @@ export default {
 #user {
   .navBar {
     position: sticky;
-    // background-color: transparent;
     transition: background-color 0.6s ease-in-out;
-    // background-color: #ffffff;
     top: 0;
     .icon {
-      font-size: 18px;
+      font-size: 20px;
       color: #70acff;
     }
-
     .navBarUserInfo {
       color: #000;
       display: flex;
       align-items: center;
-      // display: none;
       transition: opacity 0.5s ease-in;
       .nb_userPic {
         width: 28px;
         height: 28px;
         border-radius: 50%;
         overflow: hidden;
-        > img {
-          width: inherit;
-          height: inherit;
-        }
       }
       .nb_userName {
         padding-left: 8px;
@@ -440,10 +430,6 @@ export default {
         border-radius: 10px;
         overflow: hidden;
         position: relative;
-        > img {
-          width: inherit;
-          height: inherit;
-        }
       }
       .lmb_txt {
         width: 58%;

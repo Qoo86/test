@@ -39,7 +39,7 @@
             <div class="coverImg">
               <van-image class="img" :src="pl.coverImgUrl" fit="cover" />
               <div class="playcount">
-                <span class="my-icon">&#xe6b3;</span>
+                <van-icon name="play" class="icon" />
                 <span>{{ pl.playCount | formatNumber }}</span>
               </div>
             </div>
@@ -96,8 +96,6 @@ export default {
       Tags: [],
       // 歌单标题标签
       cat: "全部",
-      // 分页用数据，保存上一次请求的数据中的最后一个歌单的pushtime
-      // before: "",
       offset: 0,
       page: 1,
       loading: false,
@@ -110,25 +108,6 @@ export default {
     init() {
       this.getPlaylistCatlists();
     },
-    // 获取精品歌单的全部标签
-    // async getPlaylistHighqualityTags() {
-    //   let { data } = await _getPlaylistHighqualityTags();
-    //   if (data.code === 200) {
-    //     this.Tags = data.tags;
-    //   }
-    // },
-    // 获取精品歌单liebiao
-    // async getPlaylistHighquality(cat) {
-    //   let { data } = await _getTopPlaylistHighquality(cat, this.before);
-    //   if (data.code === 200) {
-    //     this.before = data.lasttime;
-    //     for (let i = 0; i < data.playlists.length; i++) {
-    //       this.playlists.push(data.playlists[i]);
-    //     }
-    //     this.loading = false;
-    //     if (data.playlists.length < 60) this.finished = true;
-    //   }
-    // },
     // 获取所有歌单分类
     async getPlaylistCatlists() {
       let { data } = await _getPlayListCatlist();
@@ -223,17 +202,18 @@ export default {
           .playcount {
             position: absolute;
             color: #fff;
-            height: 16px;
             font-size: 10px;
-            line-height: 16px;
-            padding: 0 6px;
+            padding: 1px 6px;
             background-color: rgba(0, 0, 0, 0.3);
             top: 4px;
             right: 4px;
             border-radius: 10px;
-            .my-icon {
-              margin-right: 3px;
-            }
+            display: flex;
+            align-items: center;
+          }
+          .icon {
+            font-size: 12px;
+            margin-right: 2px;
           }
         }
         .name {

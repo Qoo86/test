@@ -10,10 +10,8 @@
       show-action
     >
       <template #action>
-        <div>
-          <span @click="toSearchInput(searchValue)">搜索</span>
-          <span @click="goBack" class="back">返回</span>
-        </div>
+        <span @click="toSearchInput(searchValue)">搜索</span>
+        <span @click="goBack" class="back">返回</span>
       </template>
     </van-search>
 
