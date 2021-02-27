@@ -1,7 +1,7 @@
 # Yukari Music
 
 ## 项目简介
-本项目为个人为了对Vue框架的个人学习总结而编写的项目
+本项目为个人为了对Vue框架的个人学习总结而编写的项目!
 项目的后端接口使用的是dalao[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)的NeteaseCloudMusicApi接口
 该接口在我也克隆到了我的gitee仓库里面，方便克隆使用
 地址戳：[NeteaseCloudMusicApi](https://gitee.com/yukari_www/NeteaseCloudMusicApi)
