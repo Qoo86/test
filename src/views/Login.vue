@@ -1,8 +1,8 @@
 <template>
   <div id="login">
     <div class="logo">
-      <p>Yukari</p>
-      <p>Music</p>
+      <p>网易云</p>
+      <p>音乐</p>
     </div>
     <div class="button">
       <van-button type="default" block round @click="showLoginPopup">
@@ -24,12 +24,12 @@
           <p class="slg_txt">
             这个世界因为音乐而变得悦耳！希望你能在这里找到属于你的那一片天地
           </p>
-          <p class="slg_txt">
-            <span class="slg_txt_tips">
-              tips:
-              手机号和密码为注册网易云音乐平台时候的手机和密码。由于接口为网络资源，且在本项目并没有进行加密，请注意帐号安全！
-            </span>
-          </p>
+<!--          <p class="slg_txt">-->
+<!--            <span class="slg_txt_tips">-->
+<!--              tips:-->
+<!--              手机号和密码为注册网易云音乐平台时候的手机和密码。由于接口为网络资源，且在本项目并没有进行加密，请注意帐号安全！-->
+<!--            </span>-->
+<!--          </p>-->
         </div>
         <!-- 表单 -->
         <div class="text_input">

@@ -1,9 +1,11 @@
 <template>
-  <van-swipe :autoplay="3000" class="swiper">
-    <van-swipe-item v-for="(image, index) in images" :key="index">
-      <img v-lazy="image" class="img" />
-    </van-swipe-item>
-  </van-swipe>
+  <div style="padding: 10px;overflow:hidden;transform: translateY(0);">
+    <van-swipe :autoplay="3000" class="swiper">
+      <van-swipe-item v-for="(image, index) in images" :key="index">
+        <img v-lazy="image" class="img" />
+      </van-swipe-item>
+    </van-swipe>
+  </div>
 </template>
 
 <script>
@@ -34,9 +36,11 @@ export default {
 .swiper {
   height: 150px;
   .img {
-    width: 375px;
+    width: 355px;
     height: 146px;
     display: block;
+    -webkit-border-radius:  15px ;    /* Webkit browsers */
+
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <div id="RecomSongList">
     <div class="title">
       <div class="title_name">推荐歌单</div>
-      <router-link tag="div" class="more" to="/playlistgroup">
+      <router-link tag="div" class="more">
         更 多
       </router-link>
     </div>
@@ -77,15 +77,19 @@ export default {
     }
   }
   .songListBox {
+    position: absolute;
+    overflow: hidden;
     width: 100%;
-    height: 260px;
+    height: 450px;
     background-color: #fff;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    //flex-wrap: wrap;
+    flex-wrap: nowrap; // 不换行
+    overflow-x: auto; // 横向滚动
+    //justify-content: space-around;
     .playlist {
       position: relative;
-      margin: 10px 0 0;
+      margin: 10px 10px 0;
       width: 80px;
       height: 120px;
       .playlist_coverImg {

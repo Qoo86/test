@@ -42,47 +42,47 @@ const routes = [
     component: () => import("@/views/Dailyrecom.vue"),
   },
   // 我的消息
-  {
-    path: "/myMessage",
-    meta: { isUserLogin: true },
-    component: () => import("@/views/MyMessage.vue"),
-  },
-  // 私信详情
-  {
-    path: "/userMsgDetail",
-    meta: { isUserLogin: true },
-    component: () => import("@/views/DetailViews/UserMsgDetail.vue"),
-  },
-  // 个人中心
+  // {
+  //   path: "/myMessage",
+  //   meta: { isUserLogin: true },
+  //   component: () => import("@/views/MyMessage.vue"),
+  // },
+  // // 私信详情
+  // {
+  //   path: "/userMsgDetail",
+  //   meta: { isUserLogin: true },
+  //   component: () => import("@/views/DetailViews/UserMsgDetail.vue"),
+  // },
+  // // 个人中心
   {
     path: "/user",
     meta: { isUserLogin: true },
     component: () => import("@/views/User.vue"),
   },
-  {
-    path: "/artist",
-    component: () => import("@/views/DetailViews/ArtistInfoDetail.vue"),
-  },
+  // {
+  //   path: "/artist",
+  //   component: () => import("@/views/DetailViews/ArtistInfoDetail.vue"),
+  // },
   // 歌单详情
   {
     path: "/playlistDetail",
     component: () => import("@/views/DetailViews/PlayListDetail.vue"),
   },
   // 专辑详情
-  {
-    path: "/albumDetail",
-    component: () => import("@/views/DetailViews/AlbumDetail.vue"),
-  },
-  // 私人fm
-  {
-    path: "/personalfm",
-    component: () => import("@/views/PersonalFm.vue"),
-  },
+  // {
+  //   path: "/albumDetail",
+  //   component: () => import("@/views/DetailViews/AlbumDetail.vue"),
+  // },
+  // // 私人fm
+  // {
+  //   path: "/personalfm",
+  //   component: () => import("@/views/PersonalFm.vue"),
+  // },
   // 排行榜列表详情
-  {
-    path: "/toplist",
-    component: () => import("@/views/DetailViews/TopListDetail.vue"),
-  },
+  // {
+  //   path: "/toplist",
+  //   component: () => import("@/views/DetailViews/TopListDetail.vue"),
+  // },
   // 用户详情页面
   {
     path: "/userinfo",

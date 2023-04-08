@@ -1,9 +1,9 @@
 <template>
   <div>
     <van-tabs animated swipeable>
-      <van-tab title="综 合">
-        <composited :keyword="keyword" />
-      </van-tab>
+<!--      <van-tab title="综 合">-->
+<!--        <composited :keyword="keyword" />-->
+<!--      </van-tab>-->
       <van-tab title="单 曲">
         <songs-search :keyword="keyword" />
       </van-tab>

@@ -10,7 +10,7 @@
           @click="$refs.popup.show = true"
         />
       </template>
-      <template #title> Yukari Music </template>
+      <template #title> 网易云 Music </template>
       <template #right>
         <van-icon
           name="search"
@@ -28,7 +28,7 @@
     <!-- 推荐歌单组件 -->
     <index-recom-playlist />
     <!-- 歌手排行 -->
-    <index-rank-by-singer />
+<!--    <index-rank-by-singer />-->
     <!-- 底部导航栏 -->
     <tab-bar />
   </div>

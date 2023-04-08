@@ -321,9 +321,9 @@ export default {
       // 获取收藏者列表
       let { data: subs } = await _getPlaylistSubscribers(id, 6);
       if (subs.code === 200) this.subscribers = subs.subscribers;
-      /* 
+      /*
         由于/playlist/detail接口返回的歌曲信息不完整
-        但歌曲id是完整的 因此用歌曲id再次请求获取歌曲详情 
+        但歌曲id是完整的 因此用歌曲id再次请求获取歌曲详情
       */
       let { data: sDetail } = await _getPlayListDetialBySongsId(
         this.trackIds.toString()
@@ -439,7 +439,7 @@ export default {
     background-image: linear-gradient(
       110.3deg,
       rgba(72, 85, 99, 1) 8.8%,
-      rgba(127, 146, 166, 1) 95.1%
+      rgb(64, 119, 179) 95.1%
     );
     position: relative;
     .box_top {

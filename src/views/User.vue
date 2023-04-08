@@ -10,12 +10,12 @@
       <template #left>
         <van-icon name="wap-nav" class="icon" @click="showPopup" />
       </template>
-      <template #title>
-        <div class="navBarUserInfo" :style="{ opacity: opacity }">
-          <van-image class="nb_userPic" :src="accountData.avatarUrl" />
-          <div class="nb_userName">{{ accountData.nickname }}</div>
-        </div>
-      </template>
+<!--      <template #title>-->
+<!--        <div class="navBarUserInfo" :style="{ opacity: opacity }">-->
+<!--          <van-image class="nb_userPic" :src="accountData.avatarUrl" />-->
+<!--          <div class="nb_userName">{{ accountData.nickname }}</div>-->
+<!--        </div>-->
+<!--      </template>-->
     </van-nav-bar>
     <div class="UserInfobody">
       <!-- 用户信息区 -->
@@ -69,10 +69,10 @@
           <div class="title">我喜欢的音乐</div>
           <div class="num">{{ userLikePlayList.trackCount }}首</div>
         </div>
-        <div class="lmn_xdicon">
-          <van-icon class-prefix="my-icon" name="likemodel" class="lmb_icon" />
-          <span class="txt">心动模式</span>
-        </div>
+<!--        <div class="lmn_xdicon">-->
+<!--          <van-icon class-prefix="my-icon" name="likemodel" class="lmb_icon" />-->
+<!--          <span class="txt">心动模式</span>-->
+<!--        </div>-->
       </div>
     </div>
     <!-- 歌单功能区 -->
@@ -150,37 +150,37 @@
           </div>
         </div>
       </van-tab>
-      <van-tab title="歌单助手">
-        <div class="gedangzhushou">
-          <div class="title">
-            <div class="t_txt">歌单助手</div>
-          </div>
-          <div class="gdzsBody">
-            <div class="body_title">你可以从歌单中选出</div>
-            <div class="gdzsContentBody">
-              <ul class="gdzsUl" :class="{ marquee_top: animate }">
-                <li v-for="item in autoLunboText" :key="item.index">
-                  适合
-                  <span class="bg" :class="item.bg1">{{ item.first }}</span>
-                  听的
-                  <span class="bg" :class="item.bg2">{{ item.second }}</span>
-                </li>
-              </ul>
-            </div>
-            <div class="button">
-              <van-button
-                round
-                size="small"
-                type="info"
-                color="linear-gradient(to right, #ff6034, #ee0a24)"
-                onclick="javascript: alert('没想到吧这是假的，无事发生');"
-              >
-                <span>试试看</span></van-button
-              >
-            </div>
-          </div>
-        </div>
-      </van-tab>
+<!--      <van-tab title="歌单助手">-->
+<!--        <div class="gedangzhushou">-->
+<!--          <div class="title">-->
+<!--            <div class="t_txt">歌单助手</div>-->
+<!--          </div>-->
+<!--          <div class="gdzsBody">-->
+<!--            <div class="body_title">你可以从歌单中选出</div>-->
+<!--            <div class="gdzsContentBody">-->
+<!--              <ul class="gdzsUl" :class="{ marquee_top: animate }">-->
+<!--                <li v-for="item in autoLunboText" :key="item.index">-->
+<!--                  适合-->
+<!--                  <span class="bg" :class="item.bg1">{{ item.first }}</span>-->
+<!--                  听的-->
+<!--                  <span class="bg" :class="item.bg2">{{ item.second }}</span>-->
+<!--                </li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--            <div class="button">-->
+<!--              <van-button-->
+<!--                round-->
+<!--                size="small"-->
+<!--                type="info"-->
+<!--                color="linear-gradient(to right, #ff6034, #ee0a24)"-->
+<!--                onclick="javascript: alert('没想到吧这是假的，无事发生');"-->
+<!--              >-->
+<!--                <span>试试看</span></van-button-->
+<!--              >-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </van-tab>-->
     </van-tabs>
     <!-- 底部导航栏 -->
     <tab-bar></tab-bar>
